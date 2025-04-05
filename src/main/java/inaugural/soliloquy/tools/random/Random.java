@@ -8,6 +8,8 @@ import java.awt.*;
 public class Random {
     public static java.util.Random RANDOM = new java.util.Random();
 
+    private final static float ROUNDING_SAFE_BOUND = 10000f;
+
     public static boolean randomBoolean() {
         return RANDOM.nextBoolean();
     }
@@ -60,6 +62,13 @@ public class Random {
 
     public static float randomFloatWithInclusiveCeiling(float ceiling) {
         return randomFloatInRange(Float.MIN_VALUE, ceiling);
+    }
+
+    // NB: This method is used to generate float values which are random, but which still
+    // generate values which are not so extreme that single point rounding invalidates
+    // otherwise-valid tests with rounding inaccuracy.
+    public static float randomFloatRoundingSafe() {
+        return randomFloatInRange(ROUNDING_SAFE_BOUND, -ROUNDING_SAFE_BOUND);
     }
 
     public static double randomDouble() {

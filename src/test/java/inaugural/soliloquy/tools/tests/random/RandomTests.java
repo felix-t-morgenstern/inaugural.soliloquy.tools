@@ -109,6 +109,16 @@ public class RandomTests {
     }
 
     @Test
+    public void testRandomFloatRoundingSafe() {
+        var ceiling = new java.util.Random().nextFloat();
+
+        runRandomizationTest(Random::randomFloatRoundingSafe, f -> {
+            assertTrue(f <= 10000);
+            assertTrue(f >= -10000);
+        });
+    }
+
+    @Test
     public void testRandomDouble() {
         runRandomizationTest(Random::randomDouble);
     }

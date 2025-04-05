@@ -6,7 +6,7 @@
 
     <groupId>disorg.soliloquy</groupId>
     <artifactId>inaugural.soliloquy.tools</artifactId>
-    <version>0.0.143</version>
+    <version>0.0.149</version>
 
     <name>Inaugural Engine Common Tools</name>
     <description>A library consisting of tools too small and ubiquitous to belong to soliloquy.common</description>

@@ -1,6 +1,7 @@
 package inaugural.soliloquy.tools.tests.testing;
 
 import org.junit.jupiter.api.Test;
+import soliloquy.specs.common.shared.HasId;
 import soliloquy.specs.gamestate.entities.Item;
 import soliloquy.specs.ruleset.entities.ItemType;
 
@@ -11,8 +12,7 @@ import static inaugural.soliloquy.tools.testing.Mock.*;
 import static inaugural.soliloquy.tools.valueobjects.Pair.pairOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class MockTests {
     @Test
@@ -23,6 +23,29 @@ class MockTests {
 
         assertNotNull(mockItem);
         assertEquals(id, mockItem.id());
+    }
+
+    @Test
+    void testGenerateMockSet() {
+        var mockSet = generateMockSet(1, 2, 3);
+
+        assertNotNull(mockSet);
+        assertEquals(3, mockSet.size());
+        assertTrue(mockSet.contains(1));
+        assertTrue(mockSet.contains(2));
+        assertTrue(mockSet.contains(3));
+        assertFalse(mockSet.contains(4));
+        verify(mockSet, times(4)).contains(anyInt());
+        var collector = new ArrayList<Integer>();
+        // NB: Calling forEach twice here to ensure that multiple iteration is possible
+        mockSet.forEach(i -> {});
+        //noinspection UseBulkOperation
+        mockSet.forEach(collector::add);
+        assertEquals(new ArrayList<>() {{
+            add(1);
+            add(2);
+            add(3);
+        }}, collector);
     }
 
     @Test
@@ -62,12 +85,17 @@ class MockTests {
         assertEquals("C", mockMap.get(3));
         // NB: Calling forEach twice here to ensure that multiple iteration is possible
         mockMap.forEach((k,v) -> {});
+        var keysInAnyOrder = new ArrayList<>(mockMap.keySet());
         var keysInOrder = new ArrayList<Integer>();
         var valuesInOrder = new ArrayList<String>();
         mockMap.forEach((k, v) -> {
             keysInOrder.add(k);
             valuesInOrder.add(v);
         });
+        assertEquals(3, keysInAnyOrder.size());
+        assertTrue(keysInAnyOrder.contains(1));
+        assertTrue(keysInAnyOrder.contains(2));
+        assertTrue(keysInAnyOrder.contains(3));
         assertEquals(new ArrayList<Integer>() {{
             add(3);
             add(2);
@@ -103,6 +131,59 @@ class MockTests {
         verify(lookupFunction).apply(id1);
         verify(lookupFunction).apply(id2);
         verify(lookupFunction).apply(id3);
+    }
+
+    @Test
+    void testGenerateMockLookupFunctionWithIdByEntities() {
+        var id1 = "id1";
+        var id2 = "id2";
+        var id3 = "id3";
+        var invalidId = "invalidId";
+
+        var mockHasId1 = mock(HasId.class);
+        var mockHasId2 = mock(HasId.class);
+        var mockHasId3 = mock(HasId.class);
+
+        when(mockHasId1.id()).thenReturn(id1);
+        when(mockHasId2.id()).thenReturn(id2);
+        when(mockHasId3.id()).thenReturn(id3);
+
+        var lookupFunction = generateMockLookupFunctionWithId(mockHasId1, mockHasId2, mockHasId3);
+
+        assertNull(lookupFunction.apply(invalidId));
+        assertSame(mockHasId1, lookupFunction.apply(id1));
+        assertSame(mockHasId2, lookupFunction.apply(id2));
+        assertSame(mockHasId3, lookupFunction.apply(id3));
+        verify(lookupFunction).apply(invalidId);
+        verify(lookupFunction).apply(id1);
+        verify(lookupFunction).apply(id2);
+        verify(lookupFunction).apply(id3);
+    }
+
+    @Test
+    void testGenerateMockLookupFunctionWithIdByIds() {
+        var id1 = "id1";
+        var id2 = "id2";
+        var id3 = "id3";
+        var invalidId = "invalidId";
+
+        var lookupAndEntities = generateMockLookupFunctionWithId(HasId.class, id1, id2, id3);
+
+        assertNotNull(lookupAndEntities);
+        assertNotNull(lookupAndEntities.lookup);
+        assertNotNull(lookupAndEntities.entities);
+        assertEquals(3, lookupAndEntities.entities.size());
+        assertNull(lookupAndEntities.lookup.apply(invalidId));
+        assertSame(lookupAndEntities.entities.get(0), lookupAndEntities.lookup.apply(id1));
+        assertSame(lookupAndEntities.entities.get(1), lookupAndEntities.lookup.apply(id2));
+        assertSame(lookupAndEntities.entities.get(2), lookupAndEntities.lookup.apply(id3));
+        assertEquals(id1, lookupAndEntities.entities.get(0).id());
+        assertEquals(id2, lookupAndEntities.entities.get(1).id());
+        assertEquals(id3, lookupAndEntities.entities.get(2).id());
+        verify(lookupAndEntities.lookup).apply(invalidId);
+        verify(lookupAndEntities.lookup).apply(id1);
+        verify(lookupAndEntities.lookup).apply(id2);
+        verify(lookupAndEntities.lookup).apply(id3);
     }
 
     @Test

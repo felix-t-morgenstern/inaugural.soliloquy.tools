@@ -1,5 +1,6 @@
 package inaugural.soliloquy.tools.testing;
 
+import inaugural.soliloquy.tools.collections.Collections;
 import soliloquy.specs.common.persistence.PersistentValuesHandler;
 import soliloquy.specs.common.persistence.TypeHandler;
 import soliloquy.specs.common.shared.HasId;
@@ -8,8 +9,7 @@ import soliloquy.specs.common.valueobjects.Pair;
 import java.util.*;
 import java.util.function.Function;
 
-import static inaugural.soliloquy.tools.collections.Collections.listOf;
-import static inaugural.soliloquy.tools.collections.Collections.mapOf;
+import static inaugural.soliloquy.tools.collections.Collections.*;
 import static inaugural.soliloquy.tools.valueobjects.Pair.pairOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -20,6 +20,22 @@ public class Mock {
         var mock = mock(clazz);
         lenient().when(mock.id()).thenReturn(id);
         return mock;
+    }
+
+    @SafeVarargs
+    public static <T> Set<T> generateMockSet(T... values) {
+        //noinspection unchecked
+        var mockSet = (Set<T>) mock(Set.class);
+        lenient().when(mockSet.size()).thenReturn(values.length);
+        //noinspection SuspiciousMethodCalls
+        lenient().when(mockSet.contains(any())).thenAnswer(
+                invocationOnMock -> Arrays.stream(values)
+                        .anyMatch(item -> item == invocationOnMock.getArgument(0)));
+        lenient().when(mockSet.iterator())
+                .thenAnswer(invocationOnMock -> setOf(values).iterator());
+        lenient().doCallRealMethod().when(mockSet).forEach(any());
+
+        return mockSet;
     }
 
     @SafeVarargs
@@ -48,6 +64,11 @@ public class Mock {
         lenient().when(mockMap.size()).thenReturn(keyValuePairs.length);
         lenient().when(mockMap.entrySet())
                 .thenAnswer(invocationOnMock -> generateMockMapEntrySet(keyValuePairs));
+        var keys = Collections.<K>setOf();
+        for (var pair : keyValuePairs) {
+            keys.add(pair.item1());
+        }
+        lenient().when(mockMap.keySet()).thenAnswer(invocationOnMock -> keys);
         lenient().doCallRealMethod().when(mockMap).forEach(any());
         //noinspection unchecked
         lenient().when(mockMap.get((K) any())).thenAnswer(
@@ -64,6 +85,41 @@ public class Mock {
             lenient().when(lookupFunction.apply(item.item1())).thenReturn(item.item2());
         }
         return lookupFunction;
+    }
+
+    @SafeVarargs
+    public static <V extends HasId> Function<String, V> generateMockLookupFunctionWithId(
+            V... items) {
+        //noinspection unchecked
+        var lookupFunction = (Function<String, V>) mock(Function.class);
+        lenient().when(lookupFunction.apply(anyString())).thenReturn(null);
+        for (V item : items) {
+            lenient().when(lookupFunction.apply(item.id())).thenReturn(item);
+        }
+        return lookupFunction;
+    }
+
+    public static <V extends HasId> LookupAndEntitiesWithId<V> generateMockLookupFunctionWithId(
+            Class<V> clazz, String... ids) {
+        var entities = new ArrayList<V>();
+        //noinspection unchecked
+        var lookupFunction = (Function<String, V>) mock(Function.class);
+        lenient().when(lookupFunction.apply(anyString())).thenReturn(null);
+        for (var id : ids) {
+            var entity = mock(clazz);
+            when(entity.id()).thenReturn(id);
+            entities.add(entity);
+            lenient().when(lookupFunction.apply(id)).thenReturn(entity);
+        }
+        var result = new LookupAndEntitiesWithId<V>();
+        result.lookup = lookupFunction;
+        result.entities = entities;
+        return result;
+    }
+
+    public static class LookupAndEntitiesWithId<T> {
+        public Function<String, T> lookup;
+        public List<T> entities;
     }
 
     @SafeVarargs

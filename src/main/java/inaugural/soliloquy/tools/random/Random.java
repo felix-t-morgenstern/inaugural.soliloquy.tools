@@ -1,5 +1,6 @@
 package inaugural.soliloquy.tools.random;
 
+import soliloquy.specs.common.shared.Direction;
 import soliloquy.specs.common.valueobjects.Coordinate2d;
 import soliloquy.specs.common.valueobjects.Coordinate3d;
 
@@ -123,5 +124,13 @@ public class Random {
 
     public static Coordinate3d randomCoordinate3d() {
         return Coordinate3d.of(randomInt(), randomInt(), randomInt());
+    }
+
+    public static Direction randomDirection() {
+        var forEnum = randomIntInRange(1,8);
+        if (forEnum >= 5) {
+            forEnum++;
+        }
+        return Direction.fromValue(forEnum);
     }
 }

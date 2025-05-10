@@ -1,7 +1,6 @@
 package inaugural.soliloquy.tools.collections;
 
 import soliloquy.specs.common.valueobjects.Pair;
-import soliloquy.specs.gamestate.entities.WallSegmentDirection;
 
 import java.util.*;
 import java.util.function.Supplier;

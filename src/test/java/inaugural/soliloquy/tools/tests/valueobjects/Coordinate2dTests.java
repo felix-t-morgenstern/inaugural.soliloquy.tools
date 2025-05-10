@@ -1,11 +1,11 @@
 package inaugural.soliloquy.tools.tests.valueobjects;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import soliloquy.specs.common.valueobjects.Coordinate2d;
 
 import static inaugural.soliloquy.tools.valueobjects.Coordinate2d.addCoordinates2d;
 import static inaugural.soliloquy.tools.valueobjects.Coordinate2d.addOffsets2d;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Coordinate2dTests {
     @Test

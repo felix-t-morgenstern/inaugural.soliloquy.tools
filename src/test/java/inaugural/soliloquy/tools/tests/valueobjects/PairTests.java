@@ -1,8 +1,6 @@
 package inaugural.soliloquy.tools.tests.valueobjects;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
 import soliloquy.specs.common.valueobjects.Pair;
 
 import java.util.Objects;
@@ -10,10 +8,9 @@ import java.util.Objects;
 import static inaugural.soliloquy.tools.random.Random.randomInt;
 import static inaugural.soliloquy.tools.random.Random.randomString;
 import static inaugural.soliloquy.tools.valueobjects.Pair.pairOf;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@RunWith(MockitoJUnitRunner.class)
 public class PairTests {
     private final Integer ITEM_1 = randomInt();
     private final String ITEM_2 = randomString();

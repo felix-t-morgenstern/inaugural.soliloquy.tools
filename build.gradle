@@ -1,0 +1,54 @@
+plugins {
+    id('java')
+    id("maven-publish")
+}
+
+group 'disorg.soliloquy'
+version '0.0.149'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url = uri("https://maven.pkg.github.com/felix-t-morgenstern/soliloquy.specs")
+        credentials {
+            username = 'felix-t-morgenstern'
+            password = 'PASSWORD'
+        }
+    }
+}
+
+//noinspection DependencyNotationArgument
+dependencies {
+    implementation "disorg.soliloquy:soliloquy.specs:0.0.539"
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    implementation("org.mockito:mockito-core:5.17.0")
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    implementation("org.junit.jupiter:junit-jupiter-api:5.13.0-M3")
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation("com.google.code.gson:gson:2.13.1")
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation("commons-io:commons-io:2.19.0")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "inaugural.soliloquy.gamestate"
+            url = uri("https://maven.pkg.github.com/felix-t-morgenstern/inaugural.soliloquy.tools")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("SOLILOQUY_GITHUB_PUBLISH_USERNAME")
+                password = project.findProperty("gpr.user") ?: System.getenv("SOLILOQUY_GITHUB_PUBLISH_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}

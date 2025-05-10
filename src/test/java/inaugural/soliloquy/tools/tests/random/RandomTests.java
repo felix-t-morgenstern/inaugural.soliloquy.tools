@@ -1,12 +1,13 @@
 package inaugural.soliloquy.tools.tests.random;
 
 import inaugural.soliloquy.tools.random.Random;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.mockito.internal.creation.SuspendMethod;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RandomTests {
     @Test
@@ -110,8 +111,6 @@ public class RandomTests {
 
     @Test
     public void testRandomFloatRoundingSafe() {
-        var ceiling = new java.util.Random().nextFloat();
-
         runRandomizationTest(Random::randomFloatRoundingSafe, f -> {
             assertTrue(f <= 10000);
             assertTrue(f >= -10000);
@@ -182,6 +181,11 @@ public class RandomTests {
         runRandomizationTest(Random::randomCoordinate3d);
     }
 
+    @Test
+    public void testRandomDirection() {
+        runRandomizationTest(Random::randomDirection, false);
+    }
+
     // NB: This is technically indeterminate, but the odds of duplicate random results should be
     //     practically within the same realm of possibility as a duplicate UUID
     private <T> void runRandomizationTest(Supplier<T> randomMethod,
@@ -203,6 +207,10 @@ public class RandomTests {
     private <T> void runRandomizationTest(Supplier<T> randomMethod,
                                           Consumer<T> additionalAssertions) {
         runRandomizationTest(randomMethod, additionalAssertions, true);
+    }
+
+    private <T> void runRandomizationTest(Supplier<T> randomMethod, boolean failOnEquals) {
+        runRandomizationTest(randomMethod, null, failOnEquals);
     }
 
     private void runRandomizationTest(Supplier<Object> randomMethod) {

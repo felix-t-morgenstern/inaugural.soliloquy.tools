@@ -25,7 +25,7 @@ class AbstractFinitePausableAtTimeTests {
     }
 
     @Test
-    void testConstructorWithInvalidParams() {
+    void testConstructorWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class, () ->
                 new FinitePausableAtTimeImpl(MOST_RECENT_TIMESTAMP + 1, MOST_RECENT_TIMESTAMP));
         assertThrows(IllegalArgumentException.class, () ->

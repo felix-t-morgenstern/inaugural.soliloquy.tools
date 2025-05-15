@@ -1,7 +1,5 @@
 package inaugural.soliloquy.tools;
 
-import soliloquy.specs.common.shared.HasOneGenericParam;
-import soliloquy.specs.common.shared.HasTwoGenericParams;
 import soliloquy.specs.gamestate.entities.Deletable;
 
 import java.util.ArrayList;
@@ -34,8 +32,8 @@ public class Check {
     }
 
     public static <T> T[] ifAnyNull(T[] array, String paramName) {
-        if (array == null || array.length == 0) {
-            return array;
+        if (array == null) {
+            return null;
         }
         for (var item : array) {
             Check.ifNull(item, "item within " + paramName);
@@ -455,30 +453,6 @@ public class Check {
     // ============ Other methods ============
     // =======================================
     // =======================================
-
-    // ====================================
-    // ==== Archetype checking methods ====
-    // ====================================
-
-    @SuppressWarnings({"rawtypes", "UnusedReturnValue"})
-    public static <T> T archetypeAndArchetypesOfArchetypeAreNotNull(String paramName,
-                                                                    T archetype) {
-        if (archetype == null) {
-            throwException(paramName, "null");
-        }
-        if (archetype instanceof HasOneGenericParam) {
-            archetypeAndArchetypesOfArchetypeAreNotNull(paramName,
-                    ((HasOneGenericParam) archetype).archetype());
-        }
-        else if (archetype instanceof HasTwoGenericParams) {
-            archetypeAndArchetypesOfArchetypeAreNotNull(paramName,
-                    ((HasTwoGenericParams) archetype).firstArchetype());
-            archetypeAndArchetypesOfArchetypeAreNotNull(paramName,
-                    ((HasTwoGenericParams) archetype).secondArchetype());
-        }
-
-        return archetype;
-    }
 
     // ========================
     // ==== Helper Methods ====

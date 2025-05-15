@@ -1,10 +1,7 @@
 package inaugural.soliloquy.tools.tests;
 
 import inaugural.soliloquy.tools.Check;
-import inaugural.soliloquy.tools.tests.fakes.FakeHasOneGenericParam;
-import inaugural.soliloquy.tools.tests.fakes.FakeHasTwoGenericParams;
 import org.junit.jupiter.api.Test;
-import soliloquy.specs.common.shared.HasOneGenericParam;
 import soliloquy.specs.gamestate.entities.Deletable;
 
 import java.util.HashMap;
@@ -57,7 +54,7 @@ class CheckTests {
 
         assertNull(Check.ifAnyNull(null, paramName));
         assertSame(emptyArray, Check.ifAnyNull(emptyArray, paramName));
-        assertThrowsWithMessage(() -> Check.ifAnyNull(new Object[] {null}, paramName), IllegalArgumentException.class, "inaugural.soliloquy.tools.tests.CheckTests.lambda$testIfAnyNull$3: item within " + paramName + " cannot be null");
+        assertThrowsWithMessage(() -> Check.ifAnyNull(new Object[] {null}, paramName), IllegalArgumentException.class, "inaugural.soliloquy.tools.tests.CheckTests.lambda$testIfAnyNull$0: item within " + paramName + " cannot be null");
     }
 
     @Test
@@ -126,7 +123,7 @@ class CheckTests {
 
         assertThrowsWithMessage(() -> Check.ifDeleted(mockDeleted, paramName),
                 IllegalArgumentException.class,
-                "inaugural.soliloquy.tools.tests.CheckTests.lambda$testIfDeleted$7: " + paramName +
+                "inaugural.soliloquy.tools.tests.CheckTests.lambda$testIfDeleted$0: " + paramName +
                         " cannot be deleted");
     }
 
@@ -1103,8 +1100,8 @@ class CheckTests {
 
     @Test
     void testThrowOnSecondGtForShorts() {
-        final var input1 = (short) 123;
-        final var input2 = input1 + 1;
+        final short input1 = (short) 123;
+        final short input2 = input1 + (short)1;
 
         assertThrows(IllegalArgumentException.class, () ->
                 Check.throwOnSecondGt(input1, input2, "input1", "input2"));
@@ -1212,39 +1209,6 @@ class CheckTests {
             assertEquals("inaugural.soliloquy.tools.tests.CheckTests" +
                             ".testIsBetweenZeroAndOne: input2 (" + input2 +
                             ") cannot be outside of the range of [0.0, 1.0]",
-                    e.getMessage());
-        }
-    }
-
-    @Test
-    void testArchetypeAndArchetypesOfArchetypeAreNotNull() {
-        assertThrows(IllegalArgumentException.class,
-                () -> Check.archetypeAndArchetypesOfArchetypeAreNotNull("archetype",
-                        new FakeHasOneGenericParam<String>(null)));
-        try {
-            Check.archetypeAndArchetypesOfArchetypeAreNotNull("archetype",
-                    new FakeHasOneGenericParam<String>(null));
-        }
-        catch (IllegalArgumentException e) {
-            assertEquals("inaugural.soliloquy.tools.tests.CheckTests" +
-                            ".testArchetypeAndArchetypesOfArchetypeAreNotNull: archetype cannot " +
-                            "be null",
-                    e.getMessage());
-        }
-
-        assertThrows(IllegalArgumentException.class,
-                () -> Check.archetypeAndArchetypesOfArchetypeAreNotNull("archetype",
-                        new FakeHasTwoGenericParams<String, HasOneGenericParam<String>>("string",
-                                new FakeHasOneGenericParam<>(null))));
-        try {
-            Check.archetypeAndArchetypesOfArchetypeAreNotNull("archetype",
-                    new FakeHasTwoGenericParams<String, HasOneGenericParam<String>>("string",
-                            new FakeHasOneGenericParam<>(null)));
-        }
-        catch (IllegalArgumentException e) {
-            assertEquals("inaugural.soliloquy.tools.tests.CheckTests" +
-                            ".testArchetypeAndArchetypesOfArchetypeAreNotNull: archetype cannot " +
-                            "be null",
                     e.getMessage());
         }
     }

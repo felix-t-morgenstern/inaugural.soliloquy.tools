@@ -6,8 +6,8 @@ import java.util.*;
 
 import static inaugural.soliloquy.tools.collections.Collections.*;
 import static inaugural.soliloquy.tools.testing.Assertions.assertEqualsAndNotSame;
-import static inaugural.soliloquy.tools.valueobjects.Pair.pairOf;
 import static org.junit.jupiter.api.Assertions.*;
+import static soliloquy.specs.common.valueobjects.Pair.pairOf;
 
 public class CollectionsTests {
     @Test
@@ -108,6 +108,58 @@ public class CollectionsTests {
 
         assertNotNull(map);
         assertEqualsAndNotSame(originalMap, map);
+    }
+
+    @Test
+    public void testImmutableMap() {
+        var originalMap = new HashMap<String, Integer>() {{
+            put("A", 1);
+            put("B", 2);
+            put("C", 3);
+        }};
+
+        var immutableMap = immutable(originalMap);
+
+        assertNotNull(immutableMap);
+        assertEquals(originalMap.size(), immutableMap.size());
+        assertEquals(originalMap.isEmpty(), immutableMap.isEmpty());
+        for (var originalEntry : originalMap.entrySet()) {
+            assertTrue(immutableMap.containsKey(originalEntry.getKey()));
+            assertEquals(originalEntry.getValue(), immutableMap.get(originalEntry.getKey()));
+        }
+        for (var immutableEntry : immutableMap.entrySet()) {
+            assertTrue(originalMap.containsKey(immutableEntry.getKey()));
+            assertEquals(originalMap.get(immutableEntry.getKey()), immutableEntry.getValue());
+        }
+        assertEquals(originalMap.keySet(), immutableMap.keySet());
+        assertEquals(originalMap.values(), immutableMap.values());
+        assertEquals(immutable(originalMap), immutableMap);
+    }
+
+    @Test
+    public void testImmutableMapOfFromPairs() {
+        var immutableMap = immutableMapOf(pairOf("A", 1), pairOf("B", 2), pairOf("C", 3));
+
+        assertNotNull(immutableMap);
+        assertEquals(3, immutableMap.size());
+        assertEquals((Integer) 1, immutableMap.get("A"));
+        assertEquals((Integer) 2, immutableMap.get("B"));
+        assertEquals((Integer) 3, immutableMap.get("C"));
+    }
+
+    @Test
+    public void testMutableMap() {
+        var immutableMap = immutableMapOf(pairOf("A", 1), pairOf("B", 2), pairOf("C", 3));
+
+        var mutableMap = mutable(immutableMap);
+        mutableMap.put("D", 4);
+
+        assertNotNull(mutableMap);
+        assertEquals(4, mutableMap.size());
+        assertEquals((Integer) 1, mutableMap.get("A"));
+        assertEquals((Integer) 2, mutableMap.get("B"));
+        assertEquals((Integer) 3, mutableMap.get("C"));
+        assertEquals((Integer) 4, mutableMap.get("D"));
     }
 
     @Test

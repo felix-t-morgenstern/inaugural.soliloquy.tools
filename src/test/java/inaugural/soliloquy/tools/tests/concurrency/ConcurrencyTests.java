@@ -52,7 +52,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testRunTaskAsyncWithInvalidParams() {
+    void testRunTaskAsyncWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class,
                 () -> runTaskAsync(null, t -> {}, EXECUTOR_SERVICE));
         assertThrows(IllegalArgumentException.class,
@@ -97,7 +97,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTaskCompletedWithInvalidParams() {
+    void testWaitUntilTaskCompletedWithInvalidArgs() {
         CompletableFuture<Void> task = CompletableFuture.runAsync(() -> {});
 
         assertThrows(IllegalArgumentException.class,
@@ -153,7 +153,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTasksCompletedFromListWithInvalidParams() {
+    void testWaitUntilTasksCompletedFromListWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class,
                 () -> waitUntilTasksCompleted(null, () -> true));
         assertThrows(IllegalArgumentException.class,
@@ -197,7 +197,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTasksCompletedWithPresetNumberWithInvalidParams() {
+    void testWaitUntilTasksCompletedWithPresetNumberWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class,
                 () -> waitUntilTasksCompleted(null, 1, () -> true));
         assertThrows(IllegalArgumentException.class,

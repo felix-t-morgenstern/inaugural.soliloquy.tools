@@ -22,7 +22,7 @@ class AbstractPausableAtTimeTests {
     }
 
     @Test
-    void testConstructorWithInvalidParams() {
+    void testConstructorWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class, () ->
                 new AbstractPausableAtTimeImpl(PAUSED_TIMESTAMP, null));
         assertThrows(IllegalArgumentException.class, () ->

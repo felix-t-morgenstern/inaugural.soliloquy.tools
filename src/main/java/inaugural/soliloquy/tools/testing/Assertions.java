@@ -1,11 +1,13 @@
 package inaugural.soliloquy.tools.testing;
 
 import inaugural.soliloquy.tools.Check;
+import org.mockito.verification.VerificationMode;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
 
 public class Assertions {
     public static <T> void assertEqualsAndNotSame(T expected, T actual) {
@@ -42,5 +44,9 @@ public class Assertions {
             assertSame(exceptionType, e.getClass());
             assertEquals(expectedMessage, e.getMessage());
         }
+    }
+
+    public static VerificationMode once() {
+        return times(1);
     }
 }

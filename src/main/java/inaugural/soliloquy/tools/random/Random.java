@@ -3,8 +3,13 @@ package inaugural.soliloquy.tools.random;
 import soliloquy.specs.common.shared.Direction;
 import soliloquy.specs.common.valueobjects.Coordinate2d;
 import soliloquy.specs.common.valueobjects.Coordinate3d;
+import soliloquy.specs.common.valueobjects.Vertex;
 
 import java.awt.*;
+
+import static soliloquy.specs.common.valueobjects.Coordinate2d.coordinate2dOf;
+import static soliloquy.specs.common.valueobjects.Coordinate3d.coordinate3dOf;
+import static soliloquy.specs.common.valueobjects.Vertex.vertexOf;
 
 public class Random {
     public static java.util.Random RANDOM = new java.util.Random();
@@ -119,11 +124,15 @@ public class Random {
     }
 
     public static Coordinate2d randomCoordinate2d() {
-        return Coordinate2d.of(randomInt(), randomInt());
+        return coordinate2dOf(randomInt(), randomInt());
     }
 
     public static Coordinate3d randomCoordinate3d() {
-        return Coordinate3d.of(randomInt(), randomInt(), randomInt());
+        return coordinate3dOf(randomInt(), randomInt(), randomInt());
+    }
+
+    public static Vertex randomVertex() {
+        return vertexOf(randomFloat(), randomFloat());
     }
 
     public static Direction randomDirection() {

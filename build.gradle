@@ -5,6 +5,13 @@ plugins {
 
 group 'disorg.soliloquy'
 version '0.0.149'
+description = 'Soliloquy Toolset'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(24)
+    }
+}
 
 repositories {
     mavenLocal()
@@ -21,14 +28,23 @@ repositories {
 //noinspection DependencyNotationArgument
 dependencies {
     implementation "disorg.soliloquy:soliloquy.specs:0.0.539"
-    // https://mvnrepository.com/artifact/org.mockito/mockito-core
-    implementation("org.mockito:mockito-core:5.17.0")
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    implementation("org.junit.jupiter:junit-jupiter-api:5.13.0-M3")
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.13.1")
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation("commons-io:commons-io:2.19.0")
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    implementation("org.mockito:mockito-core:5.17.0")
+
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    implementation("org.junit.jupiter:junit-jupiter-api:5.12.2")
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.12.2")
+    // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher
+    testImplementation("org.junit.platform:junit-platform-launcher:1.12.2")
+    // https://central.sonatype.com/artifact/org.mockito/mockito-junit-jupiter
+    testImplementation("org.mockito:mockito-junit-jupiter:5.17.0")
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    testImplementation("org.mockito:mockito-core:5.17.0")
 }
 
 test {

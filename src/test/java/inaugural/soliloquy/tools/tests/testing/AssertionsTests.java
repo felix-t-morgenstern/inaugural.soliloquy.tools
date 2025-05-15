@@ -51,7 +51,7 @@ class AssertionsTests {
     }
 
     @Test
-    void testAssertThrowsWithMessageWithInvalidParams() {
+    void testAssertThrowsWithMessageWithInvalidArgs() {
         var message = "message";
 
         assertThrows(IllegalArgumentException.class,

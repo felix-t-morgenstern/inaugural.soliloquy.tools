@@ -15,9 +15,4 @@ public class FinitePausableAtTimeImpl extends AbstractFinitePausableAtTime {
     public long getAnchorTime() {
         return anchorTime;
     }
-
-    @Override
-    public String getInterfaceName() {
-        return null;
-    }
 }

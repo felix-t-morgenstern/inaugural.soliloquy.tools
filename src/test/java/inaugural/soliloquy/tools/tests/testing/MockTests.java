@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 import static inaugural.soliloquy.tools.random.Random.*;
 import static inaugural.soliloquy.tools.testing.Mock.*;
-import static inaugural.soliloquy.tools.valueobjects.Pair.pairOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
+import static soliloquy.specs.common.valueobjects.Pair.pairOf;
 
 class MockTests {
     @Test
@@ -217,26 +217,26 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockPersistentValuesHandlerWithSimpleHandlers() {
+    void testGenerateMockPersistenceHandlerWithSimpleHandlers() {
         var ints = new Integer[]{randomInt(), randomInt(), randomInt()};
         var doubles =
                 new Double[]{randomDouble(), randomDouble(), randomDouble()};
 
-        var persistentValuesHandlerAndHandlers =
-                generateMockPersistentValuesHandlerWithSimpleHandlers(ints, doubles);
+        var PersistenceHandlerAndHandlers =
+                generateMockPersistenceHandlerWithSimpleHandlers(ints, doubles);
 
-        assertNotNull(persistentValuesHandlerAndHandlers);
-        assertNotNull(persistentValuesHandlerAndHandlers.item1());
-        assertNotNull(persistentValuesHandlerAndHandlers.item2());
+        assertNotNull(PersistenceHandlerAndHandlers);
+        assertNotNull(PersistenceHandlerAndHandlers.FIRST);
+        assertNotNull(PersistenceHandlerAndHandlers.SECOND);
         var integerHandler =
-                persistentValuesHandlerAndHandlers.item2().get(Integer.class.getCanonicalName());
+                PersistenceHandlerAndHandlers.SECOND.get(Integer.class.getCanonicalName());
         for (var value : ints) {
             assertEquals(value, integerHandler.read(value.toString()));
             //noinspection unchecked
             assertEquals(value.toString(), integerHandler.write(value));
         }
         var doubleHandler =
-                persistentValuesHandlerAndHandlers.item2().get(Double.class.getCanonicalName());
+                PersistenceHandlerAndHandlers.SECOND.get(Double.class.getCanonicalName());
         for (var value : doubles) {
             assertEquals(value, doubleHandler.read(value.toString()));
             //noinspection unchecked

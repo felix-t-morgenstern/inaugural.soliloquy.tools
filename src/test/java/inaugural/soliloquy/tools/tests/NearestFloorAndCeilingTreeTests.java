@@ -21,7 +21,7 @@ public class NearestFloorAndCeilingTreeTests {
     }
 
     @Test
-    void testConstructorWithInvalidParams() {
+    void testConstructorWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class, () ->
                 NearestFloorAndCeilingTree.FromIntegers(null));
         assertThrows(IllegalArgumentException.class, () ->

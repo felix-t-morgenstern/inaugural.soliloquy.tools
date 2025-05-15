@@ -13,9 +13,4 @@ public class AbstractPausableAtTimeImpl extends AbstractPausableAtTime {
     protected void updateInternalValuesOnUnpause(long timestamp) {
         updateInternalValuesOnUnpauseInput = timestamp;
     }
-
-    @Override
-    public String getInterfaceName() {
-        return null;
-    }
 }

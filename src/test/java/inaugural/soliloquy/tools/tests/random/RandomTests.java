@@ -182,6 +182,11 @@ public class RandomTests {
     }
 
     @Test
+    public void testRandomVertex() {
+        runRandomizationTest(Random::randomVertex);
+    }
+
+    @Test
     public void testRandomDirection() {
         runRandomizationTest(Random::randomDirection, false);
     }

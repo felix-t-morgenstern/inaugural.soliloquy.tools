@@ -1,7 +1,7 @@
 package inaugural.soliloquy.tools.testing;
 
 import inaugural.soliloquy.tools.collections.Collections;
-import soliloquy.specs.common.persistence.PersistentValuesHandler;
+import soliloquy.specs.common.persistence.PersistenceHandler;
 import soliloquy.specs.common.persistence.TypeHandler;
 import soliloquy.specs.common.shared.HasId;
 import soliloquy.specs.common.valueobjects.Pair;
@@ -10,10 +10,10 @@ import java.util.*;
 import java.util.function.Function;
 
 import static inaugural.soliloquy.tools.collections.Collections.*;
-import static inaugural.soliloquy.tools.valueobjects.Pair.pairOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static soliloquy.specs.common.valueobjects.Pair.pairOf;
 
 public class Mock {
     public static <T extends HasId> T generateMockWithId(Class<T> clazz, String id) {
@@ -29,10 +29,10 @@ public class Mock {
         lenient().when(mockSet.size()).thenReturn(values.length);
         //noinspection SuspiciousMethodCalls
         lenient().when(mockSet.contains(any())).thenAnswer(
-                invocationOnMock -> Arrays.stream(values)
-                        .anyMatch(item -> item == invocationOnMock.getArgument(0)));
+                invocation -> Arrays.stream(values)
+                        .anyMatch(item -> item == invocation.getArgument(0)));
         lenient().when(mockSet.iterator())
-                .thenAnswer(invocationOnMock -> setOf(values).iterator());
+                .thenAnswer(invocation -> setOf(values).iterator());
         lenient().doCallRealMethod().when(mockSet).forEach(any());
 
         return mockSet;
@@ -44,13 +44,13 @@ public class Mock {
         var mockList = (List<T>) mock(List.class);
         lenient().when(mockList.size()).thenReturn(values.length);
         lenient().when(mockList.get(anyInt()))
-                .thenAnswer(invocationOnMock -> values[(int) invocationOnMock.getArgument(0)]);
+                .thenAnswer(invocation -> values[(int) invocation.getArgument(0)]);
         //noinspection SuspiciousMethodCalls
         lenient().when(mockList.contains(any())).thenAnswer(
-                invocationOnMock -> Arrays.stream(values)
-                        .anyMatch(item -> item == invocationOnMock.getArgument(0)));
+                invocation -> Arrays.stream(values)
+                        .anyMatch(item -> item == invocation.getArgument(0)));
         lenient().when(mockList.iterator())
-                .thenAnswer(invocationOnMock -> listOf(values).iterator());
+                .thenAnswer(invocation -> listOf(values).iterator());
         lenient().doCallRealMethod().when(mockList).forEach(any());
 
         return mockList;
@@ -63,16 +63,16 @@ public class Mock {
         var mockMap = (Map<K, V>) mock(Map.class);
         lenient().when(mockMap.size()).thenReturn(keyValuePairs.length);
         lenient().when(mockMap.entrySet())
-                .thenAnswer(invocationOnMock -> generateMockMapEntrySet(keyValuePairs));
+                .thenAnswer(invocation -> generateMockMapEntrySet(keyValuePairs));
         var keys = Collections.<K>setOf();
         for (var pair : keyValuePairs) {
-            keys.add(pair.item1());
+            keys.add(pair.FIRST);
         }
-        lenient().when(mockMap.keySet()).thenAnswer(invocationOnMock -> keys);
+        lenient().when(mockMap.keySet()).thenAnswer(invocation -> keys);
         lenient().doCallRealMethod().when(mockMap).forEach(any());
         //noinspection unchecked
         lenient().when(mockMap.get((K) any())).thenAnswer(
-                invocationOnMock -> map.get((K) invocationOnMock.getArgument(0)));
+                invocation -> map.get((K) invocation.getArgument(0)));
         return mockMap;
     }
 
@@ -82,7 +82,7 @@ public class Mock {
         var lookupFunction = (Function<String, V>) mock(Function.class);
         lenient().when(lookupFunction.apply(anyString())).thenReturn(null);
         for (Pair<String, V> item : items) {
-            lenient().when(lookupFunction.apply(item.item1())).thenReturn(item.item2());
+            lenient().when(lookupFunction.apply(item.FIRST)).thenReturn(item.SECOND);
         }
         return lookupFunction;
     }
@@ -107,7 +107,7 @@ public class Mock {
         lenient().when(lookupFunction.apply(anyString())).thenReturn(null);
         for (var id : ids) {
             var entity = mock(clazz);
-            when(entity.id()).thenReturn(id);
+            lenient().when(entity.id()).thenReturn(id);
             entities.add(entity);
             lenient().when(lookupFunction.apply(id)).thenReturn(entity);
         }
@@ -128,8 +128,8 @@ public class Mock {
         var entryList = new ArrayList<Map.Entry<K, V>>();
         for (var keyValuePair : keyValuePairs) {
             entryList.add(new AbstractMap.SimpleEntry<>(
-                    keyValuePair.item1(),
-                    keyValuePair.item2()));
+                    keyValuePair.FIRST,
+                    keyValuePair.SECOND));
         }
         //noinspection unchecked
         var mockSet = (Set<Map.Entry<K, V>>) mock(Set.class);
@@ -156,17 +156,17 @@ public class Mock {
         var mockHandler = (TypeHandler<T>) mock(TypeHandler.class);
 
         for (var value : values) {
-            lenient().when(mockHandler.read(value.item1())).thenReturn(value.item2());
-            lenient().when(mockHandler.write(value.item2())).thenReturn(value.item1());
+            lenient().when(mockHandler.read(value.FIRST)).thenReturn(value.SECOND);
+            lenient().when(mockHandler.write(value.SECOND)).thenReturn(value.FIRST);
         }
 
         return mockHandler;
     }
 
     /** @noinspection rawtypes */
-    public static Pair<PersistentValuesHandler, Map<String, TypeHandler>> generateMockPersistentValuesHandlerWithSimpleHandlers(
+    public static Pair<PersistenceHandler, Map<String, TypeHandler>> generateMockPersistenceHandlerWithSimpleHandlers(
             Object[]... valueSets) {
-        var mockPersistentValuesHandler = mock(PersistentValuesHandler.class);
+        var mockPersistenceHandler = mock(PersistenceHandler.class);
         var handlers = new HashMap<String, TypeHandler>();
 
         for (var valueSet : valueSets) {
@@ -174,12 +174,12 @@ public class Mock {
 
             var typeHandler = generateSimpleMockTypeHandler(valueSet);
 
-            lenient().when(mockPersistentValuesHandler.getTypeHandler(type))
+            lenient().when(mockPersistenceHandler.getTypeHandler(type))
                     .thenReturn(typeHandler);
             handlers.put(type, typeHandler);
         }
 
-        return pairOf(mockPersistentValuesHandler, handlers);
+        return pairOf(mockPersistenceHandler, handlers);
     }
 
     public static <T> HandlerAndEntity<T> generateMockEntityAndHandler(Class<T> clazz,

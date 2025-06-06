@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TimestampValidatorTests {
+public class TimestampValidatorTests {
     private final static long MOST_RECENT_TIMESTAMP = 123123L;
 
     private TimestampValidator _timestampValidator;
@@ -17,7 +17,7 @@ class TimestampValidatorTests {
     }
 
     @Test
-    void testMostRecentTimestamp() {
+    public void testMostRecentTimestamp() {
         assertNull(_timestampValidator.mostRecentTimestamp());
 
         _timestampValidator.validateTimestamp(MOST_RECENT_TIMESTAMP);
@@ -26,7 +26,7 @@ class TimestampValidatorTests {
     }
 
     @Test
-    void testValidateOutdatedTimestampWithoutExplicitClassName() {
+    public void testValidateOutdatedTimestampWithoutExplicitClassName() {
         _timestampValidator.validateTimestamp(MOST_RECENT_TIMESTAMP + 1);
 
         try {
@@ -43,7 +43,7 @@ class TimestampValidatorTests {
     }
 
     @Test
-    void testValidateOutdatedTimestampWithExplicitClassName() {
+    public void testValidateOutdatedTimestampWithExplicitClassName() {
         _timestampValidator.validateTimestamp(MOST_RECENT_TIMESTAMP + 1);
 
         try {

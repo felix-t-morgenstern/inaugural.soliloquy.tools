@@ -12,7 +12,7 @@ import static inaugural.soliloquy.tools.concurrency.Concurrency.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class ConcurrencyTests {
+public class ConcurrencyTests {
     private final ExecutorService EXECUTOR_SERVICE = ForkJoinPool.commonPool();
 
     // NB: I really hate having all these static and long-winded variables, but Java does not
@@ -30,7 +30,7 @@ class ConcurrencyTests {
     private static boolean WaitUntilTasksCompletedWithPredefinedNumberExceptionCaught = false;
 
     @Test
-    void testRunTaskAsync() {
+    public void testRunTaskAsync() {
         ArrayList<Boolean> taskOutputs = new ArrayList<>();
 
         runTaskAsync(() -> taskOutputs.add(true), t -> {}, EXECUTOR_SERVICE);
@@ -40,7 +40,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testRunTaskAsyncHandlesThrowables() {
+    public void testRunTaskAsyncHandlesThrowables() {
         RuntimeException t = mock(RuntimeException.class);
         ArrayList<Throwable> throwables = new ArrayList<>();
 
@@ -52,7 +52,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testRunTaskAsyncWithInvalidArgs() {
+    public void testRunTaskAsyncWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class,
                 () -> runTaskAsync(null, t -> {}, EXECUTOR_SERVICE));
         assertThrows(IllegalArgumentException.class,
@@ -61,7 +61,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTaskCompleted() {
+    public void testWaitUntilTaskCompleted() {
         CompletableFuture<Void> task =
                 CompletableFuture.runAsync(() -> CheckedExceptionWrapper.sleep(100));
 
@@ -78,7 +78,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTaskCompletedAbortsOnException() {
+    public void testWaitUntilTaskCompletedAbortsOnException() {
         CompletableFuture<Void> task = CompletableFuture.runAsync(() -> {
             CheckedExceptionWrapper.sleep(100);
             WaitUntilTaskCompletedTaskExceptionThrown = true;
@@ -97,7 +97,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTaskCompletedWithInvalidArgs() {
+    public void testWaitUntilTaskCompletedWithInvalidArgs() {
         CompletableFuture<Void> task = CompletableFuture.runAsync(() -> {});
 
         assertThrows(IllegalArgumentException.class,
@@ -106,7 +106,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTasksCompletedFromList() {
+    public void testWaitUntilTasksCompletedFromList() {
         CompletableFuture<Void> task1 =
                 CompletableFuture.runAsync(() -> CheckedExceptionWrapper.sleep(100));
         CompletableFuture<Void> task2 =
@@ -132,7 +132,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTasksCompletedFromListAbortsOnException() {
+    public void testWaitUntilTasksCompletedFromListAbortsOnException() {
         CompletableFuture<Void> task = CompletableFuture.runAsync(() -> {
             CheckedExceptionWrapper.sleep(100);
             WaitUntilTasksCompletedFromListExceptionThrown = true;
@@ -153,7 +153,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTasksCompletedFromListWithInvalidArgs() {
+    public void testWaitUntilTasksCompletedFromListWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class,
                 () -> waitUntilTasksCompleted(null, () -> true));
         assertThrows(IllegalArgumentException.class,
@@ -161,7 +161,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTasksCompletedWithPresetNumber() {
+    public void testWaitUntilTasksCompletedWithPresetNumber() {
         ArrayList<CompletableFuture<Void>> tasks = new ArrayList<>();
 
         new Thread(() -> {
@@ -178,7 +178,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTasksCompletedWithPresetNumberAbortsOnException() {
+    public void testWaitUntilTasksCompletedWithPresetNumberAbortsOnException() {
         ArrayList<CompletableFuture<Void>> tasks = new ArrayList<>();
 
         new Thread(() -> {
@@ -197,7 +197,7 @@ class ConcurrencyTests {
     }
 
     @Test
-    void testWaitUntilTasksCompletedWithPresetNumberWithInvalidArgs() {
+    public void testWaitUntilTasksCompletedWithPresetNumberWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class,
                 () -> waitUntilTasksCompleted(null, 1, () -> true));
         assertThrows(IllegalArgumentException.class,

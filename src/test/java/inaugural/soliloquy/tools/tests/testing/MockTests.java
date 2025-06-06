@@ -14,9 +14,9 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static soliloquy.specs.common.valueobjects.Pair.pairOf;
 
-class MockTests {
+public class MockTests {
     @Test
-    void testGenerateMockWithId() {
+    public void testGenerateMockWithId() {
         var id = "Id";
 
         var mockItem = generateMockWithId(ItemType.class, id);
@@ -26,7 +26,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockSet() {
+    public void testGenerateMockSet() {
         var mockSet = generateMockSet(1, 2, 3);
 
         assertNotNull(mockSet);
@@ -38,7 +38,7 @@ class MockTests {
         verify(mockSet, times(4)).contains(anyInt());
         var collector = new ArrayList<Integer>();
         // NB: Calling forEach twice here to ensure that multiple iteration is possible
-        mockSet.forEach(i -> {});
+        mockSet.forEach(_ -> {});
         //noinspection UseBulkOperation
         mockSet.forEach(collector::add);
         assertEquals(new ArrayList<>() {{
@@ -49,7 +49,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockList() {
+    public void testGenerateMockList() {
         var mockList = generateMockList(1, 2, 3);
 
         assertNotNull(mockList);
@@ -64,7 +64,7 @@ class MockTests {
         assertFalse(mockList.contains(4));
         var collector = new ArrayList<Integer>();
         // NB: Calling forEach twice here to ensure that multiple iteration is possible
-        mockList.forEach(i -> {});
+        mockList.forEach(_ -> {});
         //noinspection UseBulkOperation
         mockList.forEach(collector::add);
         assertEquals(new ArrayList<>() {{
@@ -75,7 +75,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockMap() {
+    public void testGenerateMockMap() {
         var mockMap = generateMockMap(pairOf(3, "C"), pairOf(2, "B"), pairOf(1, "A"));
 
         assertNotNull(mockMap);
@@ -84,8 +84,9 @@ class MockTests {
         assertEquals("B", mockMap.get(2));
         assertEquals("C", mockMap.get(3));
         // NB: Calling forEach twice here to ensure that multiple iteration is possible
-        mockMap.forEach((k,v) -> {});
+        mockMap.forEach((_, _) -> {});
         var keysInAnyOrder = new ArrayList<>(mockMap.keySet());
+        var valuesInAnyOrder = new ArrayList<>(mockMap.values());
         var keysInOrder = new ArrayList<Integer>();
         var valuesInOrder = new ArrayList<String>();
         mockMap.forEach((k, v) -> {
@@ -96,6 +97,10 @@ class MockTests {
         assertTrue(keysInAnyOrder.contains(1));
         assertTrue(keysInAnyOrder.contains(2));
         assertTrue(keysInAnyOrder.contains(3));
+        assertEquals(3, valuesInAnyOrder.size());
+        assertTrue(valuesInAnyOrder.contains("A"));
+        assertTrue(valuesInAnyOrder.contains("B"));
+        assertTrue(valuesInAnyOrder.contains("C"));
         assertEquals(new ArrayList<Integer>() {{
             add(3);
             add(2);
@@ -109,7 +114,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockLookupFunction() {
+    public void testGenerateMockLookupFunction() {
         var id1 = "id1";
         var id2 = "id2";
         var id3 = "id3";
@@ -134,7 +139,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockLookupFunctionWithIdByEntities() {
+    public void testGenerateMockLookupFunctionWithIdByEntities() {
         var id1 = "id1";
         var id2 = "id2";
         var id3 = "id3";
@@ -161,7 +166,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockLookupFunctionWithIdByIds() {
+    public void testGenerateMockLookupFunctionWithIdByIds() {
         var id1 = "id1";
         var id2 = "id2";
         var id3 = "id3";
@@ -187,7 +192,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateSimpleMockTypeHandler() {
+    public void testGenerateSimpleMockTypeHandler() {
         var values = new Integer[]{randomInt(), randomInt(), randomInt()};
 
         var mockIntegerHandler = generateSimpleMockTypeHandler(values);
@@ -200,7 +205,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateSimpleMockTypeHandlerWithWrittenValues() {
+    public void testGenerateSimpleMockTypeHandlerWithWrittenValues() {
         var values = new Integer[]{randomInt(), randomInt(), randomInt()};
         var writtenValues = new String[]{randomString(), randomString(), randomString()};
 
@@ -217,7 +222,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockPersistenceHandlerWithSimpleHandlers() {
+    public void testGenerateMockPersistenceHandlerWithSimpleHandlers() {
         var ints = new Integer[]{randomInt(), randomInt(), randomInt()};
         var doubles =
                 new Double[]{randomDouble(), randomDouble(), randomDouble()};
@@ -246,7 +251,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockEntityAndHandler() {
+    public void testGenerateMockEntityAndHandler() {
         var writtenValue = "writtenValue";
 
         var handlerAndEntity = generateMockEntityAndHandler(Item.class, writtenValue);
@@ -262,7 +267,7 @@ class MockTests {
     }
 
     @Test
-    void testGenerateMockEntitiesAndHandler() {
+    public void testGenerateMockEntitiesAndHandler() {
         var writtenValue1 = "writtenValue1";
         var writtenValue2 = "writtenValue2";
 

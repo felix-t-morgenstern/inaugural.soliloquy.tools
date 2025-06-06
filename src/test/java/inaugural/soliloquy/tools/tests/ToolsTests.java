@@ -9,11 +9,11 @@ import static inaugural.soliloquy.tools.collections.Collections.listOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ToolsTests {
+public class ToolsTests {
     private static String callingClassName;
 
     @Test
-    void testEmptyIfNull() {
+    public void testEmptyIfNull() {
         var input = "input";
 
         assertEquals(input, Tools.emptyIfNull(input));
@@ -22,7 +22,7 @@ class ToolsTests {
     }
 
     @Test
-    void testNullIfEmpty() {
+    public void testNullIfEmpty() {
         var input = "input";
 
         assertEquals(input, Tools.nullIfEmpty(input));
@@ -31,7 +31,7 @@ class ToolsTests {
     }
 
     @Test
-    void testRound() {
+    public void testRound() {
         var value = 1.23456f;
         var places = 3;
 
@@ -42,14 +42,14 @@ class ToolsTests {
     }
 
     @Test
-    void testCallingClassName() {
+    public void testCallingClassName() {
         callingClassName = Tools.callingClassName();
 
         assertEquals(this.getClass().getCanonicalName(), callingClassName);
     }
 
     @Test
-    void testCallingClassNameWithStepsToMoveUp() {
+    public void testCallingClassNameWithStepsToMoveUp() {
         var setCallingClassName = new PassthroughRunnable(() ->
                 callingClassName = Tools.callingClassName(6));
         var level1 = new PassthroughRunnable(setCallingClassName::call);
@@ -61,7 +61,7 @@ class ToolsTests {
     }
 
     @Test
-    void testOrderByPriority() {
+    public void testOrderByPriority() {
         var firstPriority = 1;
         var secondPriority = 0;
         var hasPriority1 = mock(HasPriority.class);

@@ -10,10 +10,11 @@ import static inaugural.soliloquy.tools.testing.Assertions.assertThrowsWithMessa
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static soliloquy.specs.common.valueobjects.FloatBox.floatBoxOf;
 
-class CheckTests {
+public class CheckTests {
     @Test
-    void testIfNull() {
+    public void testIfNull() {
         final var paramName = "paramName";
 
         final var input = new Object();
@@ -26,7 +27,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfNullOrEmpty() {
+    public void testIfNullOrEmpty() {
         final var paramName = "paramName";
 
         final var input = "input";
@@ -48,17 +49,20 @@ class CheckTests {
     }
 
     @Test
-    void testIfAnyNull() {
+    public void testIfAnyNull() {
         var paramName = "paramName";
         var emptyArray = new Object[0];
 
         assertNull(Check.ifAnyNull(null, paramName));
         assertSame(emptyArray, Check.ifAnyNull(emptyArray, paramName));
-        assertThrowsWithMessage(() -> Check.ifAnyNull(new Object[] {null}, paramName), IllegalArgumentException.class, "inaugural.soliloquy.tools.tests.CheckTests.lambda$testIfAnyNull$0: item within " + paramName + " cannot be null");
+        assertThrowsWithMessage(() -> Check.ifAnyNull(new Object[]{null}, paramName),
+                IllegalArgumentException.class,
+                "inaugural.soliloquy.tools.tests.CheckTests.lambda$testIfAnyNull$0: item within " +
+                        paramName + " cannot be null");
     }
 
     @Test
-    void testIfNullOrEmptyIfString() {
+    public void testIfNullOrEmptyIfString() {
         final var paramName = "paramName";
 
         final var input = "input";
@@ -112,7 +116,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfDeleted() {
+    public void testIfDeleted() {
         var mockDeleted = mock(Deletable.class);
         when(mockDeleted.isDeleted()).thenReturn(false);
         var paramName = "paramName";
@@ -128,7 +132,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfMapIsNonEmptyWithRealKeysAndValuesForValidMap() {
+    public void testIfMapIsNonEmptyWithRealKeysAndValuesForValidMap() {
         var map = new HashMap<>() {{
             put("k", "v");
         }};
@@ -137,7 +141,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfMapIsNonEmptyWithRealKeysAndValuesForNullMap() {
+    public void testIfMapIsNonEmptyWithRealKeysAndValuesForNullMap() {
         assertThrows(IllegalArgumentException.class, () ->
                 Check.ifMapIsNonEmptyWithRealKeysAndValues(null, "map"));
 
@@ -154,7 +158,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfMapIsNonEmptyWithRealKeysAndValuesForEmptyMap() {
+    public void testIfMapIsNonEmptyWithRealKeysAndValuesForEmptyMap() {
         var map = new HashMap<String, String>();
 
         assertThrows(IllegalArgumentException.class, () ->
@@ -173,7 +177,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfMapIsNonEmptyWithRealKeysAndValuesWithNullKey() {
+    public void testIfMapIsNonEmptyWithRealKeysAndValuesWithNullKey() {
         var map = new HashMap<String, String>() {{
             put(null, "v");
         }};
@@ -194,7 +198,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfMapIsNonEmptyWithRealKeysAndValuesWithEmptyKey() {
+    public void testIfMapIsNonEmptyWithRealKeysAndValuesWithEmptyKey() {
         var map = new HashMap<String, String>() {{
             put("", "v");
         }};
@@ -215,7 +219,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfMapIsNonEmptyWithRealKeysAndValuesWithNullValue() {
+    public void testIfMapIsNonEmptyWithRealKeysAndValuesWithNullValue() {
         var map = new HashMap<String, String>() {{
             put("k", null);
         }};
@@ -236,7 +240,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfMapIsNonEmptyWithRealKeysAndValuesWithEmptyValue() {
+    public void testIfMapIsNonEmptyWithRealKeysAndValuesWithEmptyValue() {
         var map = new HashMap<String, String>() {{
             put("k", "");
         }};
@@ -257,7 +261,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfMapIsNonEmptyWithRealKeysAndValuesWithItemCheck() {
+    public void testIfMapIsNonEmptyWithRealKeysAndValuesWithItemCheck() {
         var itemCheckInputs = new HashMap<String, String>();
         var map = new HashMap<String, String>() {{
             put("k", "v");
@@ -272,7 +276,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfNonNegativeForShort() {
+    public void testIfNonNegativeForShort() {
         final var paramName = "paramName";
 
         final var input = (short) 123;
@@ -292,7 +296,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfNonNegativeForInt() {
+    public void testIfNonNegativeForInt() {
         final var paramName = "paramName";
 
         final var input = 123;
@@ -311,7 +315,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfNonNegativeForIntClass() {
+    public void testIfNonNegativeForIntClass() {
         final var paramName = "paramName";
 
         final Integer input = 123;
@@ -330,7 +334,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfNonNegativeForLong() {
+    public void testIfNonNegativeForLong() {
         final var paramName = "paramName";
 
         final var input = 123L;
@@ -349,7 +353,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfNonNegativeForFloat() {
+    public void testIfNonNegativeForFloat() {
         final var paramName = "paramName";
 
         final var input = 0.123f;
@@ -368,7 +372,7 @@ class CheckTests {
     }
 
     @Test
-    void testIfNonNegativeForDouble() {
+    public void testIfNonNegativeForDouble() {
         final var paramName = "paramName";
 
         final var input = 0.123d;
@@ -387,7 +391,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteZeroForShort() {
+    public void testThrowOnLteZeroForShort() {
         final var paramName = "paramName";
 
         final var input = (short) 123;
@@ -407,7 +411,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteZeroForInt() {
+    public void testThrowOnLteZeroForInt() {
         final var paramName = "paramName";
 
         final var input = 123;
@@ -426,7 +430,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteZeroForLong() {
+    public void testThrowOnLteZeroForLong() {
         final var paramName = "paramName";
 
         final var input = 123L;
@@ -445,7 +449,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteZeroForFloat() {
+    public void testThrowOnLteZeroForFloat() {
         final var paramName = "paramName";
 
         final var input = 0.123f;
@@ -464,7 +468,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteZeroForDouble() {
+    public void testThrowOnLteZeroForDouble() {
         final var paramName = "paramName";
 
         final var input = 0.123d;
@@ -483,7 +487,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLtValueForShort() {
+    public void testThrowOnLtValueForShort() {
         final var paramName = "paramName";
 
         final var input = (short) 123;
@@ -503,7 +507,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLtValueForInt() {
+    public void testThrowOnLtValueForInt() {
         final var paramName = "paramName";
 
         final var input = 123;
@@ -523,7 +527,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLtValueForLong() {
+    public void testThrowOnLtValueForLong() {
         final var paramName = "paramName";
 
         final var input = 123L;
@@ -543,7 +547,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLtValueForFloat() {
+    public void testThrowOnLtValueForFloat() {
         final var paramName = "paramName";
 
         final var input = 0.122f;
@@ -564,7 +568,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLtValueForDouble() {
+    public void testThrowOnLtValueForDouble() {
         final var paramName = "paramName";
 
         final var input = 0.122d;
@@ -585,7 +589,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteValueForShort() {
+    public void testThrowOnLteValueForShort() {
         final var paramName = "paramName";
 
         final var input = (short) 123;
@@ -607,7 +611,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteValueForInt() {
+    public void testThrowOnLteValueForInt() {
         final var paramName = "paramName";
 
         final var input = 123;
@@ -629,7 +633,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteValueForLong() {
+    public void testThrowOnLteValueForLong() {
         final var paramName = "paramName";
 
         final var input = 123L;
@@ -651,7 +655,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteValueForFloat() {
+    public void testThrowOnLteValueForFloat() {
         final var paramName = "paramName";
 
         final var input = 0.122f;
@@ -674,7 +678,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnLteValueForDouble() {
+    public void testThrowOnLteValueForDouble() {
         final var paramName = "paramName";
 
         final var input = 0.122d;
@@ -697,7 +701,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGtValueForShort() {
+    public void testThrowOnGtValueForShort() {
         final var paramName = "paramName";
 
         final var input = (short) 123;
@@ -717,7 +721,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGtValueForInt() {
+    public void testThrowOnGtValueForInt() {
         final var paramName = "paramName";
 
         final var input = 123;
@@ -737,7 +741,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGtValueForLong() {
+    public void testThrowOnGtValueForLong() {
         final var paramName = "paramName";
 
         final var input = 123L;
@@ -757,7 +761,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGtValueForFloat() {
+    public void testThrowOnGtValueForFloat() {
         final var paramName = "paramName";
 
         final var input = 0.123f;
@@ -778,7 +782,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGtValueForDouble() {
+    public void testThrowOnGtValueForDouble() {
         final var paramName = "paramName";
 
         final var input = 0.123d;
@@ -799,7 +803,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGteValueForShort() {
+    public void testThrowOnGteValueForShort() {
         final var paramName = "paramName";
 
         final var input = (short) 123;
@@ -821,7 +825,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGteValueForInt() {
+    public void testThrowOnGteValueForInt() {
         final var paramName = "paramName";
 
         final var input = 123;
@@ -843,7 +847,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGteValueForLong() {
+    public void testThrowOnGteValueForLong() {
         final var paramName = "paramName";
 
         final var input = 123L;
@@ -865,7 +869,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGteValueForFloat() {
+    public void testThrowOnGteValueForFloat() {
         final var paramName = "paramName";
 
         final var input = 0.123f;
@@ -887,7 +891,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnGteValueForDouble() {
+    public void testThrowOnGteValueForDouble() {
         final var paramName = "paramName";
 
         final var input = 0.123d;
@@ -909,7 +913,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnEqualsValueForShort() {
+    public void testThrowOnEqualsValueForShort() {
         final var paramName = "paramName";
 
         final var input = (short) 123;
@@ -929,7 +933,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnEqualsValueForInt() {
+    public void testThrowOnEqualsValueForInt() {
         final var paramName = "paramName";
 
         final var input = 123;
@@ -949,7 +953,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnEqualsValueForLong() {
+    public void testThrowOnEqualsValueForLong() {
         final var paramName = "paramName";
 
         final var input = 123L;
@@ -969,7 +973,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnEqualsValueForFloat() {
+    public void testThrowOnEqualsValueForFloat() {
         final var paramName = "paramName";
 
         final var input = 0.123f;
@@ -989,7 +993,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnEqualsValueForDouble() {
+    public void testThrowOnEqualsValueForDouble() {
         final var paramName = "paramName";
 
         final var input = 0.123d;
@@ -1009,7 +1013,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondLteForShorts() {
+    public void testThrowOnSecondLteForShorts() {
         final var input1 = (short) 123;
         final var input2 = (short) 123;
 
@@ -1027,7 +1031,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondLteForInts() {
+    public void testThrowOnSecondLteForInts() {
         final var input1 = 123;
         final var input2 = 123;
 
@@ -1045,7 +1049,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondLteForLongs() {
+    public void testThrowOnSecondLteForLongs() {
         final var input1 = 123L;
         final var input2 = 123L;
 
@@ -1063,7 +1067,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondLteForFloats() {
+    public void testThrowOnSecondLteForFloats() {
         final var input1 = 123f;
         final var input2 = 123f;
 
@@ -1081,7 +1085,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondLteForDoubles() {
+    public void testThrowOnSecondLteForDoubles() {
         final var input1 = 123d;
         final var input2 = 123d;
 
@@ -1099,9 +1103,9 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondGtForShorts() {
+    public void testThrowOnSecondGtForShorts() {
         final short input1 = (short) 123;
-        final short input2 = input1 + (short)1;
+        final short input2 = input1 + (short) 1;
 
         assertThrows(IllegalArgumentException.class, () ->
                 Check.throwOnSecondGt(input1, input2, "input1", "input2"));
@@ -1117,7 +1121,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondGtForInts() {
+    public void testThrowOnSecondGtForInts() {
         final var input1 = 123;
         final var input2 = input1 + 1;
 
@@ -1135,7 +1139,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondGtForLongs() {
+    public void testThrowOnSecondGtForLongs() {
         final var input1 = 123L;
         final var input2 = input1 + 1;
 
@@ -1153,7 +1157,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondGtForFloats() {
+    public void testThrowOnSecondGtForFloats() {
         final var input1 = 123f;
         final var input2 = input1 + 1;
 
@@ -1171,7 +1175,7 @@ class CheckTests {
     }
 
     @Test
-    void testThrowOnSecondGtForDoubles() {
+    public void testThrowOnSecondGtForDoubles() {
         final var input1 = 123d;
         final var input2 = input1 + 1;
 
@@ -1189,7 +1193,7 @@ class CheckTests {
     }
 
     @Test
-    void testIsBetweenZeroAndOne() {
+    public void testIsBetweenZeroAndOne() {
         var input1 = -0.001f;
         var input2 = 1.001f;
 
@@ -1214,7 +1218,44 @@ class CheckTests {
     }
 
     @Test
-    void testCheckMethodsFromConstructor() {
+    public void testIfNullFloatBoxValid() {
+        assertThrowsWithMessage(() -> Check.ifValid(null, "paramName"),
+                IllegalArgumentException.class,
+                "inaugural.soliloquy.tools.tests.CheckTests.lambda$testIfNullFloatBoxValid$0: " +
+                        "paramName cannot be null");
+    }
+
+    @Test
+    public void testIfValidFloatBoxValid() {
+        var floatBox = floatBoxOf(1f, 2f, 3f, 4f);
+
+        assertEquals(floatBox, Check.ifValid(floatBox, "paramName"));
+    }
+
+    @Test
+    public void testIfFloatBoxWithInvalidXValuesValid() {
+        var floatBox = floatBoxOf(3f, 2f, 1f, 4f);
+
+        assertThrowsWithMessage(() -> Check.ifValid(floatBox, "paramName"),
+                IllegalArgumentException.class,
+                "inaugural.soliloquy.tools.tests.CheckTests" +
+                        ".lambda$testIfFloatBoxWithInvalidXValuesValid$0: LEFT_X (3.000000) " +
+                        "cannot be greater than RIGHT_X (1.000000)");
+    }
+
+    @Test
+    public void testIfFloatBoxWithInvalidYValuesValid() {
+        var floatBox = floatBoxOf(1f, 4f, 3f, 2f);
+
+        assertThrowsWithMessage(() -> Check.ifValid(floatBox, "paramName"),
+                IllegalArgumentException.class,
+                "inaugural.soliloquy.tools.tests.CheckTests" +
+                        ".lambda$testIfFloatBoxWithInvalidYValuesValid$0: TOP_Y (4.000000) cannot" +
+                        " be greater than BOTTOM_Y (2.000000)");
+    }
+
+    @Test
+    public void testCheckMethodsFromConstructor() {
         try {
             new ConstructorExceptionMessageTester();
         }

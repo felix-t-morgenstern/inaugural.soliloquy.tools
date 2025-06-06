@@ -10,12 +10,12 @@ import static inaugural.soliloquy.tools.files.Files.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class FilesTests {
+public class FilesTests {
     private final String LOCAL_PATH = "\\src\\test\\resources\\sampleFile.txt";
     private final String FILE_CONTENTS = "This file has text.";
 
     @Test
-    void testExecutionDirectory() {
+    public void testExecutionDirectory() {
         String localFolderName = "\\inaugural.soliloquy.tools";
 
         String executionDirectory = executionDirectory();
@@ -26,7 +26,7 @@ class FilesTests {
     }
 
     @Test
-    void testGetLocalFile() throws IOException {
+    public void testGetLocalFile() throws IOException {
         File file = getLocalFile(LOCAL_PATH);
         String readFromFile = FileUtils.readFileToString(file, "UTF-8");
 
@@ -34,7 +34,7 @@ class FilesTests {
     }
 
     @Test
-    void testReadAllLinesFromLocalFile() {
+    public void testReadAllLinesFromLocalFile() {
         String fileContents = readAllLinesFromLocalFile(LOCAL_PATH, Charset.UTF_8);
 
         assertEquals(FILE_CONTENTS, fileContents);

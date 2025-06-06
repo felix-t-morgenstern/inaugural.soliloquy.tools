@@ -1,5 +1,6 @@
 package inaugural.soliloquy.tools;
 
+import soliloquy.specs.common.valueobjects.FloatBox;
 import soliloquy.specs.gamestate.entities.Deletable;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Check {
     }
 
     public static String ifNullOrEmpty(String str, String paramName) {
-        if (ifNull(str, paramName).equals("")) {
+        if (ifNull(str, paramName).isEmpty()) {
             throwException(paramName, "empty");
         }
         return str;
@@ -453,6 +454,21 @@ public class Check {
     // ============ Other methods ============
     // =======================================
     // =======================================
+
+    // ==================
+    // ==== FloatBox ====
+    // ==================
+
+    public static FloatBox ifValid(FloatBox f, String paramName) {
+        Check.ifNull(f, paramName);
+        if (f.LEFT_X > f.RIGHT_X) {
+            throwException(String.format("LEFT_X (%f) cannot be greater than RIGHT_X (%f)", f.LEFT_X, f.RIGHT_X));
+        }
+        if (f.TOP_Y > f.BOTTOM_Y) {
+            throwException(String.format("TOP_Y (%f) cannot be greater than BOTTOM_Y (%f)", f.TOP_Y, f.BOTTOM_Y));
+        }
+        return f;
+    }
 
     // ========================
     // ==== Helper Methods ====

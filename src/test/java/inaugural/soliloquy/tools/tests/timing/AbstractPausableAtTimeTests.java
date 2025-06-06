@@ -9,7 +9,7 @@ import static inaugural.soliloquy.tools.random.Random.randomLongWithInclusiveFlo
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class AbstractPausableAtTimeTests {
+public class AbstractPausableAtTimeTests {
     private final long PAUSED_TIMESTAMP = randomLong();
     private final long MOST_RECENT_TIMESTAMP = randomLongWithInclusiveFloor(PAUSED_TIMESTAMP + 1);
 
@@ -22,7 +22,7 @@ class AbstractPausableAtTimeTests {
     }
 
     @Test
-    void testConstructorWithInvalidArgs() {
+    public void testConstructorWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class, () ->
                 new AbstractPausableAtTimeImpl(PAUSED_TIMESTAMP, null));
         assertThrows(IllegalArgumentException.class, () ->
@@ -30,12 +30,12 @@ class AbstractPausableAtTimeTests {
     }
 
     @Test
-    void testPausedTimestamp() {
+    public void testPausedTimestamp() {
         assertEquals(PAUSED_TIMESTAMP, (long) abstractPausableAtTime.pausedTimestamp());
     }
 
     @Test
-    void testReportPauseOrUnpauseWithOutdatedTimestamp() {
+    public void testReportPauseOrUnpauseWithOutdatedTimestamp() {
         assertThrows(IllegalArgumentException.class, () ->
                 abstractPausableAtTime.reportPause(MOST_RECENT_TIMESTAMP - 1));
         assertThrows(IllegalArgumentException.class, () ->
@@ -43,7 +43,7 @@ class AbstractPausableAtTimeTests {
     }
 
     @Test
-    void testReportPauseWhilePausedAndUnpausedWhileUnpaused() {
+    public void testReportPauseWhilePausedAndUnpausedWhileUnpaused() {
         assertThrows(UnsupportedOperationException.class, () ->
                 abstractPausableAtTime.reportPause(MOST_RECENT_TIMESTAMP));
 
@@ -54,7 +54,7 @@ class AbstractPausableAtTimeTests {
     }
 
     @Test
-    void testReportUnpauseCallsUpdateInternalValuesOnUnpause() {
+    public void testReportUnpauseCallsUpdateInternalValuesOnUnpause() {
         long unpauseTimestamp = randomLongWithInclusiveFloor(MOST_RECENT_TIMESTAMP + 1);
 
         abstractPausableAtTime.reportUnpause(unpauseTimestamp);

@@ -21,7 +21,7 @@ public class NearestFloorAndCeilingTreeTests {
     }
 
     @Test
-    void testConstructorWithInvalidArgs() {
+    public void testConstructorWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class, () ->
                 NearestFloorAndCeilingTree.FromIntegers(null));
         assertThrows(IllegalArgumentException.class, () ->
@@ -33,7 +33,7 @@ public class NearestFloorAndCeilingTreeTests {
     }
 
     @Test
-    void testGetNearestFloor() {
+    public void testGetNearestFloor() {
         assertEquals(5, _nearestFloorAndCeilingTree.getNearestFloor(4));
         assertEquals(5, _nearestFloorAndCeilingTree.getNearestFloor(5));
         assertEquals(5, _nearestFloorAndCeilingTree.getNearestFloor(8));
@@ -46,7 +46,7 @@ public class NearestFloorAndCeilingTreeTests {
     }
 
     @Test
-    void testGetNearestCeiling() {
+    public void testGetNearestCeiling() {
         assertEquals(5, _nearestFloorAndCeilingTree.getNearestCeiling(4));
         assertEquals(5, _nearestFloorAndCeilingTree.getNearestCeiling(5));
         assertEquals(10, _nearestFloorAndCeilingTree.getNearestCeiling(8));
@@ -59,17 +59,17 @@ public class NearestFloorAndCeilingTreeTests {
     }
 
     @Test
-    void testMinimumValue() {
+    public void testMinimumValue() {
         assertEquals(5, _nearestFloorAndCeilingTree.MinimumValue);
     }
 
     @Test
-    void testMaximumValue() {
+    public void testMaximumValue() {
         assertEquals(20, _nearestFloorAndCeilingTree.MaximumValue);
     }
 
     @Test
-    void testOrderedValues() {
+    public void testOrderedValues() {
         assertEquals(4, _nearestFloorAndCeilingTree.OrderedValues.length);
         assertEquals(5, _nearestFloorAndCeilingTree.OrderedValues[0]);
         assertEquals(10, _nearestFloorAndCeilingTree.OrderedValues[1]);
@@ -78,7 +78,7 @@ public class NearestFloorAndCeilingTreeTests {
     }
 
     @Test
-    void testValueIndices() {
+    public void testValueIndices() {
         assertEquals(4, _nearestFloorAndCeilingTree.ValueIndices.size());
         assertEquals(0, (int) _nearestFloorAndCeilingTree.ValueIndices.get(5L));
         assertEquals(1, (int) _nearestFloorAndCeilingTree.ValueIndices.get(10L));
@@ -87,7 +87,7 @@ public class NearestFloorAndCeilingTreeTests {
     }
 
     @Test
-    void testIncrementAllValues() {
+    public void testIncrementAllValues() {
         long increment = 100L;
 
         _nearestFloorAndCeilingTree.incrementAllValues(increment);

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static inaugural.soliloquy.tools.random.Random.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class AbstractFinitePausableAtTimeTests {
+public class AbstractFinitePausableAtTimeTests {
     private final long PAUSED_TIMESTAMP = randomLong();
     private final long MOST_RECENT_TIMESTAMP = randomLongWithInclusiveFloor(PAUSED_TIMESTAMP + 1);
     private final long ANCHOR_TIME = randomLongWithInclusiveFloor(MOST_RECENT_TIMESTAMP + 1);
@@ -25,7 +25,7 @@ class AbstractFinitePausableAtTimeTests {
     }
 
     @Test
-    void testConstructorWithInvalidArgs() {
+    public void testConstructorWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class, () ->
                 new FinitePausableAtTimeImpl(MOST_RECENT_TIMESTAMP + 1, MOST_RECENT_TIMESTAMP));
         assertThrows(IllegalArgumentException.class, () ->
@@ -34,13 +34,13 @@ class AbstractFinitePausableAtTimeTests {
     }
 
     @Test
-    void testPausedTimestamp() {
+    public void testPausedTimestamp() {
         assertEquals(PAUSED_TIMESTAMP, (long) finitePausableAtTime.pausedTimestamp());
         assertEquals(PAUSED_TIMESTAMP, (long) finitePausableAtTimeWithAnchor.pausedTimestamp());
     }
 
     @Test
-    void testReportPauseAndUnpauseAndUpdateInternalValuesOnUnpause() {
+    public void testReportPauseAndUnpauseAndUpdateInternalValuesOnUnpause() {
         long unpauseTimestamp = randomLongInRange(MOST_RECENT_TIMESTAMP + 1, ANCHOR_TIME - 1);
         long secondPauseTimestamp = randomLongInRange(unpauseTimestamp + 1, ANCHOR_TIME - 1);
 

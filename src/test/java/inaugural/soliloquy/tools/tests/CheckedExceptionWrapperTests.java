@@ -8,9 +8,9 @@ import java.util.concurrent.Callable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-class CheckedExceptionWrapperTests {
+public class CheckedExceptionWrapperTests {
     @Test
-    void testWrapThrowingCallable() {
+    public void testWrapThrowingCallable() {
         String exceptionString = "exceptionString";
         Callable<Boolean> throwingCallable = () -> {
             throw new UnsupportedOperationException(exceptionString);
@@ -37,7 +37,7 @@ class CheckedExceptionWrapperTests {
     }
 
     @Test
-    void testWrapNonthrowingCallable() {
+    public void testWrapNonthrowingCallable() {
         int valueToReturn = 123123;
         Callable<Integer> nonthrowingCallable = () -> valueToReturn;
 

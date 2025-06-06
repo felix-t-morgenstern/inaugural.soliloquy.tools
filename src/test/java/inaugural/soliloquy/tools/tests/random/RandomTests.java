@@ -191,6 +191,19 @@ public class RandomTests {
         runRandomizationTest(Random::randomDirection, false);
     }
 
+    @Test
+    public void testRandomFloatBox() {
+        runRandomizationTest(Random::randomFloatBox);
+    }
+
+    @Test
+    public void testRandomValidFloatBox() {
+        runRandomizationTest(Random::randomValidFloatBox, f -> {
+            assertTrue(f.RIGHT_X >= f.LEFT_X);
+            assertTrue(f.BOTTOM_Y >= f.TOP_Y);
+        }, true);
+    }
+
     // NB: This is technically indeterminate, but the odds of duplicate random results should be
     //     practically within the same realm of possibility as a duplicate UUID
     private <T> void runRandomizationTest(Supplier<T> randomMethod,

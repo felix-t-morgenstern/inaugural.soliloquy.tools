@@ -32,7 +32,7 @@ public class Mock {
                 invocation -> Arrays.stream(values)
                         .anyMatch(item -> item == invocation.getArgument(0)));
         lenient().when(mockSet.iterator())
-                .thenAnswer(invocation -> setOf(values).iterator());
+                .thenAnswer(_ -> setOf(values).iterator());
         lenient().doCallRealMethod().when(mockSet).forEach(any());
 
         return mockSet;
@@ -50,7 +50,7 @@ public class Mock {
                 invocation -> Arrays.stream(values)
                         .anyMatch(item -> item == invocation.getArgument(0)));
         lenient().when(mockList.iterator())
-                .thenAnswer(invocation -> listOf(values).iterator());
+                .thenAnswer(_ -> listOf(values).iterator());
         lenient().doCallRealMethod().when(mockList).forEach(any());
 
         return mockList;
@@ -63,12 +63,15 @@ public class Mock {
         var mockMap = (Map<K, V>) mock(Map.class);
         lenient().when(mockMap.size()).thenReturn(keyValuePairs.length);
         lenient().when(mockMap.entrySet())
-                .thenAnswer(invocation -> generateMockMapEntrySet(keyValuePairs));
+                .thenAnswer(_ -> generateMockMapEntrySet(keyValuePairs));
         var keys = Collections.<K>setOf();
+        var values = Collections.<V>setOf();
         for (var pair : keyValuePairs) {
             keys.add(pair.FIRST);
+            values.add(pair.SECOND);
         }
-        lenient().when(mockMap.keySet()).thenAnswer(invocation -> keys);
+        lenient().when(mockMap.keySet()).thenAnswer(_ -> keys);
+        lenient().when(mockMap.values()).thenAnswer(_ -> values);
         lenient().doCallRealMethod().when(mockMap).forEach(any());
         //noinspection unchecked
         lenient().when(mockMap.get((K) any())).thenAnswer(

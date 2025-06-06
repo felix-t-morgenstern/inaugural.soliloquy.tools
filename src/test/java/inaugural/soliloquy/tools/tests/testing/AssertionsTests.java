@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import static inaugural.soliloquy.tools.testing.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class AssertionsTests {
+public class AssertionsTests {
     @Test
-    void testAssertEqualsAndNotSame() {
+    public void testAssertEqualsAndNotSame() {
         ArrayList<Integer> list1 = new ArrayList<>() {{
             add(1);
             add(2);
@@ -23,7 +23,7 @@ class AssertionsTests {
     }
 
     @Test
-    void testAssertOnlyContains() {
+    public void testAssertOnlyContains() {
         assertThrows(AssertionFailedError.class, () -> assertOnlyContains(new ArrayList<>() {{
             add(0);
             add(1);
@@ -38,7 +38,7 @@ class AssertionsTests {
     }
 
     @Test
-    void testAssertThrowsWithMessage() {
+    public void testAssertThrowsWithMessage() {
         var message = "message";
         Runnable action = () -> { throw new IllegalArgumentException(message); };
         var type = IllegalArgumentException.class;
@@ -51,7 +51,7 @@ class AssertionsTests {
     }
 
     @Test
-    void testAssertThrowsWithMessageWithInvalidArgs() {
+    public void testAssertThrowsWithMessageWithInvalidArgs() {
         var message = "message";
 
         assertThrows(IllegalArgumentException.class,

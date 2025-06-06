@@ -3,12 +3,14 @@ package inaugural.soliloquy.tools.random;
 import soliloquy.specs.common.shared.Direction;
 import soliloquy.specs.common.valueobjects.Coordinate2d;
 import soliloquy.specs.common.valueobjects.Coordinate3d;
+import soliloquy.specs.common.valueobjects.FloatBox;
 import soliloquy.specs.common.valueobjects.Vertex;
 
 import java.awt.*;
 
 import static soliloquy.specs.common.valueobjects.Coordinate2d.coordinate2dOf;
 import static soliloquy.specs.common.valueobjects.Coordinate3d.coordinate3dOf;
+import static soliloquy.specs.common.valueobjects.FloatBox.floatBoxOf;
 import static soliloquy.specs.common.valueobjects.Vertex.vertexOf;
 
 public class Random {
@@ -141,5 +143,18 @@ public class Random {
             forEnum++;
         }
         return Direction.fromValue(forEnum);
+    }
+
+    public static FloatBox randomFloatBox() {
+        return floatBoxOf(randomFloat(), randomFloat(), randomFloat(), randomFloat());
+    }
+
+    public static FloatBox randomValidFloatBox() {
+        var leftX = randomFloat();
+        var topY = randomFloat();
+        var rightX = randomFloatWithInclusiveFloor(leftX);
+        var bottomY = randomFloatWithInclusiveFloor(topY);
+
+        return floatBoxOf(leftX, topY, rightX, bottomY);
     }
 }

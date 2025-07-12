@@ -1,8 +1,10 @@
 package inaugural.soliloquy.tools.tests.collections;
 
 import org.junit.jupiter.api.Test;
+import soliloquy.specs.common.valueobjects.Pair;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static inaugural.soliloquy.tools.collections.Collections.*;
 import static inaugural.soliloquy.tools.testing.Assertions.assertEqualsAndNotSame;
@@ -88,6 +90,23 @@ public class CollectionsTests {
     @Test
     public void testMapOfFromPairs() {
         var map = mapOf(pairOf("A", 1), pairOf("B", 2), pairOf("C", 3));
+
+        assertNotNull(map);
+        assertEquals(3, map.size());
+        assertEquals((Integer) 1, map.get("A"));
+        assertEquals((Integer) 2, map.get("B"));
+        assertEquals((Integer) 3, map.get("C"));
+    }
+
+    @Test
+    public void testMapOfFromPairStream() {
+        var pairStream = new ArrayList<Pair<String, Integer>>() {{
+            add(pairOf("A", 1));
+            add(pairOf("B", 2));
+            add(pairOf("C", 3));
+        }}.stream();
+
+        var map = mapOf(pairStream);
 
         assertNotNull(map);
         assertEquals(3, map.size());

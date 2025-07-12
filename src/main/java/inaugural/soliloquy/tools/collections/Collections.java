@@ -6,6 +6,7 @@ import soliloquy.specs.common.valueobjects.Pair;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Collections {
     @SafeVarargs
@@ -41,6 +42,12 @@ public class Collections {
         for (var item : items) {
             map.put(item.FIRST, item.SECOND);
         }
+        return map;
+    }
+
+    public static <K, V> Map<K, V> mapOf(Stream<Pair<K, V>> items) {
+        var map = new HashMap<K, V>();
+        items.forEach(p -> map.put(p.FIRST, p.SECOND));
         return map;
     }
 

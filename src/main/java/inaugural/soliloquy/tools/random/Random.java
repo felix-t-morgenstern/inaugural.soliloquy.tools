@@ -39,6 +39,23 @@ public class Random {
         return RANDOM.ints(min, max).findFirst().getAsInt();
     }
 
+    public static short randomShort() {
+        return  (short) RANDOM.nextInt(Short.MAX_VALUE + 1);
+    }
+
+    public static short randomShortWithInclusiveFloor(short floor) {
+        return randomShortInRange(floor, Short.MAX_VALUE);
+    }
+
+    public static short randomShortWithInclusiveCeiling(short ceiling) {
+        return randomShortInRange(Short.MIN_VALUE, ceiling);
+    }
+
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    public static short randomShortInRange(short min, short max) {
+        return (short) RANDOM.ints(min, max).findFirst().getAsInt();
+    }
+
     public static long randomLong() {
         return RANDOM.nextLong();
     }

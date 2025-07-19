@@ -2,11 +2,11 @@ package inaugural.soliloquy.tools.tests.random;
 
 import inaugural.soliloquy.tools.random.Random;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.creation.SuspendMethod;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static inaugural.soliloquy.tools.random.Random.randomShort;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RandomTests {
@@ -44,6 +44,35 @@ public class RandomTests {
         var min = -Math.abs(new java.util.Random().nextInt() / 2);
         var max = -min;
         runRandomizationTest(() -> Random.randomIntInRange(min, max), i -> {
+            assertTrue(i >= min);
+            assertTrue(i <= max);
+        });
+    }
+
+    @Test
+    public void testRandomShort() {
+        runRandomizationTest(Random::randomShort);
+    }
+
+    @Test
+    public void testRandomShortWithInclusiveFloor() {
+        var floor = randomShort();
+        runRandomizationTest(() -> Random.randomShortWithInclusiveFloor(floor),
+                i -> assertTrue(i >= floor));
+    }
+
+    @Test
+    public void testRandomShortWithInclusiveCeiling() {
+        var ceiling = randomShort();
+        runRandomizationTest(() -> Random.randomShortWithInclusiveCeiling(ceiling),
+                i -> assertTrue(i <= ceiling));
+    }
+
+    @Test
+    public void testRandomShortInRange() {
+        var min = (short) -Math.abs(randomShort());
+        var max = (short) -min;
+        runRandomizationTest(() -> Random.randomShortInRange(min, max), i -> {
             assertTrue(i >= min);
             assertTrue(i <= max);
         });

@@ -1,6 +1,7 @@
 package inaugural.soliloquy.tools.tests.testing;
 
 import org.junit.jupiter.api.Test;
+import soliloquy.specs.common.persistence.TypeHandler;
 import soliloquy.specs.common.shared.HasId;
 import soliloquy.specs.gamestate.entities.Item;
 import soliloquy.specs.ruleset.entities.ItemType;
@@ -288,5 +289,18 @@ public class MockTests {
                 handlerAndEntities.handler.read(writtenValue1));
         assertSame(handlerAndEntities.entities.get(writtenValue2),
                 handlerAndEntities.handler.read(writtenValue2));
+    }
+
+    @Test
+    public void testHydrateMockHandler() {
+        var val = 123;
+        var written = "written";
+        @SuppressWarnings("unchecked") var mockHandler =
+                (TypeHandler<Integer>) mock(TypeHandler.class);
+
+        hydrateMockHandler(mockHandler, pairOf(val, written));
+
+        assertEquals(val, mockHandler.read(written));
+        assertEquals(written, mockHandler.write(val));
     }
 }

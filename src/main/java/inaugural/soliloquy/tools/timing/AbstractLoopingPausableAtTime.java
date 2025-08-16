@@ -10,10 +10,11 @@ public abstract class AbstractLoopingPausableAtTime
         implements PausableAtTime, HasPeriodModuloOffset {
     protected final int PERIOD_DURATION;
 
-    // TODO: Add constructor containing both paused timestamp and most recent reported timestamp
-    public AbstractLoopingPausableAtTime(int periodDuration, int periodModuloOffset,
-                                         Long pausedTimestamp, Long mostRecentTimestamp) {
-        super(pausedTimestamp, mostRecentTimestamp);
+    public AbstractLoopingPausableAtTime(int periodDuration,
+                                         int periodModuloOffset,
+                                         Long pausedTimestamp,
+                                         TimestampValidator timestampValidator) {
+        super(pausedTimestamp, timestampValidator);
         if (periodModuloOffset >= periodDuration) {
             throw new IllegalArgumentException("AbstractLoopingPausableAtTime: " +
                     "periodModuloOffset (" + periodModuloOffset + ") cannot be greater than " +

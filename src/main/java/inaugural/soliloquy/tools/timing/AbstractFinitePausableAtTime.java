@@ -11,13 +11,15 @@ public abstract class AbstractFinitePausableAtTime
 
     // NB: This constructor is used for FiniteLinearMovingProvider, which doesn't care about anchor
     // times
-    protected AbstractFinitePausableAtTime(Long pausedTimestamp, Long mostRecentTimestamp) {
-        super(pausedTimestamp, mostRecentTimestamp);
+    protected AbstractFinitePausableAtTime(Long pausedTimestamp,
+                                           TimestampValidator timestampValidator) {
+        super(pausedTimestamp, timestampValidator);
     }
 
-    protected AbstractFinitePausableAtTime(long anchorTime, Long pausedTimestamp,
-                                           Long mostRecentTimestamp) {
-        super(pausedTimestamp, mostRecentTimestamp);
+    protected AbstractFinitePausableAtTime(long anchorTime,
+                                           Long pausedTimestamp,
+                                           TimestampValidator timestampValidator) {
+        super(pausedTimestamp, timestampValidator);
         this.anchorTime = anchorTime;
     }
 

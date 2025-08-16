@@ -1,5 +1,6 @@
 package inaugural.soliloquy.tools.timing;
 
+import inaugural.soliloquy.tools.Check;
 import inaugural.soliloquy.tools.Tools;
 import soliloquy.specs.common.shared.PausableAtTime;
 
@@ -9,7 +10,9 @@ public abstract class AbstractPausableAtTime implements PausableAtTime {
     protected int periodModuloOffset;
     protected Long pausedTimestamp;
 
-    public AbstractPausableAtTime(Long pausedTimestamp, Long mostRecentTimestamp) {
+    public AbstractPausableAtTime(Long pausedTimestamp, TimestampValidator timestampValidator) {
+        TIMESTAMP_VALIDATOR = Check.ifNull(timestampValidator, "timestampValidator");
+        var mostRecentTimestamp = TIMESTAMP_VALIDATOR.mostRecentTimestamp();
         if (pausedTimestamp != null) {
             if (mostRecentTimestamp == null) {
                 throw new IllegalArgumentException("AbstractPausableAtTime: cannot have null " +
@@ -21,7 +24,6 @@ public abstract class AbstractPausableAtTime implements PausableAtTime {
                         mostRecentTimestamp + ")");
             }
         }
-        TIMESTAMP_VALIDATOR = new TimestampValidator(mostRecentTimestamp);
         this.pausedTimestamp = pausedTimestamp;
     }
 
@@ -32,7 +34,7 @@ public abstract class AbstractPausableAtTime implements PausableAtTime {
 
     @Override
     public void reportPause(long timestamp) throws IllegalArgumentException {
-        Long priorMostRecentTimestamp = TIMESTAMP_VALIDATOR.mostRecentTimestamp();
+        var priorMostRecentTimestamp = TIMESTAMP_VALIDATOR.mostRecentTimestamp();
         TIMESTAMP_VALIDATOR.validateTimestamp(timestamp);
         if (pausedTimestamp != null) {
             throw new UnsupportedOperationException(Tools.callingClassName(2) + ".reportPause: " +
@@ -40,22 +42,24 @@ public abstract class AbstractPausableAtTime implements PausableAtTime {
         }
         if (priorMostRecentTimestamp != null && timestamp < priorMostRecentTimestamp) {
             throw new IllegalArgumentException(Tools.callingClassName(2) +
-                    ".reportPause: cannot pause at timestamp prior to most recent unpausing");
+                    ".reportPause: cannot pause at timestamp prior to most recent timestamp");
         }
         pausedTimestamp = timestamp;
     }
 
     @Override
     public void reportUnpause(long timestamp) throws IllegalArgumentException {
-        Long priorMostRecentTimestamp = TIMESTAMP_VALIDATOR.mostRecentTimestamp();
+        var mostRecentTimestamp = TIMESTAMP_VALIDATOR.mostRecentTimestamp();
         TIMESTAMP_VALIDATOR.validateTimestamp(timestamp);
         if (pausedTimestamp == null) {
             throw new UnsupportedOperationException(Tools.callingClassName(2) +
                     ".reportUnpause: cannot unpause if already unpaused");
         }
-        if (priorMostRecentTimestamp != null && timestamp < priorMostRecentTimestamp) {
-            throw new IllegalArgumentException(Tools.callingClassName(2) + ".reportUnpause: " +
-                    "cannot unpause at timestamp prior to most recent pausing");
+        if (mostRecentTimestamp != null && timestamp < mostRecentTimestamp) {
+            throw new IllegalArgumentException(
+                    Tools.callingClassName(2) + ".reportUnpause: cannot unpause at timestamp (" +
+                            timestamp + ") prior to most recent timestamp (" + mostRecentTimestamp +
+                            ")");
         }
 
         updateInternalValuesOnUnpause(timestamp);

@@ -1,15 +1,17 @@
 package inaugural.soliloquy.tools.tests.abstractimplementations.timing;
 
 import inaugural.soliloquy.tools.timing.AbstractFinitePausableAtTime;
+import inaugural.soliloquy.tools.timing.TimestampValidator;
 
 public class FinitePausableAtTimeImpl extends AbstractFinitePausableAtTime {
-    public FinitePausableAtTimeImpl(Long pausedTimestamp, Long mostRecentTimestamp) {
-        super(pausedTimestamp, mostRecentTimestamp);
+    public FinitePausableAtTimeImpl(Long pausedTimestamp, TimestampValidator timestampValidator) {
+        super(pausedTimestamp, timestampValidator);
     }
 
-    public FinitePausableAtTimeImpl(Long pausedTimestamp, Long mostRecentTimestamp,
-                                    Long anchorTime) {
-        super(pausedTimestamp, mostRecentTimestamp, anchorTime);
+    public FinitePausableAtTimeImpl(Long anchorTime,
+                                    Long pausedTimestamp,
+                                    TimestampValidator timestampValidator) {
+        super(anchorTime, pausedTimestamp, timestampValidator);
     }
 
     public long getAnchorTime() {

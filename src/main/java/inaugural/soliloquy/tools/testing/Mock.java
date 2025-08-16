@@ -233,4 +233,12 @@ public class Mock {
             this.entities = entities;
         }
     }
+
+    @SafeVarargs
+    public static <T> void hydrateMockHandler(TypeHandler<T> mockHandler, Pair<T, String>... vals) {
+        for (var val : vals) {
+            lenient().when(mockHandler.write(val.FIRST)).thenReturn(val.SECOND);
+            lenient().when(mockHandler.read(val.SECOND)).thenReturn(val.FIRST);
+        }
+    }
 }

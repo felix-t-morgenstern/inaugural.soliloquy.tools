@@ -2,25 +2,25 @@ package inaugural.soliloquy.tools.timing;
 
 // TODO: Test this implementation taken from Graphics
 public class TimestampValidator {
-    private Long _mostRecentTimestamp;
+    private Long mostRecentTimestamp;
 
     public TimestampValidator(Long mostRecentTimestamp) {
-        _mostRecentTimestamp = mostRecentTimestamp;
+        this.mostRecentTimestamp = mostRecentTimestamp;
     }
 
     public void validateTimestamp(long timestamp) {
-        if (_mostRecentTimestamp != null && timestamp < _mostRecentTimestamp) {
+        if (mostRecentTimestamp != null && timestamp < mostRecentTimestamp) {
             StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
             throw new IllegalArgumentException(stackTrace[2].getClassName() + "." +
                     stackTrace[2].getMethodName() + ": provided outdated timestamp (" + timestamp +
                     ")");
         }
-        _mostRecentTimestamp = timestamp;
+        mostRecentTimestamp = timestamp;
     }
 
     public void validateTimestamp(String className, long timestamp) {
-        if (_mostRecentTimestamp != null && timestamp < _mostRecentTimestamp) {
+        if (mostRecentTimestamp != null && timestamp < mostRecentTimestamp) {
             String invokingClass = "undiscoveredClass";
             String invokingMethod = "undiscoveredMethod";
 
@@ -37,10 +37,10 @@ public class TimestampValidator {
             throw new IllegalArgumentException(invokingClass + "." + invokingMethod +
                     ": provided outdated timestamp (" + timestamp + ")");
         }
-        _mostRecentTimestamp = timestamp;
+        mostRecentTimestamp = timestamp;
     }
 
     public Long mostRecentTimestamp() {
-        return _mostRecentTimestamp;
+        return mostRecentTimestamp;
     }
 }

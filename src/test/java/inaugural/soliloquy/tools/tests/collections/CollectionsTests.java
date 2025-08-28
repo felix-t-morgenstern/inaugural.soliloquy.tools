@@ -99,6 +99,30 @@ public class CollectionsTests {
     }
 
     @Test
+    public void testMapFromItems() {
+        var map = mapOf(
+                "A", 1,
+                "B", 2,
+                "C", 3
+        );
+
+        assertNotNull(map);
+        assertEquals(3, map.size());
+        assertEquals(1, map.get("A"));
+        assertEquals(2, map.get("B"));
+        assertEquals(3, map.get("C"));
+    }
+
+    @Test
+    public void testMapFromItemsWithInvalidLength() {
+        assertThrows(IllegalArgumentException.class, () -> mapOf(
+                "A", 1,
+                "B", 2,
+                "C"
+        ));
+    }
+
+    @Test
     public void testMapOfFromPairStream() {
         var pairStream = new ArrayList<Pair<String, Integer>>() {{
             add(pairOf("A", 1));

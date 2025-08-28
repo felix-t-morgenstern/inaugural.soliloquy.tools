@@ -45,6 +45,19 @@ public class Collections {
         return map;
     }
 
+    public static <K, V> Map<K, V> mapOf(Object... items) {
+        var map = new HashMap<K, V>();
+        if (items.length % 2 != 0) {
+            throw new IllegalArgumentException("Collections.map: items cannot be of odd length");
+        }
+        for (var i = 0; i < items.length; i += 2) {
+            @SuppressWarnings("unchecked") K key = (K) items[i];
+            @SuppressWarnings("unchecked") V val = (V) items[i + 1];
+            map.put(key, val);
+        }
+        return map;
+    }
+
     public static <K, V> Map<K, V> mapOf(Stream<Pair<K, V>> items) {
         var map = new HashMap<K, V>();
         items.forEach(p -> map.put(p.FIRST, p.SECOND));

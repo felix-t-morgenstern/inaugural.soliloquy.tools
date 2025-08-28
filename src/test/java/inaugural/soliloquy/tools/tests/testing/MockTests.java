@@ -303,4 +303,13 @@ public class MockTests {
         assertEquals(val, mockHandler.read(written));
         assertEquals(written, mockHandler.write(val));
     }
+
+    @Test
+    public void testGenerateMockStaticProvider() {
+        var val = 123;
+
+        var provider = generateMockStaticProvider(val);
+
+        assertEquals(val, provider.provide(randomLong()));
+    }
 }

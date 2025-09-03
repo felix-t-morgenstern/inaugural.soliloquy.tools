@@ -246,7 +246,7 @@ public class Mock {
     public static <T> StaticProvider<T> generateMockStaticProvider(T val) {
         @SuppressWarnings("unchecked")
         var provider = (StaticProvider<T>) mock(StaticProvider.class);
-        when(provider.provide(anyLong())).thenReturn(val);
+        lenient().when(provider.provide(anyLong())).thenReturn(val);
         return provider;
     }
 }

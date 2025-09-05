@@ -14,6 +14,10 @@ public class Collections {
         return items;
     }
 
+    public static char[] arrayChars(char... chars) {
+        return chars;
+    }
+
     @SafeVarargs
     public static <T> Set<T> setOf(T... items) {
         return new HashSet<>(Arrays.asList(items));

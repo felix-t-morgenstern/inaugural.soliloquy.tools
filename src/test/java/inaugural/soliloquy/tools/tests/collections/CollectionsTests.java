@@ -24,6 +24,17 @@ public class CollectionsTests {
     }
 
     @Test
+    public void testArrayChars() {
+        var array = arrayChars('a', 'b', 'c');
+
+        assertNotNull(array);
+        assertEquals(3, array.length);
+        assertEquals('a', array[0]);
+        assertEquals('b', array[1]);
+        assertEquals('c', array[2]);
+    }
+
+    @Test
     public void testSetOfFromArray() {
         var set = setOf(1, 2, 3);
 

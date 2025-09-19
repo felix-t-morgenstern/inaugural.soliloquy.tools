@@ -5,7 +5,7 @@ import soliloquy.specs.common.persistence.PersistenceHandler;
 import soliloquy.specs.common.persistence.TypeHandler;
 import soliloquy.specs.common.shared.HasId;
 import soliloquy.specs.common.valueobjects.Pair;
-import soliloquy.specs.io.graphics.renderables.providers.StaticProvider;
+import soliloquy.specs.io.graphics.renderables.providers.ProviderAtTime;
 
 import java.util.*;
 import java.util.function.Function;
@@ -243,9 +243,9 @@ public class Mock {
         }
     }
 
-    public static <T> StaticProvider<T> generateMockStaticProvider(T val) {
+    public static <T> ProviderAtTime<T> generateMockStaticProvider(T val) {
         @SuppressWarnings("unchecked")
-        var provider = (StaticProvider<T>) mock(StaticProvider.class);
+        var provider = (ProviderAtTime<T>) mock(ProviderAtTime.class);
         lenient().when(provider.provide(anyLong())).thenReturn(val);
         return provider;
     }

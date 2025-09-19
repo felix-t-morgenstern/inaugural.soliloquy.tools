@@ -14,6 +14,10 @@ public class Collections {
         return items;
     }
 
+    public static float[] arrayFloats(float... floats) {
+        return floats;
+    }
+
     public static char[] arrayChars(char... chars) {
         return chars;
     }

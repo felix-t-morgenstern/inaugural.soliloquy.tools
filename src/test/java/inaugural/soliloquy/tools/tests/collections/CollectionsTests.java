@@ -24,6 +24,17 @@ public class CollectionsTests {
     }
 
     @Test
+    public void testArrayFloats() {
+        var array = arrayFloats(1f, 2f, 3f);
+
+        assertNotNull(array);
+        assertEquals(3, array.length);
+        assertEquals(1f, array[0]);
+        assertEquals(2f, array[1]);
+        assertEquals(3f, array[2]);
+    }
+
+    @Test
     public void testArrayChars() {
         var array = arrayChars('a', 'b', 'c');
 

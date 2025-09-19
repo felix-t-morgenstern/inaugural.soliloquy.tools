@@ -210,7 +210,7 @@ public class Mock {
     }
 
     public static <T> HandlerAndEntities<T> generateMockHandlerAndEntities(Class<T> clazz,
-                                                                           String[] writtenValues) {
+                                                                           String... writtenValues) {
         //noinspection unchecked
         var mockHandler = (TypeHandler<T>) mock(TypeHandler.class);
         Map<String, T> mockEntities = mapOf();

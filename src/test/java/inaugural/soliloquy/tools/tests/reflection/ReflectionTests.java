@@ -42,6 +42,49 @@ public class ReflectionTests {
     }
 
     @Test
+    public void testReadInstanceMethods() {
+        var testClass = new TestClass();
+
+        var methods = readMethods(testClass);
+
+        assertNotNull(methods);
+        var actions = methods.FIRST;
+        assertEquals(1, actions.size());
+        @SuppressWarnings({"OptionalGetWithoutIsPresent", "unchecked"}) Action<Integer> action =
+                actions.stream().findFirst().get();
+        assertEquals("theAction", action.id());
+        var actionInput = randomInt();
+        action.accept(actionInput);
+        assertEquals(actionInput, TestClass.TheActionInput);
+
+        assertNotNull(methods);
+        var functions = methods.SECOND;
+        assertEquals(1, functions.size());
+        @SuppressWarnings({"OptionalGetWithoutIsPresent", "unchecked"}) Function<Long, String>
+                function = functions.stream().findFirst().get();
+        assertEquals("theFunction", function.id());
+        var functionInput = randomLong();
+        var functionOutput = function.apply(functionInput);
+        assertEquals(functionInput, TestClass.TheFunctionInput);
+        assertEquals(((Long) functionInput).toString(), functionOutput);
+    }
+
+    @Test
+    public void testReadStaticMethods() {
+        var methods = readMethods(TestClassWithStaticMethod.class);
+
+        assertNotNull(methods);
+        var actions = methods.FIRST;
+        assertEquals(1, actions.size());
+        @SuppressWarnings({"OptionalGetWithoutIsPresent", "unchecked"}) Action<Integer> action =
+                actions.stream().findFirst().get();
+        assertEquals("theStaticAction", action.id());
+        var input = randomInt();
+        action.accept(input);
+        assertEquals(input, TestClassWithStaticMethod.TheStaticActionInput);
+    }
+
+    @Test
     public void testReadClassWithNoZeroParamConstructor() {
         assertThrows(IllegalArgumentException.class,
                 () -> readMethods(TestClassNoZeroParamConstructor.class));

@@ -22,20 +22,23 @@ public class Reflection {
 
     @SuppressWarnings("rawtypes")
     public static Pair<Set<Action>, Set<Function>> readMethods(Class aClass) {
+        return readMethods(getInstance(aClass));
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static Pair<Set<Action>, Set<Function>> readMethods(Object instance) {
         var actions = Collections.<Action>setOf();
         var functions = Collections.<Function>setOf();
 
-        var aClassInstance = getInstance(aClass);
-
-        Arrays.stream(aClass.getMethods()).filter(m -> !BASE_OBJECT_METHODS.contains(m.getName()))
+        Arrays.stream(instance.getClass().getMethods()).filter(m -> !BASE_OBJECT_METHODS.contains(m.getName()))
                 .forEach(m -> {
                     var name = m.getName();
                     var returnType = m.getReturnType();
                     if (returnType.equals(Void.TYPE)) {
-                        actions.add(makeAction(name, m, aClassInstance));
+                        actions.add(makeAction(name, m, instance));
                     }
                     else {
-                        functions.add(makeFunction(name, m, aClassInstance));
+                        functions.add(makeFunction(name, m, instance));
                     }
                 });
 

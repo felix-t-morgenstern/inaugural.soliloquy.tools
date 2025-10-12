@@ -3,12 +3,28 @@ package inaugural.soliloquy.tools;
 import soliloquy.specs.common.shared.HasPriority;
 
 import java.util.*;
+import java.util.function.Function;
 
 import static inaugural.soliloquy.tools.collections.Collections.listOf;
 import static inaugural.soliloquy.tools.collections.Collections.mapOf;
 
 public class Tools {
     private static HashMap<Integer, Float> EXPONENTS_OF_TEN = new HashMap<>();
+
+    public static <T> T defaultIfNull(T val, T theDefault) {
+        return val == null ? theDefault : val;
+    }
+
+    public static <TBase, TReturn> TReturn defaultIfNull(TBase base, TReturn theDefault, Function<TBase, TReturn> transformBase) {
+        if (transformBase == null) {
+            throw new IllegalArgumentException("Tools.defaultIfNull: transformBase cannot be null");
+        }
+        return base == null ? theDefault : transformBase.apply(base);
+    }
+
+    public static boolean falseIfNull(Object val) {
+        return (boolean) defaultIfNull(val, false);
+    }
 
     public static String emptyIfNull(String string) {
         return string == null ? "" : string;

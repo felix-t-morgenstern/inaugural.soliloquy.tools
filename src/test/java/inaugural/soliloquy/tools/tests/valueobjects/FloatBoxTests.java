@@ -94,6 +94,54 @@ public class FloatBoxTests {
     }
 
     @Test
+    public void testEncompassing() {
+        var newLeftX = LEFT_X - 0.01f;
+        var newTopY = TOP_Y - 0.01f;
+        var newRightX = RIGHT_X + 0.01f;
+        var newBottomY = BOTTOM_Y + 0.01f;
+
+        var toEncompass1 = floatBoxOf(newLeftX, TOP_Y, RIGHT_X, BOTTOM_Y);
+
+        var encompassed1 = encompassing(FLOAT_BOX, toEncompass1);
+
+        assertNotNull(encompassed1);
+        assertEquals(newLeftX, encompassed1.LEFT_X);
+        assertEquals(TOP_Y, encompassed1.TOP_Y);
+        assertEquals(RIGHT_X, encompassed1.RIGHT_X);
+        assertEquals(BOTTOM_Y, encompassed1.BOTTOM_Y);
+
+        var toEncompass2 = floatBoxOf(LEFT_X, newTopY, RIGHT_X, BOTTOM_Y);
+
+        var encompassed2 = encompassing(encompassed1, toEncompass2);
+
+        assertNotNull(encompassed2);
+        assertEquals(newLeftX, encompassed2.LEFT_X);
+        assertEquals(newTopY, encompassed2.TOP_Y);
+        assertEquals(RIGHT_X, encompassed2.RIGHT_X);
+        assertEquals(BOTTOM_Y, encompassed2.BOTTOM_Y);
+
+        var toEncompass3 = floatBoxOf(LEFT_X, TOP_Y, newRightX, BOTTOM_Y);
+
+        var encompassed3 = encompassing(encompassed2, toEncompass3);
+
+        assertNotNull(encompassed3);
+        assertEquals(newLeftX, encompassed3.LEFT_X);
+        assertEquals(newTopY, encompassed3.TOP_Y);
+        assertEquals(newRightX, encompassed3.RIGHT_X);
+        assertEquals(BOTTOM_Y, encompassed3.BOTTOM_Y);
+
+        var toEncompass4 = floatBoxOf(LEFT_X, TOP_Y, RIGHT_X, newBottomY);
+
+        var encompassed4 = encompassing(encompassed3, toEncompass4);
+
+        assertNotNull(encompassed4);
+        assertEquals(newLeftX, encompassed4.LEFT_X);
+        assertEquals(newTopY, encompassed4.TOP_Y);
+        assertEquals(newRightX, encompassed4.RIGHT_X);
+        assertEquals(newBottomY, encompassed4.BOTTOM_Y);
+    }
+
+    @Test
     public void testTranslate() {
         var xTranslation = 0.123f;
         var yTranslation = 0.456f;

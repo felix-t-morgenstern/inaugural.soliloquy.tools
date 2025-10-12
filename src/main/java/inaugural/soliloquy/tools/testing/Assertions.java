@@ -4,6 +4,7 @@ import inaugural.soliloquy.tools.Check;
 import org.mockito.verification.VerificationMode;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,10 +23,10 @@ public class Assertions {
                 item instanceof Float ||
                 item instanceof Double ||
                 item instanceof UUID) {
-            assertEquals(item, list.get(0));
+            assertEquals(item, list.getFirst());
         }
         else {
-            assertSame(item, list.get(0));
+            assertSame(item, list.getFirst());
         }
     }
 
@@ -44,6 +45,21 @@ public class Assertions {
             assertSame(exceptionType, e.getClass());
             assertEquals(expectedMessage, e.getMessage());
         }
+    }
+
+    public static <K,V> void assertMapContainsEquals(Map<K,V> map, K expectedKey, V expectedVal) {
+        assertTrue(map.containsKey(expectedKey));
+        assertEquals(expectedVal, map.get(expectedKey));
+    }
+
+    public static <K,V> void assertMapContainsSame(Map<K,V> map, K expectedKey, V expectedVal) {
+        assertTrue(map.containsKey(expectedKey));
+        assertSame(expectedVal, map.get(expectedKey));
+    }
+
+    public static <K,V> void assertMapContainsNull(Map<K,V> map, K expectedKey) {
+        assertTrue(map.containsKey(expectedKey));
+        assertNull(map.get(expectedKey));
     }
 
     public static VerificationMode once() {

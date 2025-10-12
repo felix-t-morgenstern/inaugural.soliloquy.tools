@@ -18,6 +18,10 @@ public class Collections {
         return floats;
     }
 
+    public static int[] arrayInts(int... ints) {
+        return ints;
+    }
+
     public static char[] arrayChars(char... chars) {
         return chars;
     }
@@ -34,6 +38,10 @@ public class Collections {
     @SafeVarargs
     public static <T> List<T> listOf(T... items) {
         return new ArrayList<>(Arrays.asList(items));
+    }
+
+    public static List<Integer> listInts(int... items) {
+        return items == null ? listOf() : Arrays.stream(items).boxed().toList();
     }
 
     public static <T> List<T> listOf(Collection<T> list) {
@@ -180,5 +188,11 @@ public class Collections {
             parent.remove(parentKey);
         }
         return isRemoved;
+    }
+
+    // NB: This exists exclusively to avoid elaborate, silly-looking casts and compiler annotations
+    public static <V> V getFromData(Map<String, Object> data, String key) {
+        //noinspection unchecked
+        return (V) data.get(key);
     }
 }

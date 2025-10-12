@@ -5,7 +5,9 @@ import org.opentest4j.AssertionFailedError;
 
 import java.util.ArrayList;
 
+import static inaugural.soliloquy.tools.collections.Collections.mapOf;
 import static inaugural.soliloquy.tools.testing.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AssertionsTests {
@@ -40,14 +42,19 @@ public class AssertionsTests {
     @Test
     public void testAssertThrowsWithMessage() {
         var message = "message";
-        Runnable action = () -> { throw new IllegalArgumentException(message); };
+        Runnable action = () -> {throw new IllegalArgumentException(message);};
         var type = IllegalArgumentException.class;
 
         assertThrowsWithMessage(action, type, message);
-        assertThrows(AssertionFailedError.class, () -> assertThrowsWithMessage(() -> {}, type, message));
-        assertThrows(AssertionFailedError.class, () -> assertThrowsWithMessage(() -> { throw new IllegalStateException(); }, type, message));
-        assertThrows(AssertionFailedError.class, () -> assertThrowsWithMessage(action, IllegalStateException.class, message));
-        assertThrows(AssertionFailedError.class, () -> assertThrowsWithMessage(action, type, "unexpectedMessage"));
+        assertThrows(AssertionFailedError.class,
+                () -> assertThrowsWithMessage(() -> {}, type, message));
+        assertThrows(AssertionFailedError.class,
+                () -> assertThrowsWithMessage(() -> {throw new IllegalStateException();}, type,
+                        message));
+        assertThrows(AssertionFailedError.class,
+                () -> assertThrowsWithMessage(action, IllegalStateException.class, message));
+        assertThrows(AssertionFailedError.class,
+                () -> assertThrowsWithMessage(action, type, "unexpectedMessage"));
     }
 
     @Test
@@ -62,5 +69,38 @@ public class AssertionsTests {
                 () -> assertThrowsWithMessage(() -> {}, IllegalArgumentException.class, null));
         assertThrows(IllegalArgumentException.class,
                 () -> assertThrowsWithMessage(() -> {}, IllegalArgumentException.class, ""));
+    }
+
+    @Test
+    public void testAssertMapContainsEquals() {
+        var key = "key";
+        var val = "val";
+        var map = mapOf(key, val);
+
+        assertDoesNotThrow(() -> assertMapContainsEquals(map, key, val));
+        assertThrows(AssertionFailedError.class,
+                () -> assertMapContainsEquals(map, "not the key", val));
+        assertThrows(AssertionFailedError.class,
+                () -> assertMapContainsEquals(map, key, "not the val"));
+    }
+
+    @Test
+    public void testAssertMapContainsSame() {
+        var key = "key";
+        var val = "val";
+        var map = mapOf(key, val);
+
+        //noinspection StringOperationCanBeSimplified
+        assertThrows(AssertionFailedError.class,
+                () -> assertMapContainsSame(map, key, new String(val)));
+    }
+
+    @Test
+    public void testAssertMapContainsNull() {
+        var key = "key";
+        var val = "val";
+        var map = mapOf(key, val);
+
+        assertThrows(AssertionFailedError.class, () -> assertMapContainsNull(map, key));
     }
 }

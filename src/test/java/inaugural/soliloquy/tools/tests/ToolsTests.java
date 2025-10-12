@@ -5,12 +5,45 @@ import inaugural.soliloquy.tools.tests.fakes.PassthroughRunnable;
 import org.junit.jupiter.api.Test;
 import soliloquy.specs.common.shared.HasPriority;
 
+import static inaugural.soliloquy.tools.Tools.defaultIfNull;
+import static inaugural.soliloquy.tools.Tools.falseIfNull;
 import static inaugural.soliloquy.tools.collections.Collections.listOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ToolsTests {
     private static String callingClassName;
+
+    @Test
+    public void testDefaultIfNull() {
+        var val = 123;
+        var theDefault = 456;
+
+        assertEquals(val, defaultIfNull(val, theDefault));
+        assertEquals(theDefault, defaultIfNull(null, theDefault));
+    }
+
+    @Test
+    public void testDefaultIfNullWithTransform() {
+        var base = 123;
+        var theDefault = "default";
+
+        assertEquals("" + base, defaultIfNull(base, theDefault, Object::toString));
+        assertEquals(theDefault, defaultIfNull(null, theDefault, Object::toString));
+    }
+
+    @Test
+    public void testDefaultIfNullWithNullTransform() {
+        assertThrows(IllegalArgumentException.class, () -> defaultIfNull(null, null, null));
+    }
+
+    @Test
+    public void testFalseIfNull() {
+        var val = true;
+
+        assertTrue(falseIfNull(val));
+        assertFalse(falseIfNull(null));
+    }
 
     @Test
     public void testEmptyIfNull() {

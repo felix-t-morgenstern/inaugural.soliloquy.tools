@@ -35,6 +35,17 @@ public class CollectionsTests {
     }
 
     @Test
+    public void testArrayInts() {
+        var array = arrayInts(1, 2, 3);
+
+        assertNotNull(array);
+        assertEquals(3, array.length);
+        assertEquals(1, array[0]);
+        assertEquals(2, array[1]);
+        assertEquals(3, array[2]);
+    }
+
+    @Test
     public void testArrayChars() {
         var array = arrayChars('a', 'b', 'c');
 
@@ -72,13 +83,32 @@ public class CollectionsTests {
 
     @Test
     public void testListOfFromArray() {
-        var list = listOf(1, 2, 3);
+        var list = listOf(new Integer[]{1, 2, 3});
 
         assertNotNull(list);
         assertEquals(3, list.size());
         assertEquals((Integer) 1, list.get(0));
         assertEquals((Integer) 2, list.get(1));
         assertEquals((Integer) 3, list.get(2));
+    }
+
+    @Test
+    public void testListInts() {
+        @SuppressWarnings("RedundantArrayCreation") var list = listInts(new int[]{1, 2, 3});
+
+        assertNotNull(list);
+        assertEquals(3, list.size());
+        assertEquals((Integer) 1, list.get(0));
+        assertEquals((Integer) 2, list.get(1));
+        assertEquals((Integer) 3, list.get(2));
+    }
+
+    @Test
+    public void testListIntsNull() {
+        var list = listInts((int[]) null);
+
+        assertNotNull(list);
+        assertTrue(list.isEmpty());
     }
 
     @Test
@@ -255,5 +285,18 @@ public class CollectionsTests {
         assertNull(map.get(parentKey));
         assertTrue(result1);
         assertFalse(result2);
+    }
+
+    @Test
+    public void testGetFromData() {
+        var key = "key";
+        var val = 123;
+        var data = new HashMap<String, Object>() {{
+            put(key, val);
+        }};
+
+        int fromData = getFromData(data, key);
+
+        assertEquals(val, fromData);
     }
 }

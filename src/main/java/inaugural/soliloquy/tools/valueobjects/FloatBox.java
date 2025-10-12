@@ -29,6 +29,18 @@ public class FloatBox {
                 Math.min(floatBox2.BOTTOM_Y, floatBox1.BOTTOM_Y));
     }
 
+    public static soliloquy.specs.common.valueobjects.FloatBox encompassing(
+            soliloquy.specs.common.valueobjects.FloatBox floatBox1,
+            soliloquy.specs.common.valueobjects.FloatBox floatBox2) {
+        Check.ifNull(floatBox1, "floatBox1");
+        Check.ifNull(floatBox2, "floatBox2");
+        return floatBoxOf(
+                Math.min(floatBox2.LEFT_X, floatBox1.LEFT_X),
+                Math.min(floatBox2.TOP_Y, floatBox1.TOP_Y),
+                Math.max(floatBox2.RIGHT_X, floatBox1.RIGHT_X),
+                Math.max(floatBox2.BOTTOM_Y, floatBox1.BOTTOM_Y));
+    }
+
     public static soliloquy.specs.common.valueobjects.FloatBox translate(
             soliloquy.specs.common.valueobjects.FloatBox floatBox,
             float xTranslation, float yTranslation) {

@@ -2,6 +2,7 @@ package inaugural.soliloquy.tools.testing;
 
 import inaugural.soliloquy.tools.Check;
 import org.mockito.verification.VerificationMode;
+import soliloquy.specs.common.valueobjects.FloatBox;
 
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,19 @@ public class Assertions {
     public static <K,V> void assertMapContainsNull(Map<K,V> map, K expectedKey) {
         assertTrue(map.containsKey(expectedKey));
         assertNull(map.get(expectedKey));
+    }
+
+    public static void assertFloatBoxesEqual(FloatBox expected, FloatBox actual) {
+        if (expected == null) {
+            assertNull(actual);
+        }
+        else {
+            assertNotNull(actual);
+            assertEquals(expected.LEFT_X, actual.LEFT_X);
+            assertEquals(expected.TOP_Y, actual.TOP_Y);
+            assertEquals(expected.RIGHT_X, actual.RIGHT_X);
+            assertEquals(expected.BOTTOM_Y, actual.BOTTOM_Y);
+        }
     }
 
     public static VerificationMode once() {

@@ -39,6 +39,7 @@ public class Reflection {
                     }
                     else {
                         functions.add(makeFunction(name, m, instance));
+                        actions.add(makeAction(name, m, instance));
                     }
                 });
 

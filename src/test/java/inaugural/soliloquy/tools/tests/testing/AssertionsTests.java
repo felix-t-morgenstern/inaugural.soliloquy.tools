@@ -6,9 +6,11 @@ import org.opentest4j.AssertionFailedError;
 import java.util.ArrayList;
 
 import static inaugural.soliloquy.tools.collections.Collections.mapOf;
+import static inaugural.soliloquy.tools.random.Random.randomFloatBox;
 import static inaugural.soliloquy.tools.testing.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static soliloquy.specs.common.valueobjects.FloatBox.floatBoxOf;
 
 public class AssertionsTests {
     @Test
@@ -102,5 +104,28 @@ public class AssertionsTests {
         var map = mapOf(key, val);
 
         assertThrows(AssertionFailedError.class, () -> assertMapContainsNull(map, key));
+    }
+
+    @Test
+    public void testAssertFloatBoxesEqual() {
+        var floatBoxExpected = randomFloatBox();
+        var floatBoxEqual = floatBoxOf(
+                floatBoxExpected.LEFT_X,
+                floatBoxExpected.TOP_Y,
+                floatBoxExpected.RIGHT_X,
+                floatBoxExpected.BOTTOM_Y
+        );
+        var floatBoxUnequal = floatBoxOf(
+                floatBoxExpected.LEFT_X / 2f,
+                floatBoxExpected.TOP_Y,
+                floatBoxExpected.RIGHT_X,
+                floatBoxExpected.BOTTOM_Y
+        );
+
+        assertFloatBoxesEqual(null, null);
+        assertFloatBoxesEqual(floatBoxExpected, floatBoxEqual);
+        assertThrows(AssertionFailedError.class, () -> assertFloatBoxesEqual(null, floatBoxEqual));
+        assertThrows(AssertionFailedError.class, () -> assertFloatBoxesEqual(floatBoxExpected, null));
+        assertThrows(AssertionFailedError.class, () -> assertFloatBoxesEqual(floatBoxExpected, floatBoxUnequal));
     }
 }

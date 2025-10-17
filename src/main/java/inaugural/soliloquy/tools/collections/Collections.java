@@ -4,6 +4,7 @@ import soliloquy.specs.common.infrastructure.ImmutableMap;
 import soliloquy.specs.common.valueobjects.Pair;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -38,6 +39,18 @@ public class Collections {
     @SafeVarargs
     public static <T> List<T> listOf(T... items) {
         return new ArrayList<>(Arrays.asList(items));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <TBase, TReturn> List<TReturn> listOf(Function<TBase, TReturn> map,
+                                                        TBase... items) {
+        var list = Collections.<TReturn>listOf();
+
+        for (var item : items) {
+            list.add(map.apply(item));
+        }
+
+        return list;
     }
 
     public static List<Integer> listInts(int... items) {

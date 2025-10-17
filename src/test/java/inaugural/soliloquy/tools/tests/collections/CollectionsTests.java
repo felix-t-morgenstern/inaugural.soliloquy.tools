@@ -93,6 +93,17 @@ public class CollectionsTests {
     }
 
     @Test
+    public void testListOfWithMap() {
+        var list = listOf(i -> "#" + i, 1, 2, 3);
+
+        assertNotNull(list);
+        assertEquals(3, list.size());
+        assertEquals("#1", list.get(0));
+        assertEquals("#2", list.get(1));
+        assertEquals("#3", list.get(2));
+    }
+
+    @Test
     public void testListInts() {
         @SuppressWarnings("RedundantArrayCreation") var list = listInts(new int[]{1, 2, 3});
 

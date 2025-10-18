@@ -151,6 +151,20 @@ public class CollectionsTests {
     }
 
     @Test
+    public void testListOfStream() {
+        var originalList = new ArrayList<Integer>() {{
+            add(1);
+            add(2);
+            add(3);
+        }};
+
+        var list = listOf(originalList.stream());
+
+        assertNotNull(list);
+        assertEqualsAndNotSame(originalList, list);
+    }
+
+    @Test
     public void testMapOfFromPairs() {
         var map = mapOf(pairOf("A", 1), pairOf("B", 2), pairOf("C", 3));
 
@@ -200,6 +214,20 @@ public class CollectionsTests {
         assertEquals((Integer) 1, map.get("A"));
         assertEquals((Integer) 2, map.get("B"));
         assertEquals((Integer) 3, map.get("C"));
+    }
+
+    @Test
+    public void testMapOfStream() {
+        var originalMap = new HashMap<String, Integer>() {{
+            put("A", 1);
+            put("B", 2);
+            put("C", 3);
+        }};
+
+        var map = mapOfStream(originalMap.entrySet().stream());
+
+        assertNotNull(map);
+        assertEqualsAndNotSame(originalMap, map);
     }
 
     @Test

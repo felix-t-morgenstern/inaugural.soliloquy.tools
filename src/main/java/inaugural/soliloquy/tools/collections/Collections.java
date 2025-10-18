@@ -65,6 +65,12 @@ public class Collections {
         return new ArrayList<>(list);
     }
 
+    public static <T> List<T> listOf(Stream<T> stream) {
+        var list = new ArrayList<T>();
+        stream.forEach(list::add);
+        return list;
+    }
+
     @SafeVarargs
     public static <K, V> Map<K, V> mapOf(Pair<K, V>... items) {
         var map = new HashMap<K, V>();
@@ -90,6 +96,12 @@ public class Collections {
     public static <K, V> Map<K, V> mapOf(Stream<Pair<K, V>> items) {
         var map = new HashMap<K, V>();
         items.forEach(p -> map.put(p.FIRST, p.SECOND));
+        return map;
+    }
+
+    public static <K, V> Map<K, V> mapOfStream(Stream<Map.Entry<K, V>> items) {
+        var map = new HashMap<K, V>();
+        items.forEach(p -> map.put(p.getKey(), p.getValue()));
         return map;
     }
 

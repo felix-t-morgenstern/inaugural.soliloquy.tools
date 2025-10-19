@@ -245,6 +245,63 @@ public class CollectionsTests {
     }
 
     @Test
+    public void testMapTo() {
+        var originalMap = new HashMap<Character, Integer>() {{
+            put('a', 1);
+            put('b', 2);
+            put('c', 3);
+        }};
+
+        var map = mapTo(originalMap, k -> (char)(k + 3), v -> "#" + v);
+
+        assertNotNull(map);
+        var expectedMap = new HashMap<Character, String>() {{
+            put('d', "#1");
+            put('e', "#2");
+            put('f', "#3");
+        }};
+        assertEquals(expectedMap, map);
+    }
+
+    @Test
+    public void testMapKeys() {
+        var originalMap = new HashMap<Character, Integer>() {{
+            put('a', 1);
+            put('b', 2);
+            put('c', 3);
+        }};
+
+        var map = mapKeys(originalMap, k -> (char)(k + 3));
+
+        assertNotNull(map);
+        var expectedMap = new HashMap<Character, Integer>() {{
+            put('d', 1);
+            put('e', 2);
+            put('f', 3);
+        }};
+        assertEquals(expectedMap, map);
+    }
+
+    @Test
+    public void testMapVals() {
+        var originalMap = new HashMap<Character, Integer>() {{
+            put('a', 1);
+            put('b', 2);
+            put('c', 3);
+        }};
+
+        var map = mapVals(originalMap, v -> "#" + v);
+
+        assertNotNull(map);
+        var expectedMap = new HashMap<Character, String>() {{
+            put('a', "#1");
+            put('b', "#2");
+            put('c', "#3");
+        }};
+        assertEquals(expectedMap, map);
+    }
+
+    @Test
     public void testImmutableMap() {
         var originalMap = new HashMap<String, Integer>() {{
             put("A", 1);

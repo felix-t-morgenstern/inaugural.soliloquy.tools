@@ -4,6 +4,7 @@ import inaugural.soliloquy.tools.collections.Collections;
 import soliloquy.specs.common.persistence.PersistenceHandler;
 import soliloquy.specs.common.persistence.TypeHandler;
 import soliloquy.specs.common.shared.HasId;
+import soliloquy.specs.common.shared.HasUuid;
 import soliloquy.specs.common.valueobjects.Pair;
 import soliloquy.specs.io.graphics.renderables.providers.ProviderAtTime;
 
@@ -123,6 +124,29 @@ public class Mock {
 
     public static class LookupAndEntitiesWithId<T> {
         public Function<String, T> lookup;
+        public List<T> entities;
+    }
+
+    public static <V extends HasUuid> LookupAndEntitiesWithUuid<V> generateMockLookupFunctionWithUuid(
+            Class<V> clazz, UUID... ids) {
+        var entities = new ArrayList<V>();
+        //noinspection unchecked
+        var lookupFunction = (Function<UUID, V>) mock(Function.class);
+        lenient().when(lookupFunction.apply(any())).thenReturn(null);
+        for (var id : ids) {
+            var entity = mock(clazz);
+            lenient().when(entity.uuid()).thenReturn(id);
+            entities.add(entity);
+            lenient().when(lookupFunction.apply(id)).thenReturn(entity);
+        }
+        var result = new LookupAndEntitiesWithUuid<V>();
+        result.lookup = lookupFunction;
+        result.entities = entities;
+        return result;
+    }
+
+    public static class LookupAndEntitiesWithUuid<T> {
+        public Function<UUID, T> lookup;
         public List<T> entities;
     }
 

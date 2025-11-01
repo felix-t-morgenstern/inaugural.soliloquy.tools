@@ -3,6 +3,7 @@ package inaugural.soliloquy.tools.tests.testing;
 import org.junit.jupiter.api.Test;
 import soliloquy.specs.common.persistence.TypeHandler;
 import soliloquy.specs.common.shared.HasId;
+import soliloquy.specs.common.shared.HasUuid;
 import soliloquy.specs.gamestate.entities.Item;
 import soliloquy.specs.ruleset.entities.ItemType;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 
 import static inaugural.soliloquy.tools.random.Random.*;
 import static inaugural.soliloquy.tools.testing.Mock.*;
+import static java.util.UUID.randomUUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -190,6 +192,32 @@ public class MockTests {
         verify(lookupAndEntities.lookup).apply(id1);
         verify(lookupAndEntities.lookup).apply(id2);
         verify(lookupAndEntities.lookup).apply(id3);
+    }
+
+    @Test
+    public void testGenerateMockLookupFunctionWithIdByUuids() {
+        var uuid1 = randomUUID();
+        var uuid2 = randomUUID();
+        var uuid3 = randomUUID();
+        var invalidId = randomUUID();
+
+        var lookupAndEntities = generateMockLookupFunctionWithUuid(HasUuid.class, uuid1, uuid2, uuid3);
+
+        assertNotNull(lookupAndEntities);
+        assertNotNull(lookupAndEntities.lookup);
+        assertNotNull(lookupAndEntities.entities);
+        assertEquals(3, lookupAndEntities.entities.size());
+        assertNull(lookupAndEntities.lookup.apply(invalidId));
+        assertSame(lookupAndEntities.entities.get(0), lookupAndEntities.lookup.apply(uuid1));
+        assertSame(lookupAndEntities.entities.get(1), lookupAndEntities.lookup.apply(uuid2));
+        assertSame(lookupAndEntities.entities.get(2), lookupAndEntities.lookup.apply(uuid3));
+        assertEquals(uuid1, lookupAndEntities.entities.get(0).uuid());
+        assertEquals(uuid2, lookupAndEntities.entities.get(1).uuid());
+        assertEquals(uuid3, lookupAndEntities.entities.get(2).uuid());
+        verify(lookupAndEntities.lookup).apply(invalidId);
+        verify(lookupAndEntities.lookup).apply(uuid1);
+        verify(lookupAndEntities.lookup).apply(uuid2);
+        verify(lookupAndEntities.lookup).apply(uuid3);
     }
 
     @Test

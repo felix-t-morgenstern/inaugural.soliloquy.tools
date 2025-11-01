@@ -5,8 +5,7 @@ import inaugural.soliloquy.tools.tests.fakes.PassthroughRunnable;
 import org.junit.jupiter.api.Test;
 import soliloquy.specs.common.shared.HasPriority;
 
-import static inaugural.soliloquy.tools.Tools.defaultIfNull;
-import static inaugural.soliloquy.tools.Tools.falseIfNull;
+import static inaugural.soliloquy.tools.Tools.*;
 import static inaugural.soliloquy.tools.collections.Collections.listOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -52,6 +51,15 @@ public class ToolsTests {
         assertEquals(input, Tools.emptyIfNull(input));
 
         assertEquals("", Tools.emptyIfNull(null));
+    }
+
+    @Test
+    public void testProvideIfNull() {
+        var val = 123;
+        var theDefault = 456;
+
+        assertEquals(val, provideIfNull(val, () -> theDefault));
+        assertEquals(theDefault, provideIfNull(null, () -> theDefault));
     }
 
     @Test

@@ -4,6 +4,7 @@ import soliloquy.specs.common.shared.HasPriority;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static inaugural.soliloquy.tools.collections.Collections.listOf;
 import static inaugural.soliloquy.tools.collections.Collections.mapOf;
@@ -28,6 +29,10 @@ public class Tools {
 
     public static String emptyIfNull(String string) {
         return string == null ? "" : string;
+    }
+
+    public static <T> T provideIfNull(T val, Supplier<T> getDefault) {
+        return val == null ? getDefault.get() : val;
     }
 
     public static String nullIfEmpty(String string) {

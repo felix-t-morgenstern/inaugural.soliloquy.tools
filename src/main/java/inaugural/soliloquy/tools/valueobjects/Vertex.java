@@ -1,5 +1,11 @@
 package inaugural.soliloquy.tools.valueobjects;
 
+import soliloquy.specs.common.valueobjects.FloatBox;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+import static soliloquy.specs.common.valueobjects.FloatBox.floatBoxOf;
 import static soliloquy.specs.common.valueobjects.Vertex.vertexOf;
 
 public class Vertex {
@@ -17,5 +23,25 @@ public class Vertex {
             soliloquy.specs.common.valueobjects.Vertex v2
     ) {
         return translate(v1, v2.X, v2.Y);
+    }
+
+    public static soliloquy.specs.common.valueobjects.Vertex difference(
+            soliloquy.specs.common.valueobjects.Vertex v1,
+            soliloquy.specs.common.valueobjects.Vertex v2
+    ) {
+        return vertexOf(
+                v2.X - v1.X,
+                v2.Y - v1.Y
+        );
+    }
+
+    public static FloatBox polygonDimens(soliloquy.specs.common.valueobjects.Vertex... vertices) {
+        //noinspection OptionalGetWithoutIsPresent
+        return floatBoxOf(
+                Arrays.stream(vertices).map(v -> v.X).min(Comparator.naturalOrder()).get(),
+                Arrays.stream(vertices).map(v -> v.Y).min(Comparator.naturalOrder()).get(),
+                Arrays.stream(vertices).map(v -> v.X).max(Comparator.naturalOrder()).get(),
+                Arrays.stream(vertices).map(v -> v.Y).max(Comparator.naturalOrder()).get()
+        );
     }
 }

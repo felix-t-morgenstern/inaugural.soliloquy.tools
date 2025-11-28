@@ -2,9 +2,10 @@ package inaugural.soliloquy.tools.tests.valueobjects;
 
 import org.junit.jupiter.api.Test;
 
-import static inaugural.soliloquy.tools.valueobjects.Vertex.translate;
+import static inaugural.soliloquy.tools.valueobjects.Vertex.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static soliloquy.specs.common.valueobjects.FloatBox.floatBoxOf;
 import static soliloquy.specs.common.valueobjects.Vertex.vertexOf;
 
 public class VertexTests {
@@ -37,5 +38,29 @@ public class VertexTests {
         assertNotSame(VERTEX, translation);
         assertEquals(X + xTranslation, translation.X);
         assertEquals(Y + yTranslation, translation.Y);
+    }
+
+    @Test
+    public void testVerticesDifference() {
+        var vertex2X = 0.33f;
+        var vertex2Y = 0.4f;
+
+        var difference = difference(VERTEX, vertexOf(vertex2X, vertex2Y));
+
+        assertNotNull(difference);
+        assertNotSame(VERTEX, difference);
+        assertEquals(vertex2X - VERTEX.X, difference.X);
+        assertEquals(vertex2Y - VERTEX.Y, difference.Y);
+    }
+
+    @Test
+    public void testPolygonDimens() {
+        var dimens = polygonDimens(
+                vertexOf(1,1),
+                vertexOf(3,2),
+                vertexOf(2,5)
+        );
+
+        assertEquals(floatBoxOf(1,1,3,5), dimens);
     }
 }

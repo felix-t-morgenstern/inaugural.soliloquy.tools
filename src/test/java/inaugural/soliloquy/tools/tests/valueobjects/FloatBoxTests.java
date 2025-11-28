@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static soliloquy.specs.common.valueobjects.FloatBox.floatBoxOf;
+import static soliloquy.specs.common.valueobjects.Vertex.vertexOf;
 
 public class FloatBoxTests {
     private final float LEFT_X = 0.11f;
@@ -147,6 +148,21 @@ public class FloatBoxTests {
         var yTranslation = 0.456f;
 
         var translation = translate(FLOAT_BOX, xTranslation, yTranslation);
+
+        assertNotNull(translation);
+        assertNotSame(FLOAT_BOX, translation);
+        assertEquals(LEFT_X + xTranslation, translation.LEFT_X);
+        assertEquals(TOP_Y + yTranslation, translation.TOP_Y);
+        assertEquals(RIGHT_X + xTranslation, translation.RIGHT_X);
+        assertEquals(BOTTOM_Y + yTranslation, translation.BOTTOM_Y);
+    }
+
+    @Test
+    public void testTranslateFromVertex() {
+        var xTranslation = 0.123f;
+        var yTranslation = 0.456f;
+
+        var translation = translate(FLOAT_BOX, vertexOf(xTranslation, yTranslation));
 
         assertNotNull(translation);
         assertNotSame(FLOAT_BOX, translation);

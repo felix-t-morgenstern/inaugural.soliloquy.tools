@@ -228,14 +228,19 @@ public class Collections {
 
     // NB: This differs from Map.getOrDefault, since the default value is actually added to the map
     // at the provided key
-    public static <K, V> V getOrDefaultAndAdd(Map<K, V> map, K key, Supplier<V> defaultSupplier) {
+    public static <K, VType, VOutput extends VType> VOutput getOrDefaultAndAdd(
+            Map<K, VType> map,
+            K key,
+            Supplier<VOutput> defaultSupplier
+    ) {
         if (!map.containsKey(key)) {
             var newValue = defaultSupplier.get();
             map.put(key, newValue);
             return newValue;
         }
         else {
-            return map.get(key);
+            //noinspection unchecked
+            return (VOutput) map.get(key);
         }
     }
 

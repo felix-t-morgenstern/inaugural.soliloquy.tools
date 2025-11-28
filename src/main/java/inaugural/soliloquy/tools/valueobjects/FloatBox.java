@@ -1,6 +1,7 @@
 package inaugural.soliloquy.tools.valueobjects;
 
 import inaugural.soliloquy.tools.Check;
+import soliloquy.specs.common.valueobjects.Vertex;
 
 import static soliloquy.specs.common.valueobjects.FloatBox.floatBoxOf;
 
@@ -49,5 +50,11 @@ public class FloatBox {
                 floatBox.TOP_Y + yTranslation,
                 floatBox.RIGHT_X + xTranslation,
                 floatBox.BOTTOM_Y + yTranslation);
+    }
+
+    public static soliloquy.specs.common.valueobjects.FloatBox translate(
+            soliloquy.specs.common.valueobjects.FloatBox floatBox,
+            Vertex translation) {
+        return translate(floatBox, translation.X, translation.Y);
     }
 }

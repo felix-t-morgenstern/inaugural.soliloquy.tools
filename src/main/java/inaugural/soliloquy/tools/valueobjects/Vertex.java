@@ -5,10 +5,18 @@ import soliloquy.specs.common.valueobjects.FloatBox;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import static java.lang.Math.*;
 import static soliloquy.specs.common.valueobjects.FloatBox.floatBoxOf;
 import static soliloquy.specs.common.valueobjects.Vertex.vertexOf;
 
 public class Vertex {
+    public static float distance(
+            soliloquy.specs.common.valueobjects.Vertex v1,
+            soliloquy.specs.common.valueobjects.Vertex v2
+    ) {
+        return (float) sqrt(pow(abs(v1.X - v2.X), 2d) + pow(abs(v1.Y - v2.Y), 2d));
+    }
+
     public static soliloquy.specs.common.valueobjects.Vertex translate(
             soliloquy.specs.common.valueobjects.Vertex vertex,
             float xTranslation, float yTranslation) {

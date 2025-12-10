@@ -3,6 +3,7 @@ package inaugural.soliloquy.tools.tests.valueobjects;
 import org.junit.jupiter.api.Test;
 
 import static inaugural.soliloquy.tools.valueobjects.Vertex.*;
+import static java.lang.Math.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static soliloquy.specs.common.valueobjects.FloatBox.floatBoxOf;
@@ -13,6 +14,17 @@ public class VertexTests {
     private final float Y = 0.22f;
 
     private final soliloquy.specs.common.valueobjects.Vertex VERTEX = vertexOf(X, Y);
+
+    @Test
+    public void testDistance() {
+        var v2x = 0.33f;
+        var v2y = 0.44f;
+        var expectedDist = (float)sqrt(pow(abs(X-v2x),2d) + pow(abs(Y-v2y),2d));
+
+        var distance = distance(VERTEX, vertexOf(v2x,v2y));
+
+        assertEquals(expectedDist, distance);
+    }
 
     @Test
     public void testTranslateFloats() {

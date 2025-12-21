@@ -2,6 +2,7 @@ package inaugural.soliloquy.tools.tests.collections;
 
 import org.junit.jupiter.api.Test;
 import soliloquy.specs.common.valueobjects.Pair;
+import soliloquy.specs.gamestate.entities.shared.HasData;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -9,6 +10,8 @@ import java.util.stream.Stream;
 import static inaugural.soliloquy.tools.collections.Collections.*;
 import static inaugural.soliloquy.tools.testing.Assertions.assertEqualsAndNotSame;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static soliloquy.specs.common.valueobjects.Pair.pairOf;
 
 public class CollectionsTests {
@@ -392,6 +395,21 @@ public class CollectionsTests {
         }};
 
         int fromData = getFromData(data, key);
+
+        assertEquals(val, fromData);
+    }
+
+    @Test
+    public void testGetFromDataFromHasData() {
+        var hasData = mock(HasData.class);
+        var key = "key";
+        var val = 123;
+        var data = new HashMap<String, Object>() {{
+            put(key, val);
+        }};
+        when(hasData.data()).thenReturn(data);
+
+        int fromData = getFromData(hasData, key);
 
         assertEquals(val, fromData);
     }

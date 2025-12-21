@@ -122,6 +122,10 @@ public class Random {
                 randomIntInRange(0, 255), 255);
     }
 
+    public static Color randomHighSaturationColor() {
+        return Color.getHSBColor(randomFloatInRange(0f,1f), 1f, 1f);
+    }
+
     // NB: Taken from Baeldung, at https://www.baeldung.com/java-random-string, accessed on
     // 2022/04/19
     public static String randomString() {

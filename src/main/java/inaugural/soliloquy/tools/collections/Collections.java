@@ -2,6 +2,7 @@ package inaugural.soliloquy.tools.collections;
 
 import soliloquy.specs.common.infrastructure.ImmutableMap;
 import soliloquy.specs.common.valueobjects.Pair;
+import soliloquy.specs.gamestate.entities.shared.HasData;
 
 import java.util.*;
 import java.util.function.Function;
@@ -257,9 +258,18 @@ public class Collections {
         return isRemoved;
     }
 
-    // NB: This exists exclusively to avoid elaborate, silly-looking casts and compiler annotations
+    /**
+     * This exists exclusively to avoid elaborate, silly-looking casts and compiler annotations.
+     */
     public static <V> V getFromData(Map<String, Object> data, String key) {
         //noinspection unchecked
         return (V) data.get(key);
+    }
+
+    /**
+     * This exists exclusively to avoid elaborate, silly-looking casts and compiler annotations.
+     */
+    public static <V> V getFromData(HasData source, String key) {
+        return getFromData(source.data(), key);
     }
 }

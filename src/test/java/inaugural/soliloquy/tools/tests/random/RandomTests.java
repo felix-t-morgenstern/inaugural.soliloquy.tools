@@ -3,10 +3,12 @@ package inaugural.soliloquy.tools.tests.random;
 import inaugural.soliloquy.tools.random.Random;
 import org.junit.jupiter.api.Test;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static inaugural.soliloquy.tools.random.Random.randomShort;
+import static java.awt.Color.RGBtoHSB;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RandomTests {
@@ -188,6 +190,17 @@ public class RandomTests {
     }
 
     @Test
+    public void testRandomHighSaturationColor() {
+        runRandomizationTest(Random::randomHighSaturationColor, c -> {
+                    assertEquals(255, c.getAlpha());
+                    var hsb = new float[3];
+                    RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), hsb);
+                    assertEquals(1f, hsb[1]);
+                },
+                false, 1000, 10);
+    }
+
+    @Test
     public void testRandomString() {
         runRandomizationTest(Random::randomString, s -> assertEquals(20, s.length()));
     }
@@ -233,16 +246,27 @@ public class RandomTests {
         }, true);
     }
 
-    // NB: This is technically indeterminate, but the odds of duplicate random results should be
-    //     practically within the same realm of possibility as a duplicate UUID
+    // NB: This is technically indeterminate, but for most test cases, that doesn't matter, and
+    // failOnEqualsThreshold should be zero. An exception would be something like
+    // randomHighSaturationColor, where there are only so many RGB integer combinations, so a
+    // very small tolerance for duplicate random entries is needed to properly test that they are
+    // indeed being generated randomly.
+    @SuppressWarnings("SameParameterValue")
     private <T> void runRandomizationTest(Supplier<T> randomMethod,
                                           Consumer<T> additionalAssertions,
-                                          boolean failOnEquals) {
-        for (var i = 0; i < 1000; i++) {
+                                          boolean failOnEquals,
+                                          int numTests,
+                                          int failOnEqualsThreshold) {
+        for (var i = 0; i < numTests; i++) {
             var val1 = randomMethod.get();
             var val2 = randomMethod.get();
-            if (failOnEquals) {
-                assertNotEquals(val1, val2);
+            var equalsCount = 0;
+            if (Objects.equals(val1, val2) && failOnEquals) {
+                equalsCount++;
+                if (equalsCount > failOnEqualsThreshold) {
+                    fail("Number of equal randomized pairs exceeded threshold (" +
+                            failOnEqualsThreshold + ")");
+                }
             }
             if (additionalAssertions != null) {
                 additionalAssertions.accept(val1);
@@ -253,11 +277,17 @@ public class RandomTests {
 
     private <T> void runRandomizationTest(Supplier<T> randomMethod,
                                           Consumer<T> additionalAssertions) {
-        runRandomizationTest(randomMethod, additionalAssertions, true);
+        runRandomizationTest(randomMethod, additionalAssertions, true, 1000, 0);
+    }
+
+    private <T> void runRandomizationTest(Supplier<T> randomMethod,
+                                          Consumer<T> additionalAssertions,
+                                          boolean failOnEquals) {
+        runRandomizationTest(randomMethod, additionalAssertions, failOnEquals, 1000, 0);
     }
 
     private <T> void runRandomizationTest(Supplier<T> randomMethod, boolean failOnEquals) {
-        runRandomizationTest(randomMethod, null, failOnEquals);
+        runRandomizationTest(randomMethod, null, failOnEquals, 1000, 0);
     }
 
     private void runRandomizationTest(Supplier<Object> randomMethod) {

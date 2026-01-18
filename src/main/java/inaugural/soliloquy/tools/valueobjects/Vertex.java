@@ -33,6 +33,12 @@ public class Vertex {
         return translate(v1, v2.X, v2.Y);
     }
 
+    /**
+     * @param v1 The vertex whose dimensions are subtrahends
+     * @param v2 The vertex whose dimensions from which to subtract
+     * @return A vertex whose respective dimensions indicate the distance from v1 to v2 for that
+     *         dimension
+     */
     public static soliloquy.specs.common.valueobjects.Vertex difference(
             soliloquy.specs.common.valueobjects.Vertex v1,
             soliloquy.specs.common.valueobjects.Vertex v2

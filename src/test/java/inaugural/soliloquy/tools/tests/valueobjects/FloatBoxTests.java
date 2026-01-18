@@ -143,6 +143,27 @@ public class FloatBoxTests {
     }
 
     @Test
+    public void testEncompassingFromArray() {
+        var newLeftX = LEFT_X - 0.01f;
+        var newTopY = TOP_Y - 0.01f;
+        var newRightX = RIGHT_X + 0.01f;
+        var newBottomY = BOTTOM_Y + 0.01f;
+
+        var toEncompass1 = floatBoxOf(newLeftX, TOP_Y, RIGHT_X, BOTTOM_Y);
+        var toEncompass2 = floatBoxOf(LEFT_X, newTopY, RIGHT_X, BOTTOM_Y);
+        var toEncompass3 = floatBoxOf(LEFT_X, TOP_Y, newRightX, BOTTOM_Y);
+        var toEncompass4 = floatBoxOf(LEFT_X, TOP_Y, RIGHT_X, newBottomY);
+
+        var encompassed = encompassing(toEncompass1, toEncompass2, toEncompass3, toEncompass4);
+
+        assertNotNull(encompassed);
+        assertEquals(newLeftX, encompassed.LEFT_X);
+        assertEquals(newTopY, encompassed.TOP_Y);
+        assertEquals(newRightX, encompassed.RIGHT_X);
+        assertEquals(newBottomY, encompassed.BOTTOM_Y);
+    }
+
+    @Test
     public void testTranslate() {
         var xTranslation = 0.123f;
         var yTranslation = 0.456f;

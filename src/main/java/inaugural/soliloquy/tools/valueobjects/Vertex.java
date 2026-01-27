@@ -17,7 +17,7 @@ public class Vertex {
         return (float) sqrt(pow(abs(v1.X - v2.X), 2d) + pow(abs(v1.Y - v2.Y), 2d));
     }
 
-    public static soliloquy.specs.common.valueobjects.Vertex translate(
+    public static soliloquy.specs.common.valueobjects.Vertex translateVertex(
             soliloquy.specs.common.valueobjects.Vertex vertex,
             float xTranslation, float yTranslation) {
         return vertexOf(
@@ -26,11 +26,11 @@ public class Vertex {
         );
     }
 
-    public static soliloquy.specs.common.valueobjects.Vertex translate(
+    public static soliloquy.specs.common.valueobjects.Vertex translateVertex(
             soliloquy.specs.common.valueobjects.Vertex v1,
             soliloquy.specs.common.valueobjects.Vertex v2
     ) {
-        return translate(v1, v2.X, v2.Y);
+        return translateVertex(v1, v2.X, v2.Y);
     }
 
     /**

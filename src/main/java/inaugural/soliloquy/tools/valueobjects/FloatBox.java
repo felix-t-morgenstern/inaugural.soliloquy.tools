@@ -59,7 +59,7 @@ public class FloatBox {
         return encompassingThusFar;
     }
 
-    public static soliloquy.specs.common.valueobjects.FloatBox translate(
+    public static soliloquy.specs.common.valueobjects.FloatBox translateFloatBox(
             soliloquy.specs.common.valueobjects.FloatBox floatBox,
             float xTranslation, float yTranslation) {
         return floatBoxOf(
@@ -69,9 +69,9 @@ public class FloatBox {
                 floatBox.BOTTOM_Y + yTranslation);
     }
 
-    public static soliloquy.specs.common.valueobjects.FloatBox translate(
+    public static soliloquy.specs.common.valueobjects.FloatBox translateFloatBox(
             soliloquy.specs.common.valueobjects.FloatBox floatBox,
             Vertex translation) {
-        return translate(floatBox, translation.X, translation.Y);
+        return translateFloatBox(floatBox, translation.X, translation.Y);
     }
 }

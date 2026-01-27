@@ -1,5 +1,6 @@
 package inaugural.soliloquy.tools.collections;
 
+import inaugural.soliloquy.tools.Check;
 import soliloquy.specs.common.infrastructure.ImmutableMap;
 import soliloquy.specs.common.valueobjects.Pair;
 import soliloquy.specs.gamestate.entities.shared.HasData;
@@ -263,13 +264,13 @@ public class Collections {
      */
     public static <V> V getFromData(Map<String, Object> data, String key) {
         //noinspection unchecked
-        return (V) data.get(key);
+        return (V) Check.ifNull(data, "data").get(key);
     }
 
     /**
      * This exists exclusively to avoid elaborate, silly-looking casts and compiler annotations.
      */
     public static <V> V getFromData(HasData source, String key) {
-        return getFromData(source.data(), key);
+        return getFromData(Check.ifNull(source, "source").data(), key);
     }
 }

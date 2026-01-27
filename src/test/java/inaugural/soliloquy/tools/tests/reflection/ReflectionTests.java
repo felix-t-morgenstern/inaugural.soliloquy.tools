@@ -133,4 +133,12 @@ public class ReflectionTests {
         assertThrows(IllegalArgumentException.class,
                 () -> readMethods(TestClassWithUnsupportedNumberOfParams.class));
     }
+
+    @Test
+    public void testReadClassWithAnnotatedMethod() {
+        var methods = readMethods(TestClassWithAnnotatedMethod.class);
+
+        assertNotNull(methods);
+        assertEquals(0, methods.RUNNABLES.size());
+    }
 }

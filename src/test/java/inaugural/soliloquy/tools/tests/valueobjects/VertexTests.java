@@ -27,11 +27,11 @@ public class VertexTests {
     }
 
     @Test
-    public void testTranslateFloats() {
+    public void testTranslateVertexFloats() {
         var xTranslation = 0.123f;
         var yTranslation = 0.456f;
 
-        var translation = translate(VERTEX, xTranslation, yTranslation);
+        var translation = translateVertex(VERTEX, xTranslation, yTranslation);
 
         assertNotNull(translation);
         assertNotSame(VERTEX, translation);
@@ -40,11 +40,11 @@ public class VertexTests {
     }
 
     @Test
-    public void testTranslateVertices() {
+    public void testTranslateVertexVertices() {
         var xTranslation = 0.123f;
         var yTranslation = 0.456f;
 
-        var translation = translate(VERTEX, vertexOf(xTranslation, yTranslation));
+        var translation = translateVertex(VERTEX, vertexOf(xTranslation, yTranslation));
 
         assertNotNull(translation);
         assertNotSame(VERTEX, translation);

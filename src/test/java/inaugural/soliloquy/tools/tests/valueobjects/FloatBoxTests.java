@@ -164,11 +164,11 @@ public class FloatBoxTests {
     }
 
     @Test
-    public void testTranslate() {
+    public void testTranslateFloatBox() {
         var xTranslation = 0.123f;
         var yTranslation = 0.456f;
 
-        var translation = translate(FLOAT_BOX, xTranslation, yTranslation);
+        var translation = translateFloatBox(FLOAT_BOX, xTranslation, yTranslation);
 
         assertNotNull(translation);
         assertNotSame(FLOAT_BOX, translation);
@@ -179,11 +179,11 @@ public class FloatBoxTests {
     }
 
     @Test
-    public void testTranslateFromVertex() {
+    public void testTranslateFloatBoxFromVertex() {
         var xTranslation = 0.123f;
         var yTranslation = 0.456f;
 
-        var translation = translate(FLOAT_BOX, vertexOf(xTranslation, yTranslation));
+        var translation = translateFloatBox(FLOAT_BOX, vertexOf(xTranslation, yTranslation));
 
         assertNotNull(translation);
         assertNotSame(FLOAT_BOX, translation);

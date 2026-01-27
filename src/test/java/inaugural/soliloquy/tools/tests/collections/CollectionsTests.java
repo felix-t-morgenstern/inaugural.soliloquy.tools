@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static inaugural.soliloquy.tools.collections.Collections.*;
+import static inaugural.soliloquy.tools.random.Random.randomString;
 import static inaugural.soliloquy.tools.testing.Assertions.assertEqualsAndNotSame;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -412,5 +413,11 @@ public class CollectionsTests {
         int fromData = getFromData(hasData, key);
 
         assertEquals(val, fromData);
+    }
+
+    @Test
+    public void testGetFromNullDataSource() {
+        assertThrows(IllegalArgumentException.class, () -> getFromData((HasData) null, randomString()));
+        assertThrows(IllegalArgumentException.class, () -> getFromData((Map<String, Object>) null, randomString()));
     }
 }

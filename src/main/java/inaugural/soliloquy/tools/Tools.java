@@ -16,7 +16,9 @@ public class Tools {
         return val == null ? theDefault : val;
     }
 
-    public static <TBase, TReturn> TReturn defaultIfNull(TBase base, Function<TBase, TReturn> transformBase, TReturn theDefault) {
+    public static <TBase, TReturn> TReturn defaultIfNull(TBase base,
+                                                         Function<TBase, TReturn> transformBase,
+                                                         TReturn theDefault) {
         if (transformBase == null) {
             throw new IllegalArgumentException("Tools.defaultIfNull: transformBase cannot be null");
         }
@@ -53,6 +55,11 @@ public class Tools {
         }
 
         return Math.round(value * multiplicand) / multiplicand;
+    }
+
+    public static int constrain(int toConstrain, int inclusiveMin, int inclusiveMax) {
+        Check.throwOnSecondGt(inclusiveMax, inclusiveMin, "inclusiveMax", "inclusiveMin");
+        return Math.min(Math.max(toConstrain, inclusiveMin), inclusiveMax);
     }
 
     public static String callingClassName() {

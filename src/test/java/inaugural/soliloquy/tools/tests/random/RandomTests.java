@@ -74,10 +74,16 @@ public class RandomTests {
     public void testRandomShortInRange() {
         var min = (short) -Math.abs(randomShort());
         var max = (short) -min;
-        runRandomizationTest(() -> Random.randomShortInRange(min, max), i -> {
-            assertTrue(i >= min);
-            assertTrue(i <= max);
-        });
+        runRandomizationTest(
+                () -> Random.randomShortInRange(min, max),
+                i -> {
+                    assertTrue(i >= min);
+                    assertTrue(i <= max);
+                },
+                true,
+                1000,
+                10
+        );
     }
 
     @Test

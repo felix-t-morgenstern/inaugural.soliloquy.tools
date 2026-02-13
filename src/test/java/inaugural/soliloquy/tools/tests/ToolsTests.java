@@ -83,6 +83,21 @@ public class ToolsTests {
     }
 
     @Test
+    public void testConstrainInts() {
+        var inclusiveMin = 10;
+        var inclusiveMax = 50;
+
+        assertEquals(inclusiveMin, constrain(9, inclusiveMin, inclusiveMax));
+        assertEquals(30, constrain(30, inclusiveMin, inclusiveMax));
+        assertEquals(inclusiveMax, constrain(51, inclusiveMin, inclusiveMax));
+    }
+
+    @Test
+    public void testConstrainIntsWithInvalidArgs() {
+        assertThrows(IllegalArgumentException.class, () -> constrain(0, 1, 0));
+    }
+
+    @Test
     public void testCallingClassName() {
         callingClassName = Tools.callingClassName();
 

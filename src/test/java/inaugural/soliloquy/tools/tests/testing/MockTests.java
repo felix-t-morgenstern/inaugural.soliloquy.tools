@@ -83,9 +83,14 @@ public class MockTests {
 
         assertNotNull(mockMap);
         assertEquals(3, mockMap.size());
+        assertNull(mockMap.get(0));
         assertEquals("A", mockMap.get(1));
         assertEquals("B", mockMap.get(2));
         assertEquals("C", mockMap.get(3));
+        assertFalse(mockMap.containsKey(0));
+        assertTrue(mockMap.containsKey(1));
+        assertTrue(mockMap.containsKey(2));
+        assertTrue(mockMap.containsKey(3));
         // NB: Calling forEach twice here to ensure that multiple iteration is possible
         mockMap.forEach((_, _) -> {});
         var keysInAnyOrder = new ArrayList<>(mockMap.keySet());

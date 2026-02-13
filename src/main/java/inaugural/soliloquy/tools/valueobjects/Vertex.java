@@ -3,6 +3,7 @@ package inaugural.soliloquy.tools.valueobjects;
 import soliloquy.specs.common.valueobjects.FloatBox;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 
 import static java.lang.Math.*;
@@ -56,6 +57,16 @@ public class Vertex {
                 Arrays.stream(vertices).map(v -> v.Y).min(Comparator.naturalOrder()).get(),
                 Arrays.stream(vertices).map(v -> v.X).max(Comparator.naturalOrder()).get(),
                 Arrays.stream(vertices).map(v -> v.Y).max(Comparator.naturalOrder()).get()
+        );
+    }
+
+    public static FloatBox polygonDimens(Collection<soliloquy.specs.common.valueobjects.Vertex> vertices) {
+        //noinspection OptionalGetWithoutIsPresent
+        return floatBoxOf(
+                vertices.stream().map(v -> v.X).min(Comparator.naturalOrder()).get(),
+                vertices.stream().map(v -> v.Y).min(Comparator.naturalOrder()).get(),
+                vertices.stream().map(v -> v.X).max(Comparator.naturalOrder()).get(),
+                vertices.stream().map(v -> v.Y).max(Comparator.naturalOrder()).get()
         );
     }
 }

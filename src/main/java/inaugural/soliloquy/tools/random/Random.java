@@ -35,8 +35,8 @@ public class Random {
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
-    public static int randomIntInRange(int min, int max) {
-        return RANDOM.ints(min, max).findFirst().getAsInt();
+    public static int randomIntInRange(int inclusiveMin, int inclusiveMax) {
+        return RANDOM.ints(inclusiveMin, inclusiveMax).findFirst().getAsInt();
     }
 
     public static short randomShort() {

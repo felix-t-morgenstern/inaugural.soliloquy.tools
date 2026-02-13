@@ -16,7 +16,7 @@ public class Tools {
         return val == null ? theDefault : val;
     }
 
-    public static <TBase, TReturn> TReturn defaultIfNull(TBase base, TReturn theDefault, Function<TBase, TReturn> transformBase) {
+    public static <TBase, TReturn> TReturn defaultIfNull(TBase base, Function<TBase, TReturn> transformBase, TReturn theDefault) {
         if (transformBase == null) {
             throw new IllegalArgumentException("Tools.defaultIfNull: transformBase cannot be null");
         }

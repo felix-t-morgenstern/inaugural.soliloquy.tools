@@ -27,8 +27,8 @@ public class ToolsTests {
         var base = 123;
         var theDefault = "default";
 
-        assertEquals("" + base, defaultIfNull(base, theDefault, Object::toString));
-        assertEquals(theDefault, defaultIfNull(null, theDefault, Object::toString));
+        assertEquals("" + base, defaultIfNull(base, Object::toString, theDefault));
+        assertEquals(theDefault, defaultIfNull(null, Object::toString, theDefault));
     }
 
     @Test

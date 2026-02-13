@@ -42,7 +42,24 @@ public class FloatBox {
                 Math.max(floatBox2.BOTTOM_Y, floatBox1.BOTTOM_Y));
     }
 
-    public static soliloquy.specs.common.valueobjects.FloatBox translate(
+    public static soliloquy.specs.common.valueobjects.FloatBox encompassing(
+            soliloquy.specs.common.valueobjects.FloatBox... floatBoxes
+    ) {
+        Check.ifNull(floatBoxes, "floatBoxes");
+        Check.throwOnLteZero(floatBoxes.length, "floatBoxes.length");
+
+        soliloquy.specs.common.valueobjects.FloatBox encompassingThusFar = null;
+
+        for (var i = 0; i < floatBoxes.length; i++) {
+            Check.ifNull(floatBoxes[i], "floatBoxes[" + i + "]");
+            encompassingThusFar = encompassingThusFar == null ? floatBoxes[i] :
+                    encompassing(encompassingThusFar, floatBoxes[i]);
+        }
+
+        return encompassingThusFar;
+    }
+
+    public static soliloquy.specs.common.valueobjects.FloatBox translateFloatBox(
             soliloquy.specs.common.valueobjects.FloatBox floatBox,
             float xTranslation, float yTranslation) {
         return floatBoxOf(
@@ -52,9 +69,9 @@ public class FloatBox {
                 floatBox.BOTTOM_Y + yTranslation);
     }
 
-    public static soliloquy.specs.common.valueobjects.FloatBox translate(
+    public static soliloquy.specs.common.valueobjects.FloatBox translateFloatBox(
             soliloquy.specs.common.valueobjects.FloatBox floatBox,
             Vertex translation) {
-        return translate(floatBox, translation.X, translation.Y);
+        return translateFloatBox(floatBox, translation.X, translation.Y);
     }
 }

@@ -35,8 +35,8 @@ public class Random {
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
-    public static int randomIntInRange(int min, int max) {
-        return RANDOM.ints(min, max).findFirst().getAsInt();
+    public static int randomIntInRange(int inclusiveMin, int inclusiveMax) {
+        return RANDOM.ints(inclusiveMin, inclusiveMax).findFirst().getAsInt();
     }
 
     public static short randomShort() {
@@ -120,6 +120,10 @@ public class Random {
     public static Color randomOpaqueColor() {
         return new Color(randomIntInRange(0, 255), randomIntInRange(0, 255),
                 randomIntInRange(0, 255), 255);
+    }
+
+    public static Color randomHighSaturationColor() {
+        return Color.getHSBColor(randomFloatInRange(0f,1f), 1f, 1f);
     }
 
     // NB: Taken from Baeldung, at https://www.baeldung.com/java-random-string, accessed on

@@ -4,6 +4,10 @@ import inaugural.soliloquy.tools.collections.Collections;
 import soliloquy.specs.common.entities.*;
 import soliloquy.specs.common.entities.Runnable;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -37,7 +41,8 @@ public class Reflection {
         var biFunctions = Collections.<BiFunction>setOf();
 
         Arrays.stream(instance.getClass().getMethods())
-                .filter(m -> !BASE_OBJECT_METHODS.contains(m.getName()))
+                .filter(m -> !BASE_OBJECT_METHODS.contains(m.getName()) &&
+                        !m.isAnnotationPresent(DoNotReadMethod.class))
                 .forEach(m -> {
                     var name = m.getName();
                     var returnType = m.getReturnType();
@@ -166,5 +171,10 @@ public class Reflection {
                     "Reflection.readMethods: method (" + method.getName() +
                             ") cannot have more than 1 parameter");
         }
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.METHOD)
+    public @interface DoNotReadMethod {
     }
 }

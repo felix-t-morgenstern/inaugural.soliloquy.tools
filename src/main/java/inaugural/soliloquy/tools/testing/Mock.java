@@ -78,6 +78,9 @@ public class Mock {
         //noinspection unchecked
         lenient().when(mockMap.get((K) any())).thenAnswer(
                 invocation -> map.get((K) invocation.getArgument(0)));
+        //noinspection unchecked
+        lenient().when(mockMap.containsKey((K) any())).thenAnswer(
+                invocation -> map.containsKey((K) invocation.getArgument(0)));
         return mockMap;
     }
 

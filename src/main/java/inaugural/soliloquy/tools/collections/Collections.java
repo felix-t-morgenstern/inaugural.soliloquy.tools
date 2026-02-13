@@ -1,7 +1,9 @@
 package inaugural.soliloquy.tools.collections;
 
+import inaugural.soliloquy.tools.Check;
 import soliloquy.specs.common.infrastructure.ImmutableMap;
 import soliloquy.specs.common.valueobjects.Pair;
+import soliloquy.specs.gamestate.entities.shared.HasData;
 
 import java.util.*;
 import java.util.function.Function;
@@ -80,6 +82,11 @@ public class Collections {
         return map;
     }
 
+    /**
+     * NB: This method <i>assumes</i> that you have entered an even number of items, with
+     * alternating entries of the key type and value type respectively. If you mess this up, the
+     * code will still compile, but you'll hit errors at runtime, so be careful!
+     */
     public static <K, V> Map<K, V> mapOf(Object... items) {
         var map = new HashMap<K, V>();
         if (items.length % 2 != 0) {
@@ -109,12 +116,12 @@ public class Collections {
         return new HashMap<>(map);
     }
 
-    public static <K1, V1, K2, V2> Map<K2,V2> mapTo(Map<K1, V1> map,
-                                                    Function<K1, K2> keyTransform,
-                                                    Function<V1,V2> valTransform) {
-        var transformed = Collections.<K2,V2>mapOf();
+    public static <K1, V1, K2, V2> Map<K2, V2> mapTo(Map<K1, V1> map,
+                                                     Function<K1, K2> keyTransform,
+                                                     Function<V1, V2> valTransform) {
+        var transformed = Collections.<K2, V2>mapOf();
 
-        map.forEach((k1,v1) -> transformed.put(
+        map.forEach((k1, v1) -> transformed.put(
                 keyTransform.apply(k1),
                 valTransform.apply(v1)
         ));
@@ -122,11 +129,11 @@ public class Collections {
         return transformed;
     }
 
-    public static <K1, K2, V> Map<K2,V> mapKeys(Map<K1, V> map,
-                                                Function<K1, K2> keyTransform) {
-        var transformed = Collections.<K2,V>mapOf();
+    public static <K1, K2, V> Map<K2, V> mapKeys(Map<K1, V> map,
+                                                 Function<K1, K2> keyTransform) {
+        var transformed = Collections.<K2, V>mapOf();
 
-        map.forEach((k1,v1) -> transformed.put(
+        map.forEach((k1, v1) -> transformed.put(
                 keyTransform.apply(k1),
                 v1
         ));
@@ -134,11 +141,11 @@ public class Collections {
         return transformed;
     }
 
-    public static <K, V1, V2> Map<K,V2> mapVals(Map<K, V1> map,
-                                                Function<V1,V2> valTransform) {
-        var transformed = Collections.<K,V2>mapOf();
+    public static <K, V1, V2> Map<K, V2> mapVals(Map<K, V1> map,
+                                                 Function<V1, V2> valTransform) {
+        var transformed = Collections.<K, V2>mapOf();
 
-        map.forEach((k1,v1) -> transformed.put(
+        map.forEach((k1, v1) -> transformed.put(
                 k1,
                 valTransform.apply(v1)
         ));
@@ -257,9 +264,18 @@ public class Collections {
         return isRemoved;
     }
 
-    // NB: This exists exclusively to avoid elaborate, silly-looking casts and compiler annotations
+    /**
+     * This exists exclusively to avoid elaborate, silly-looking casts and compiler annotations.
+     */
     public static <V> V getFromData(Map<String, Object> data, String key) {
         //noinspection unchecked
-        return (V) data.get(key);
+        return (V) Check.ifNull(data, "data").get(key);
+    }
+
+    /**
+     * This exists exclusively to avoid elaborate, silly-looking casts and compiler annotations.
+     */
+    public static <V> V getFromData(HasData source, String key) {
+        return getFromData(Check.ifNull(source, "source").data(), key);
     }
 }

@@ -2,6 +2,7 @@ package inaugural.soliloquy.tools.tests.valueobjects;
 
 import org.junit.jupiter.api.Test;
 
+import static inaugural.soliloquy.tools.collections.Collections.listOf;
 import static inaugural.soliloquy.tools.valueobjects.Vertex.*;
 import static java.lang.Math.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,19 +20,19 @@ public class VertexTests {
     public void testDistance() {
         var v2x = 0.33f;
         var v2y = 0.44f;
-        var expectedDist = (float)sqrt(pow(abs(X-v2x),2d) + pow(abs(Y-v2y),2d));
+        var expectedDist = (float) sqrt(pow(abs(X - v2x), 2d) + pow(abs(Y - v2y), 2d));
 
-        var distance = distance(VERTEX, vertexOf(v2x,v2y));
+        var distance = distance(VERTEX, vertexOf(v2x, v2y));
 
         assertEquals(expectedDist, distance);
     }
 
     @Test
-    public void testTranslateFloats() {
+    public void testTranslateVertexFloats() {
         var xTranslation = 0.123f;
         var yTranslation = 0.456f;
 
-        var translation = translate(VERTEX, xTranslation, yTranslation);
+        var translation = translateVertex(VERTEX, xTranslation, yTranslation);
 
         assertNotNull(translation);
         assertNotSame(VERTEX, translation);
@@ -40,11 +41,11 @@ public class VertexTests {
     }
 
     @Test
-    public void testTranslateVertices() {
+    public void testTranslateVertexVertices() {
         var xTranslation = 0.123f;
         var yTranslation = 0.456f;
 
-        var translation = translate(VERTEX, vertexOf(xTranslation, yTranslation));
+        var translation = translateVertex(VERTEX, vertexOf(xTranslation, yTranslation));
 
         assertNotNull(translation);
         assertNotSame(VERTEX, translation);
@@ -66,13 +67,26 @@ public class VertexTests {
     }
 
     @Test
-    public void testPolygonDimens() {
+    public void testPolygonDimensFromArray() {
         var dimens = polygonDimens(
-                vertexOf(1,1),
-                vertexOf(3,2),
-                vertexOf(2,5)
+                vertexOf(1, 1),
+                vertexOf(3, 2),
+                vertexOf(2, 5)
         );
 
-        assertEquals(floatBoxOf(1,1,3,5), dimens);
+        assertEquals(floatBoxOf(1, 1, 3, 5), dimens);
+    }
+
+    @Test
+    public void testPolygonDimensFromList() {
+        var dimens = polygonDimens(
+                listOf(
+                        vertexOf(1, 1),
+                        vertexOf(3, 2),
+                        vertexOf(2, 5)
+                )
+        );
+
+        assertEquals(floatBoxOf(1, 1, 3, 5), dimens);
     }
 }

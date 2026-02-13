@@ -3,6 +3,7 @@ package inaugural.soliloquy.tools.valueobjects;
 import soliloquy.specs.common.valueobjects.FloatBox;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 
 import static java.lang.Math.*;
@@ -17,7 +18,7 @@ public class Vertex {
         return (float) sqrt(pow(abs(v1.X - v2.X), 2d) + pow(abs(v1.Y - v2.Y), 2d));
     }
 
-    public static soliloquy.specs.common.valueobjects.Vertex translate(
+    public static soliloquy.specs.common.valueobjects.Vertex translateVertex(
             soliloquy.specs.common.valueobjects.Vertex vertex,
             float xTranslation, float yTranslation) {
         return vertexOf(
@@ -26,13 +27,19 @@ public class Vertex {
         );
     }
 
-    public static soliloquy.specs.common.valueobjects.Vertex translate(
+    public static soliloquy.specs.common.valueobjects.Vertex translateVertex(
             soliloquy.specs.common.valueobjects.Vertex v1,
             soliloquy.specs.common.valueobjects.Vertex v2
     ) {
-        return translate(v1, v2.X, v2.Y);
+        return translateVertex(v1, v2.X, v2.Y);
     }
 
+    /**
+     * @param v1 The vertex whose dimensions are subtrahends
+     * @param v2 The vertex whose dimensions from which to subtract
+     * @return A vertex whose respective dimensions indicate the distance from v1 to v2 for that
+     *         dimension
+     */
     public static soliloquy.specs.common.valueobjects.Vertex difference(
             soliloquy.specs.common.valueobjects.Vertex v1,
             soliloquy.specs.common.valueobjects.Vertex v2
@@ -50,6 +57,16 @@ public class Vertex {
                 Arrays.stream(vertices).map(v -> v.Y).min(Comparator.naturalOrder()).get(),
                 Arrays.stream(vertices).map(v -> v.X).max(Comparator.naturalOrder()).get(),
                 Arrays.stream(vertices).map(v -> v.Y).max(Comparator.naturalOrder()).get()
+        );
+    }
+
+    public static FloatBox polygonDimens(Collection<soliloquy.specs.common.valueobjects.Vertex> vertices) {
+        //noinspection OptionalGetWithoutIsPresent
+        return floatBoxOf(
+                vertices.stream().map(v -> v.X).min(Comparator.naturalOrder()).get(),
+                vertices.stream().map(v -> v.Y).min(Comparator.naturalOrder()).get(),
+                vertices.stream().map(v -> v.X).max(Comparator.naturalOrder()).get(),
+                vertices.stream().map(v -> v.Y).max(Comparator.naturalOrder()).get()
         );
     }
 }

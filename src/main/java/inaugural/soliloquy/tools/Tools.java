@@ -16,6 +16,10 @@ public class Tools {
         return val == null ? theDefault : val;
     }
 
+    public static <T> T defaultIfNull(T val, Supplier<T> getDefault) {
+        return val == null ? getDefault.get() : val;
+    }
+
     public static <TBase, TReturn> TReturn defaultIfNull(TBase base,
                                                          Function<TBase, TReturn> transformBase,
                                                          TReturn theDefault) {
@@ -55,6 +59,10 @@ public class Tools {
         }
 
         return Math.round(value * multiplicand) / multiplicand;
+    }
+
+    public static boolean valIsInRange(float val, float bound1, float bound2) {
+        return (val >= bound1 && val <= bound2) || (val <= bound1 && val >= bound2);
     }
 
     public static int constrain(int toConstrain, int inclusiveMin, int inclusiveMax) {

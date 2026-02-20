@@ -4,7 +4,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 
-import static inaugural.soliloquy.tools.CheckedExceptionWrapper.callWrapped;
+import static inaugural.soliloquy.tools.exception.CheckedExceptionWrapper.callWrapped;
 
 public class Files {
     public static String executionDirectory() {

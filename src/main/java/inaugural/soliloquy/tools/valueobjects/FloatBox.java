@@ -74,4 +74,13 @@ public class FloatBox {
             Vertex translation) {
         return translateFloatBox(floatBox, translation.X, translation.Y);
     }
+
+    public static boolean contains(soliloquy.specs.common.valueobjects.FloatBox floatBox,
+                                   Vertex location) {
+        Check.ifNull(floatBox, "floatBox");
+        Check.ifNull(location, "location");
+
+        return location.X >= floatBox.LEFT_X && location.X <= floatBox.RIGHT_X &&
+                location.Y >= floatBox.TOP_Y && location.Y <= floatBox.BOTTOM_Y;
+    }
 }

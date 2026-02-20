@@ -5,6 +5,8 @@ import inaugural.soliloquy.tools.tests.fakes.PassthroughRunnable;
 import org.junit.jupiter.api.Test;
 import soliloquy.specs.common.shared.HasPriority;
 
+import java.util.function.Supplier;
+
 import static inaugural.soliloquy.tools.Tools.*;
 import static inaugural.soliloquy.tools.collections.Collections.listOf;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +22,21 @@ public class ToolsTests {
 
         assertEquals(val, defaultIfNull(val, theDefault));
         assertEquals(theDefault, defaultIfNull(null, theDefault));
+    }
+
+    @Test
+    public void testDefaultIfNullWithSupplier() {
+        var val = 123;
+        Supplier<Integer> getDefault = () -> 456;
+
+        assertEquals(val, defaultIfNull(val, getDefault));
+        assertEquals(getDefault.get(), defaultIfNull(null, getDefault));
+    }
+
+    @Test
+    public void testDefaultIfNullWithNullSupplier() {
+        // No special checking needed here. This method shouldn't be adding extra steps.
+        assertThrows(NullPointerException.class, () -> defaultIfNull(null, null));
     }
 
     @Test
@@ -80,6 +97,19 @@ public class ToolsTests {
         assertEquals(-1.235f, Tools.round(-value, places));
 
         assertThrows(IllegalArgumentException.class, () -> Tools.round(value, -1));
+    }
+
+    @Test
+    public void testValIsInRange() {
+        var bound1 = 1f;
+        var bound2 = 2f;
+
+        assertFalse(valIsInRange(0.9f, bound1, bound2));
+        assertFalse(valIsInRange(0.9f, bound2, bound1));
+        assertTrue(valIsInRange(1.5f, bound1, bound2));
+        assertTrue(valIsInRange(1.5f, bound2, bound1));
+        assertFalse(valIsInRange(2.1f, bound1, bound2));
+        assertFalse(valIsInRange(2.1f, bound2, bound1));
     }
 
     @Test

@@ -1,6 +1,6 @@
 package inaugural.soliloquy.tools.tests.concurrency;
 
-import inaugural.soliloquy.tools.CheckedExceptionWrapper;
+import inaugural.soliloquy.tools.exception.CheckedExceptionWrapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

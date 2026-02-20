@@ -2,6 +2,7 @@ package inaugural.soliloquy.tools.tests.valueobjects;
 
 import org.junit.jupiter.api.Test;
 
+import static inaugural.soliloquy.tools.random.Random.*;
 import static inaugural.soliloquy.tools.valueobjects.FloatBox.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -191,6 +192,47 @@ public class FloatBoxTests {
         assertEquals(TOP_Y + yTranslation, translation.TOP_Y);
         assertEquals(RIGHT_X + xTranslation, translation.RIGHT_X);
         assertEquals(BOTTOM_Y + yTranslation, translation.BOTTOM_Y);
+    }
+
+    @Test
+    public void testContains() {
+        var floatBoxDimensDistFromCenter = randomFloatInRange(1f, 1000f);
+        var slightlyOffCenter = floatBoxDimensDistFromCenter + 1f;
+        // Using constrained vals to avoid rounding errors; any FloatBox with valid dimens will
+        // work here
+        var floatBox = floatBoxOf(
+                -floatBoxDimensDistFromCenter,
+                -floatBoxDimensDistFromCenter,
+                floatBoxDimensDistFromCenter,
+                floatBoxDimensDistFromCenter
+        );
+
+        assertTrue(contains(floatBox, vertexOf(
+                randomFloatInRange(-floatBoxDimensDistFromCenter, floatBoxDimensDistFromCenter),
+                randomFloatInRange(-floatBoxDimensDistFromCenter, floatBoxDimensDistFromCenter)
+        )));
+        assertFalse(contains(floatBox, vertexOf(
+                -slightlyOffCenter,
+                randomFloatInRange(-floatBoxDimensDistFromCenter, floatBoxDimensDistFromCenter)
+        )));
+        assertFalse(contains(floatBox, vertexOf(
+                slightlyOffCenter,
+                randomFloatInRange(-floatBoxDimensDistFromCenter, floatBoxDimensDistFromCenter)
+        )));
+        assertFalse(contains(floatBox, vertexOf(
+                randomFloatInRange(-floatBoxDimensDistFromCenter, floatBoxDimensDistFromCenter),
+                -slightlyOffCenter
+        )));
+        assertFalse(contains(floatBox, vertexOf(
+                randomFloatInRange(-floatBoxDimensDistFromCenter, floatBoxDimensDistFromCenter),
+                slightlyOffCenter
+        )));
+    }
+
+    @Test
+    public void testContainsWithInvalidArgs() {
+        assertThrows(IllegalArgumentException.class, () -> contains(null, randomVertex()));
+        assertThrows(IllegalArgumentException.class, () -> contains(randomFloatBox(), null));
     }
 
     @Test

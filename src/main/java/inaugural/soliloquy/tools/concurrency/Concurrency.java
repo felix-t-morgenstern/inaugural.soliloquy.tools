@@ -1,7 +1,7 @@
 package inaugural.soliloquy.tools.concurrency;
 
 import inaugural.soliloquy.tools.Check;
-import inaugural.soliloquy.tools.CheckedExceptionWrapper;
+import inaugural.soliloquy.tools.exception.CheckedExceptionWrapper;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

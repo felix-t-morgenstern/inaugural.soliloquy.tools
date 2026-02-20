@@ -1,8 +1,17 @@
 package inaugural.soliloquy.tools.tests.valueobjects;
 
 import org.junit.jupiter.api.Test;
+import soliloquy.specs.common.valueobjects.Vertex;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static inaugural.soliloquy.tools.collections.Collections.listOf;
+import static inaugural.soliloquy.tools.collections.Collections.setOf;
+import static inaugural.soliloquy.tools.random.Random.*;
 import static inaugural.soliloquy.tools.valueobjects.Vertex.*;
 import static java.lang.Math.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,6 +24,51 @@ public class VertexTests {
     private final float Y = 0.22f;
 
     private final soliloquy.specs.common.valueobjects.Vertex VERTEX = vertexOf(X, Y);
+
+    @Test
+    public void testSlope() {
+        assertEquals(2f, slope(vertexOf(1f, 1f), vertexOf(3f, 5f)));
+    }
+
+    @Test
+    public void testVerticalSlopes() {
+        assertEquals(Float.POSITIVE_INFINITY, slope(vertexOf(1f, 1f), vertexOf(1f, 5f)));
+        assertEquals(Float.NEGATIVE_INFINITY, slope(vertexOf(1f, 1f), vertexOf(1f, -5f)));
+    }
+
+    @SuppressWarnings("DataFlowIssue")
+    @Test
+    public void testSlopeWithInvalidArgs() {
+        // NB: Specifically avoiding checks since this may be called many times per frame
+        assertThrows(NullPointerException.class, () -> slope(null, randomVertex()));
+        assertThrows(NullPointerException.class, () -> slope(randomVertex(), null));
+    }
+
+    @Test
+    public void testYIntersectAtX() {
+        assertEquals(7f, yIntersectAtX(2f, vertexOf(3f, 5f), 4f));
+    }
+
+    @SuppressWarnings("DataFlowIssue")
+    @Test
+    public void testYIntersectAtXWithInvalidArgs() {
+        // NB: Specifically avoiding checks since this may be called many times per frame
+        assertThrows(NullPointerException.class,
+                () -> yIntersectAtX(randomFloat(), null, randomFloat()));
+    }
+
+    @Test
+    public void testXIntersectAtY() {
+        assertEquals(3.5f, xIntersectAtY(2f, vertexOf(3f, 5f), 6f));
+    }
+
+    @SuppressWarnings("DataFlowIssue")
+    @Test
+    public void testXIntersectAtYWithInvalidArgs() {
+        // NB: Specifically avoiding checks since this may be called many times per frame
+        assertThrows(NullPointerException.class,
+                () -> xIntersectAtY(randomFloat(), null, randomFloat()));
+    }
 
     @Test
     public void testDistance() {
@@ -67,8 +121,8 @@ public class VertexTests {
     }
 
     @Test
-    public void testPolygonDimensFromArray() {
-        var dimens = polygonDimens(
+    public void testPolygonEncompassingDimensFromArray() {
+        var dimens = polygonEncompassingDimens(
                 vertexOf(1, 1),
                 vertexOf(3, 2),
                 vertexOf(2, 5)
@@ -78,8 +132,8 @@ public class VertexTests {
     }
 
     @Test
-    public void testPolygonDimensFromList() {
-        var dimens = polygonDimens(
+    public void testPolygonEncompassingDimensFromList() {
+        var dimens = polygonEncompassingDimens(
                 listOf(
                         vertexOf(1, 1),
                         vertexOf(3, 2),
@@ -88,5 +142,72 @@ public class VertexTests {
         );
 
         assertEquals(floatBoxOf(1, 1, 3, 5), dimens);
+    }
+
+    @Test
+    public void testGetVerticesCentroidFromArray() {
+        var vertices = IntStream.rangeClosed(0, randomIntInRange(2, 10))
+                .mapToObj(_ -> randomVertex()).toArray(Vertex[]::new);
+
+        var expectedX = Arrays.stream(vertices).map(v -> v.X).reduce(0f, Float::sum) /
+                (float) vertices.length;
+        var expectedY = Arrays.stream(vertices).map(v -> v.Y).reduce(0f, Float::sum) /
+                (float) vertices.length;
+
+        var output = getVerticesCentroid(vertices);
+
+        assertEquals(vertexOf(expectedX, expectedY), output);
+    }
+
+    @Test
+    public void testGetVerticesCentroidFromArrayWithInvalidArgs() {
+        assertThrows(IllegalArgumentException.class, () -> getVerticesCentroid((Vertex[]) null));
+        assertThrows(IllegalArgumentException.class, () -> getVerticesCentroid((Vertex) null));
+    }
+
+    @Test
+    public void testGetVerticesCentroidFromCollection() {
+        var vertices = IntStream.rangeClosed(0, randomIntInRange(2, 10))
+                .mapToObj(_ -> randomVertex()).collect(Collectors.toSet());
+
+        var expectedX = vertices.stream().map(v -> v.X).reduce(0f, Float::sum) /
+                (float) vertices.size();
+        var expectedY = vertices.stream().map(v -> v.Y).reduce(0f, Float::sum) /
+                (float) vertices.size();
+
+        var output = getVerticesCentroid(vertices);
+
+        assertEquals(vertexOf(expectedX, expectedY), output);
+    }
+
+    @Test
+    public void testGetVerticesCentroidFromCollectionWithInvalidArgs() {
+        assertThrows(IllegalArgumentException.class,
+                () -> getVerticesCentroid((Collection<Vertex>) null));
+        assertThrows(IllegalArgumentException.class,
+                () -> getVerticesCentroid(setOf((Vertex) null)));
+    }
+
+    @Test
+    public void testGetVerticesCentroidFromStream() {
+        var vertices = IntStream.rangeClosed(0, randomIntInRange(2, 10))
+                .mapToObj(_ -> randomVertex()).collect(Collectors.toSet());
+
+        var expectedX = vertices.stream().map(v -> v.X).reduce(0f, Float::sum) /
+                (float) vertices.size();
+        var expectedY = vertices.stream().map(v -> v.Y).reduce(0f, Float::sum) /
+                (float) vertices.size();
+
+        var output = getVerticesCentroid(vertices.stream());
+
+        assertEquals(vertexOf(expectedX, expectedY), output);
+    }
+
+    @Test
+    public void testGetVerticesCentroidFromStreamWithInvalidArgs() {
+        assertThrows(IllegalArgumentException.class,
+                () -> getVerticesCentroid((Stream<Vertex>) null));
+        assertThrows(IllegalArgumentException.class,
+                () -> getVerticesCentroid(setOf((Vertex) null).stream()));
     }
 }

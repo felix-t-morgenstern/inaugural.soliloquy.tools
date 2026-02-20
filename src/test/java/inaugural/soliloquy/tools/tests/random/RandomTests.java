@@ -67,7 +67,7 @@ public class RandomTests {
     public void testRandomShortWithInclusiveCeiling() {
         var ceiling = randomShort();
         runRandomizationTest(() -> Random.randomShortWithInclusiveCeiling(ceiling),
-                i -> assertTrue(i <= ceiling));
+                i -> assertTrue(i <= ceiling), 10);
     }
 
     @Test
@@ -288,10 +288,17 @@ public class RandomTests {
 
     private <T> void runRandomizationTest(Supplier<T> randomMethod,
                                           Consumer<T> additionalAssertions,
+                                          int failOnEqualsThreshold) {
+        runRandomizationTest(randomMethod, additionalAssertions, true, 1000, failOnEqualsThreshold);
+    }
+
+    private <T> void runRandomizationTest(Supplier<T> randomMethod,
+                                          Consumer<T> additionalAssertions,
                                           boolean failOnEquals) {
         runRandomizationTest(randomMethod, additionalAssertions, failOnEquals, 1000, 0);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private <T> void runRandomizationTest(Supplier<T> randomMethod, boolean failOnEquals) {
         runRandomizationTest(randomMethod, null, failOnEquals, 1000, 0);
     }

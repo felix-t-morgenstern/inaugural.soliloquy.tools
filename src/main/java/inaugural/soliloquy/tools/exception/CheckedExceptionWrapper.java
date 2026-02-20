@@ -1,5 +1,8 @@
-package inaugural.soliloquy.tools;
+package inaugural.soliloquy.tools.exception;
 
+import inaugural.soliloquy.tools.Check;
+
+import java.lang.Exception;
 import java.util.concurrent.Callable;
 
 public class CheckedExceptionWrapper {

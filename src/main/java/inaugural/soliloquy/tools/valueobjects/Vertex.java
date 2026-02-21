@@ -156,6 +156,7 @@ public class Vertex {
         );
     }
 
+    // Taken from https://stackoverflow.com/a/2049593 on 2026/02/20
     public static float triangleArea(
             soliloquy.specs.common.valueobjects.Vertex v1,
             soliloquy.specs.common.valueobjects.Vertex v2,

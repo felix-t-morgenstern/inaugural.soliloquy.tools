@@ -232,6 +232,7 @@ public class VertexTests {
         );
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Test
     public void testTriangleAreaWithInvalidArgs() {
         // I'm fine with this not having specific checks, since it's used in high-performance

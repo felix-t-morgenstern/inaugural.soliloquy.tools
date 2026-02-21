@@ -155,4 +155,34 @@ public class Vertex {
                 y.get() / (float)pointCount.get()
         );
     }
+
+    public static float triangleArea(
+            soliloquy.specs.common.valueobjects.Vertex v1,
+            soliloquy.specs.common.valueobjects.Vertex v2,
+            soliloquy.specs.common.valueobjects.Vertex v3
+    ) {
+        return Math.abs(
+                ((v1.X * (v2.Y - v3.Y)) + (v2.X * (v3.Y - v1.Y)) + (v3.X * (v1.Y - v2.Y))) / 2.0f);
+    }
+
+    public static boolean pointIsInTriangle(
+            soliloquy.specs.common.valueobjects.Vertex point,
+            soliloquy.specs.common.valueobjects.Vertex triangleVertex1,
+            soliloquy.specs.common.valueobjects.Vertex triangleVertex2,
+            soliloquy.specs.common.valueobjects.Vertex triangleVertex3) {
+        var d1 = sign(point, triangleVertex1, triangleVertex2);
+        var d2 = sign(point, triangleVertex2, triangleVertex3);
+        var d3 = sign(point, triangleVertex3, triangleVertex1);
+
+        var has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+        var has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+        return !(has_neg && has_pos);
+    }
+
+    private static float sign(soliloquy.specs.common.valueobjects.Vertex v1,
+                              soliloquy.specs.common.valueobjects.Vertex v2,
+                              soliloquy.specs.common.valueobjects.Vertex v3) {
+        return (v1.X - v3.X) * (v2.Y - v3.Y) - (v2.X - v3.X) * (v1.Y - v3.Y);
+    }
 }

@@ -210,4 +210,111 @@ public class VertexTests {
         assertThrows(IllegalArgumentException.class,
                 () -> getVerticesCentroid(setOf((Vertex) null).stream()));
     }
+
+    @Test
+    public void testTriangleArea() {
+        assertEquals(
+                0.5f,
+                triangleArea(
+                        vertexOf(0f, 0f),
+                        vertexOf(1f, 0f),
+                        vertexOf(1f, 1f)
+                )
+        );
+
+        assertEquals(
+                6f,
+                triangleArea(
+                        vertexOf(0f, 0f),
+                        vertexOf(2f, 0f),
+                        vertexOf(4f, 6f)
+                )
+        );
+    }
+
+    @Test
+    public void testTriangleAreaWithInvalidArgs() {
+        // I'm fine with this not having specific checks, since it's used in high-performance
+        // contexts
+        assertThrows(NullPointerException.class,
+                () -> triangleArea(null, randomVertex(), randomVertex()));
+        assertThrows(NullPointerException.class,
+                () -> triangleArea(randomVertex(), null, randomVertex()));
+        assertThrows(NullPointerException.class,
+                () -> triangleArea(randomVertex(), randomVertex(), null));
+    }
+
+    @Test
+    public void testPointIsInTriangle() {
+        assertTrue(pointIsInTriangle(
+                vertexOf(0.51f, 0.5f),
+                vertexOf(0f, 0f),
+                vertexOf(1f, 0f),
+                vertexOf(1f, 1f)
+        ));
+        assertFalse(pointIsInTriangle(
+                vertexOf(0.49f, 0.5f),
+                vertexOf(0f, 0f),
+                vertexOf(1f, 0f),
+                vertexOf(1f, 1f)
+        ));
+        assertTrue(pointIsInTriangle(
+                vertexOf(0.5f, 0.49f),
+                vertexOf(0f, 0f),
+                vertexOf(1f, 0f),
+                vertexOf(1f, 1f)
+        ));
+        assertFalse(pointIsInTriangle(
+                vertexOf(0.5f, 0.51f),
+                vertexOf(0f, 0f),
+                vertexOf(1f, 0f),
+                vertexOf(1f, 1f)
+        ));
+
+        assertFalse(pointIsInTriangle(
+                vertexOf(1.9f, 3f),
+                vertexOf(0f, 0f),
+                vertexOf(2f, 0f),
+                vertexOf(4f, 6f)
+        ));
+        assertTrue(pointIsInTriangle(
+                vertexOf(2.1f, 3f),
+                vertexOf(0f, 0f),
+                vertexOf(2f, 0f),
+                vertexOf(4f, 6f)
+        ));
+        assertTrue(pointIsInTriangle(
+                vertexOf(2.9f, 3f),
+                vertexOf(0f, 0f),
+                vertexOf(2f, 0f),
+                vertexOf(4f, 6f)
+        ));
+        assertFalse(pointIsInTriangle(
+                vertexOf(3.1f, 3f),
+                vertexOf(0f, 0f),
+                vertexOf(2f, 0f),
+                vertexOf(4f, 6f)
+        ));
+
+        assertTrue(pointIsInTriangle(
+                vertexOf(0.25f,0.25f),
+                vertexOf(0.18515939f,0.13649687f),
+                vertexOf(0.38515937f,0.23649688f),
+                vertexOf(0.26515937f,0.3364969f)
+        ));
+    }
+
+    @Test
+    public void testPointIsInTriangleWithInvalidArgs() {
+        // I'm fine with this not having specific checks, since it's used in high-performance
+        // contexts
+        assertThrows(NullPointerException.class,
+                () -> pointIsInTriangle(null, randomVertex(), randomVertex(), randomVertex()));
+        assertThrows(NullPointerException.class,
+                () -> pointIsInTriangle(randomVertex(), null, randomVertex(), randomVertex()));
+        assertThrows(NullPointerException.class,
+                () -> pointIsInTriangle(randomVertex(), randomVertex(), null, randomVertex()));
+        assertThrows(NullPointerException.class,
+                () -> pointIsInTriangle(randomVertex(), randomVertex(), randomVertex(), null));
+    }
 }

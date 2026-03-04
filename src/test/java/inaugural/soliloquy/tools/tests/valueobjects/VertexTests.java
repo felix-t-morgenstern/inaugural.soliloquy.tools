@@ -49,7 +49,12 @@ public class VertexTests {
         assertEquals(7f, yIntersectAtX(2f, vertexOf(3f, 5f), 4f));
     }
 
-    @SuppressWarnings("DataFlowIssue")
+    @Test
+    public void testYIntersectAtXWithInfiniteSlopes() {
+        assertEquals(Float.NaN, yIntersectAtX(Float.POSITIVE_INFINITY, vertexOf(3f, 5f), 4f));
+        assertEquals(Float.NaN, yIntersectAtX(Float.NEGATIVE_INFINITY, vertexOf(3f, 5f), 4f));
+    }
+
     @Test
     public void testYIntersectAtXWithInvalidArgs() {
         // NB: Specifically avoiding checks since this may be called many times per frame
@@ -62,7 +67,12 @@ public class VertexTests {
         assertEquals(3.5f, xIntersectAtY(2f, vertexOf(3f, 5f), 6f));
     }
 
-    @SuppressWarnings("DataFlowIssue")
+    @Test
+    public void testXIntersectAtYWithInfiniteSlopes() {
+        assertEquals(3f, xIntersectAtY(Float.POSITIVE_INFINITY, vertexOf(3f, 5f), 4f));
+        assertEquals(3f, xIntersectAtY(Float.NEGATIVE_INFINITY, vertexOf(3f, 5f), 4f));
+    }
+
     @Test
     public void testXIntersectAtYWithInvalidArgs() {
         // NB: Specifically avoiding checks since this may be called many times per frame
@@ -298,10 +308,10 @@ public class VertexTests {
         ));
 
         assertTrue(pointIsInTriangle(
-                vertexOf(0.25f,0.25f),
-                vertexOf(0.18515939f,0.13649687f),
-                vertexOf(0.38515937f,0.23649688f),
-                vertexOf(0.26515937f,0.3364969f)
+                vertexOf(0.25f, 0.25f),
+                vertexOf(0.18515939f, 0.13649687f),
+                vertexOf(0.38515937f, 0.23649688f),
+                vertexOf(0.26515937f, 0.3364969f)
         ));
     }
 

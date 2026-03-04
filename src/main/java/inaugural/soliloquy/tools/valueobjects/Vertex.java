@@ -22,12 +22,18 @@ public class Vertex {
     public static float yIntersectAtX(float slope,
                                       soliloquy.specs.common.valueobjects.Vertex point,
                                       float x) {
+        if (Float.isInfinite(slope)) {
+            return Float.NaN;
+        }
         return point.Y + ((x - point.X) * slope);
     }
 
     public static float xIntersectAtY(float slope,
                                       soliloquy.specs.common.valueobjects.Vertex point,
                                       float y) {
+        if (Float.isInfinite(slope)) {
+            return point.X;
+        }
         return point.X + ((y - point.Y) * (1f/slope));
     }
 

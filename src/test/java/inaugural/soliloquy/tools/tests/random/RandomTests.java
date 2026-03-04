@@ -60,7 +60,7 @@ public class RandomTests {
     public void testRandomShortWithInclusiveFloor() {
         var floor = randomShort();
         runRandomizationTest(() -> Random.randomShortWithInclusiveFloor(floor),
-                i -> assertTrue(i >= floor));
+                i -> assertTrue(i >= floor), 10);
     }
 
     @Test

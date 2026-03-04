@@ -25,18 +25,18 @@ public class ToolsTests {
     }
 
     @Test
-    public void testDefaultIfNullWithSupplier() {
+    public void testGetDefaultIfNull() {
         var val = 123;
         Supplier<Integer> getDefault = () -> 456;
 
-        assertEquals(val, defaultIfNull(val, getDefault));
-        assertEquals(getDefault.get(), defaultIfNull(null, getDefault));
+        assertEquals(val, getDefaultIfNull(val, getDefault));
+        assertEquals(getDefault.get(), getDefaultIfNull(null, getDefault));
     }
 
     @Test
-    public void testDefaultIfNullWithNullSupplier() {
+    public void testGetDefaultIfNullWithNullSupplier() {
         // No special checking needed here. This method shouldn't be adding extra steps.
-        assertThrows(NullPointerException.class, () -> defaultIfNull(null, null));
+        assertThrows(NullPointerException.class, () -> getDefaultIfNull(null, null));
     }
 
     @Test

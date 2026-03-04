@@ -10,13 +10,13 @@ import static inaugural.soliloquy.tools.collections.Collections.listOf;
 import static inaugural.soliloquy.tools.collections.Collections.mapOf;
 
 public class Tools {
-    private static HashMap<Integer, Float> EXPONENTS_OF_TEN = new HashMap<>();
+    private static final HashMap<Integer, Float> EXPONENTS_OF_TEN = new HashMap<>();
 
     public static <T> T defaultIfNull(T val, T theDefault) {
         return val == null ? theDefault : val;
     }
 
-    public static <T> T defaultIfNull(T val, Supplier<T> getDefault) {
+    public static <T> T getDefaultIfNull(T val, Supplier<T> getDefault) {
         return val == null ? getDefault.get() : val;
     }
 
@@ -48,15 +48,11 @@ public class Tools {
     public static float round(float value, int places) throws IllegalArgumentException {
         Check.ifNonNegative(places, "places");
 
-        float multiplicand;
-        //noinspection SuspiciousMethodCalls
-        if (EXPONENTS_OF_TEN.containsKey(value)) {
-            //noinspection SuspiciousMethodCalls
-            multiplicand = EXPONENTS_OF_TEN.get(value);
-        }
-        else {
-            EXPONENTS_OF_TEN.put(places, multiplicand = (float) Math.pow(10, places));
-        }
+        var multiplicand = getDefaultIfNull(EXPONENTS_OF_TEN.get(places), () -> {
+            var result = (float) Math.pow(10, places);
+            EXPONENTS_OF_TEN.put(places, result);
+            return result;
+        });
 
         return Math.round(value * multiplicand) / multiplicand;
     }

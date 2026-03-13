@@ -16,7 +16,7 @@ public class ToolsTests {
     private static String callingClassName;
 
     @Test
-    public void testDefaultIfNull() {
+    public void testDefaultIfNullElseTransform() {
         var val = 123;
         var theDefault = 456;
 
@@ -25,7 +25,7 @@ public class ToolsTests {
     }
 
     @Test
-    public void testGetDefaultIfNull() {
+    public void testGetDefaultIfNullElseTransform() {
         var val = 123;
         Supplier<Integer> getDefault = () -> 456;
 
@@ -34,23 +34,24 @@ public class ToolsTests {
     }
 
     @Test
-    public void testGetDefaultIfNullWithNullSupplier() {
+    public void testGetDefaultIfNullWithNullElseTransformSupplier() {
         // No special checking needed here. This method shouldn't be adding extra steps.
         assertThrows(NullPointerException.class, () -> getDefaultIfNull(null, null));
     }
 
     @Test
-    public void testDefaultIfNullWithTransform() {
+    public void testDefaultIfNullElseTransformWithTransform() {
         var base = 123;
         var theDefault = "default";
 
-        assertEquals("" + base, defaultIfNull(base, Object::toString, theDefault));
-        assertEquals(theDefault, defaultIfNull(null, Object::toString, theDefault));
+        assertEquals("" + base, defaultIfNullElseTransform(base, Object::toString, theDefault));
+        assertEquals(theDefault, defaultIfNullElseTransform(null, Object::toString, theDefault));
     }
 
     @Test
-    public void testDefaultIfNullWithNullTransform() {
-        assertThrows(IllegalArgumentException.class, () -> defaultIfNull(null, null, null));
+    public void testDefaultIfNullWithNullElseTransformTransform() {
+        assertThrows(IllegalArgumentException.class,
+                () -> defaultIfNullElseTransform(null, null, null));
     }
 
     @Test
@@ -165,8 +166,10 @@ public class ToolsTests {
         verify(hasPriority2, atLeast(1)).priority();
         verify(hasPriority3, atLeast(1)).priority();
         assertEquals(3, orderedByPriority.size());
-        assertTrue(orderedByPriority.get(0) == hasPriority1 || orderedByPriority.get(0) == hasPriority2);
-        assertTrue(orderedByPriority.get(1) == hasPriority1 || orderedByPriority.get(1) == hasPriority2);
+        assertTrue(orderedByPriority.get(0) == hasPriority1 ||
+                orderedByPriority.get(0) == hasPriority2);
+        assertTrue(orderedByPriority.get(1) == hasPriority1 ||
+                orderedByPriority.get(1) == hasPriority2);
         assertSame(hasPriority3, orderedByPriority.get(2));
     }
 }

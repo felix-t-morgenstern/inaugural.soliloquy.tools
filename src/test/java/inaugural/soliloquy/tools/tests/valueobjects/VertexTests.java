@@ -258,6 +258,25 @@ public class VertexTests {
     @Test
     public void testPointIsInTriangle() {
         assertTrue(pointIsInTriangle(
+                vertexOf(0f,0f),
+                vertexOf(0f, 0f),
+                vertexOf(1f, 0f),
+                vertexOf(1f, 1f)
+        ));
+        assertTrue(pointIsInTriangle(
+                vertexOf(1f,0f),
+                vertexOf(0f, 0f),
+                vertexOf(1f, 0f),
+                vertexOf(1f, 1f)
+        ));
+        assertTrue(pointIsInTriangle(
+                vertexOf(1f,1f),
+                vertexOf(0f, 0f),
+                vertexOf(1f, 0f),
+                vertexOf(1f, 1f)
+        ));
+
+        assertTrue(pointIsInTriangle(
                 vertexOf(0.51f, 0.5f),
                 vertexOf(0f, 0f),
                 vertexOf(1f, 0f),

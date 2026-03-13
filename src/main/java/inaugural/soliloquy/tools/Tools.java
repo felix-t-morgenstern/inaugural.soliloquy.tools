@@ -20,12 +20,12 @@ public class Tools {
         return val == null ? getDefault.get() : val;
     }
 
-    public static <TBase, TReturn> TReturn defaultIfNull(TBase base,
-                                                         Function<TBase, TReturn> transformBase,
-                                                         TReturn theDefault) {
-        if (transformBase == null) {
-            throw new IllegalArgumentException("Tools.defaultIfNull: transformBase cannot be null");
-        }
+    public static <TBase, TReturn> TReturn defaultIfNullElseTransform(
+            TBase base,
+            Function<TBase, TReturn> transformBase,
+            TReturn theDefault
+    ) {
+        Check.ifNull(transformBase, "transformBase");
         return base == null ? theDefault : transformBase.apply(base);
     }
 

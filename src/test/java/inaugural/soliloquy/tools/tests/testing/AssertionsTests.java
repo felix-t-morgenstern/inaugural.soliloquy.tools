@@ -107,6 +107,19 @@ public class AssertionsTests {
     }
 
     @Test
+    public void testAssertMapContainsSubsetEquals() {
+        var key1 = "key1";
+        var val1 = "val1";
+        var key2 = "key2";
+        var val2 = "val2";
+        var smallerMap = mapOf(key1, val1);
+        var largerMap = mapOf(key1, val1, key2, val2);
+
+        assertThrows(AssertionFailedError.class, () -> assertMapContainsSubsetEquals(largerMap, smallerMap));
+        assertDoesNotThrow(() -> assertMapContainsSubsetEquals(smallerMap, largerMap));
+    }
+
+    @Test
     public void testAssertFloatBoxesEqual() {
         var floatBoxExpected = randomFloatBox();
         var floatBoxEqual = floatBoxOf(

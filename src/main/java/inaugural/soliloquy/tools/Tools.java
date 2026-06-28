@@ -29,6 +29,15 @@ public class Tools {
         return base == null ? theDefault : transformBase.apply(base);
     }
 
+    public static <TBase, TReturn> TReturn supplyIfNullElseTransform(
+            TBase base,
+            Function<TBase, TReturn> transformBase,
+            Supplier<TReturn> defaultSupplier
+    ) {
+        Check.ifNull(transformBase, "transformBase");
+        return base == null ? defaultSupplier.get() : transformBase.apply(base);
+    }
+
     public static boolean falseIfNull(Object val) {
         return (boolean) defaultIfNull(val, false);
     }
@@ -37,7 +46,7 @@ public class Tools {
         return string == null ? "" : string;
     }
 
-    public static <T> T provideIfNull(T val, Supplier<T> getDefault) {
+    public static <T> T supplyIfNull(T val, Supplier<T> getDefault) {
         return val == null ? getDefault.get() : val;
     }
 

@@ -2,6 +2,7 @@ package inaugural.soliloquy.tools.tests;
 
 import inaugural.soliloquy.tools.Tools;
 import inaugural.soliloquy.tools.tests.fakes.PassthroughRunnable;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import soliloquy.specs.common.shared.HasPriority;
 
@@ -55,6 +56,28 @@ public class ToolsTests {
     }
 
     @Test
+    public void testSupplyIfNullElseTransformWithTransform() {
+        var base = 123;
+        var theDefault = "default";
+
+        assertEquals("" + base,
+                supplyIfNullElseTransform(base, Object::toString, () -> theDefault));
+        assertEquals(theDefault,
+                supplyIfNullElseTransform(null, Object::toString, () -> theDefault));
+    }
+
+    @Test
+    public void testSupplyIfNullWithNullElseTransformTransform() {
+        assertThrows(IllegalArgumentException.class,
+                () -> supplyIfNullElseTransform(null, null, null));
+    }
+
+    @Test
+    public void testSupplyIfNullWithNullElseTransformDoesNotSupplyWhenUnnecessary() {
+        assertDoesNotThrow(() -> supplyIfNullElseTransform(123, i -> i, Assertions::fail));
+    }
+
+    @Test
     public void testFalseIfNull() {
         var val = true;
 
@@ -72,12 +95,12 @@ public class ToolsTests {
     }
 
     @Test
-    public void testProvideIfNull() {
+    public void testSupplyIfNull() {
         var val = 123;
         var theDefault = 456;
 
-        assertEquals(val, provideIfNull(val, () -> theDefault));
-        assertEquals(theDefault, provideIfNull(null, () -> theDefault));
+        assertEquals(val, supplyIfNull(val, () -> theDefault));
+        assertEquals(theDefault, supplyIfNull(null, () -> theDefault));
     }
 
     @Test

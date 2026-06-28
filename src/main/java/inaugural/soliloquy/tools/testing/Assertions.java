@@ -50,19 +50,24 @@ public class Assertions {
         }
     }
 
-    public static <K,V> void assertMapContainsEquals(Map<K,V> map, K expectedKey, V expectedVal) {
+    public static <K, V> void assertMapContainsEquals(Map<K, V> map, K expectedKey, V expectedVal) {
         assertTrue(map.containsKey(expectedKey));
         assertEquals(expectedVal, map.get(expectedKey));
     }
 
-    public static <K,V> void assertMapContainsSame(Map<K,V> map, K expectedKey, V expectedVal) {
+    public static <K, V> void assertMapContainsSame(Map<K, V> map, K expectedKey, V expectedVal) {
         assertTrue(map.containsKey(expectedKey));
         assertSame(expectedVal, map.get(expectedKey));
     }
 
-    public static <K,V> void assertMapContainsNull(Map<K,V> map, K expectedKey) {
+    public static <K, V> void assertMapContainsNull(Map<K, V> map, K expectedKey) {
         assertTrue(map.containsKey(expectedKey));
         assertNull(map.get(expectedKey));
+    }
+
+    public static <K, V> void assertMapContainsSubsetEquals(Map<K, V> expectedContents,
+                                                            Map<K, V> actual) {
+        expectedContents.forEach((k, v) -> assertEquals(v, actual.get(k)));
     }
 
     public static void assertFloatBoxesEqual(FloatBox expected, FloatBox actual) {

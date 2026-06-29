@@ -141,4 +141,16 @@ public class AssertionsTests {
         assertThrows(AssertionFailedError.class, () -> assertFloatBoxesEqual(floatBoxExpected, null));
         assertThrows(AssertionFailedError.class, () -> assertFloatBoxesEqual(floatBoxExpected, floatBoxUnequal));
     }
+
+    @Test
+    public void testAssertLessThanForInts() {
+        assertThrows(AssertionFailedError.class, () -> assertLessThan(1,1));
+        assertDoesNotThrow(() -> assertLessThan(1,0));
+    }
+
+    @Test
+    public void testAssertLessThanForLongs() {
+        assertThrows(AssertionFailedError.class, () -> assertLessThan(1L,1L));
+        assertDoesNotThrow(() -> assertLessThan(1L,0L));
+    }
 }

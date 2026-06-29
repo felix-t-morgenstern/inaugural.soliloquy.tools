@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+import static org.junit.jupiter.api.AssertionFailureBuilder.assertionFailure;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 
@@ -80,6 +81,26 @@ public class Assertions {
             assertEquals(expected.TOP_Y, actual.TOP_Y);
             assertEquals(expected.RIGHT_X, actual.RIGHT_X);
             assertEquals(expected.BOTTOM_Y, actual.BOTTOM_Y);
+        }
+    }
+
+    public static void assertLessThan(int target, int actual) {
+        if (actual >= target) {
+            assertionFailure() //
+                    .message("Value is not less than expected target") //
+                    .expected(target) //
+                    .actual(actual) //
+                    .buildAndThrow();
+        }
+    }
+
+    public static void assertLessThan(long target, long actual) {
+        if (actual >= target) {
+            assertionFailure() //
+                    .message("Value is not less than expected target") //
+                    .expected(target) //
+                    .actual(actual) //
+                    .buildAndThrow();
         }
     }
 

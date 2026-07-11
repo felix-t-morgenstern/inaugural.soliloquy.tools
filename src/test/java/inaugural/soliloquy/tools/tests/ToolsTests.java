@@ -152,6 +152,32 @@ public class ToolsTests {
     }
 
     @Test
+    public void testConstrainFloats() {
+        var inclusiveMin = 10f;
+        var inclusiveMax = 50f;
+
+        assertEquals(inclusiveMin, constrain(9f, inclusiveMin, inclusiveMax));
+        assertEquals(30f, constrain(30f, inclusiveMin, inclusiveMax));
+        assertEquals(inclusiveMax, constrain(51f, inclusiveMin, inclusiveMax));
+    }
+
+    @Test
+    public void testConstrainFloatsWithInvalidArgs() {
+        assertThrows(IllegalArgumentException.class, () -> constrain(0f, 1f, 0f));
+    }
+
+    @Test
+    public void testMinsFloats(){
+        assertEquals(-100f, minOf(-5f, 0f, 500f, -100f));
+    }
+
+    @Test
+    public void testMinsFloatsWithInvalidArgs(){
+        assertThrows(IllegalArgumentException.class, () -> minOf((float[]) null));
+        assertThrows(IllegalArgumentException.class, () -> minOf(new float[]{}));
+    }
+
+    @Test
     public void testCallingClassName() {
         callingClassName = Tools.callingClassName();
 

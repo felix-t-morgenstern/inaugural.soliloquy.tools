@@ -75,6 +75,26 @@ public class Tools {
         return Math.min(Math.max(toConstrain, inclusiveMin), inclusiveMax);
     }
 
+    public static float constrain(float toConstrain, float inclusiveMin, float inclusiveMax) {
+        Check.throwOnSecondGt(inclusiveMax, inclusiveMin, "inclusiveMax", "inclusiveMin");
+        return Math.min(Math.max(toConstrain, inclusiveMin), inclusiveMax);
+    }
+
+    public static float minOf(float... vals) {
+        Check.ifNull(vals, "vals");
+        Check.throwOnLteZero(vals.length, "vals.length");
+
+        if (vals.length == 1) {
+            return vals[0];
+        }
+
+        var min = vals[0];
+        for (float val : vals) {
+            min = Math.min(min, val);
+        }
+        return min;
+    }
+
     public static String callingClassName() {
         return callingClassName(3);
     }

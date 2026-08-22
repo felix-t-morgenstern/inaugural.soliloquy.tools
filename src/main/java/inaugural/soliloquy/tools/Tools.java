@@ -29,6 +29,13 @@ public class Tools {
         return base == null ? theDefault : transformBase.apply(base);
     }
 
+    public static <TBase, TReturn> TReturn transformIfPresentElseNull(
+            TBase base,
+            Function<TBase, TReturn> transformBase
+    ) {
+        return defaultIfNullElseTransform(base, transformBase, null);
+    }
+
     public static <TBase, TReturn> TReturn supplyIfNullElseTransform(
             TBase base,
             Function<TBase, TReturn> transformBase,

@@ -50,9 +50,23 @@ public class ToolsTests {
     }
 
     @Test
-    public void testDefaultIfNullWithNullElseTransformTransform() {
+    public void testDefaultIfNullElseTransformWithNullTransform() {
         assertThrows(IllegalArgumentException.class,
                 () -> defaultIfNullElseTransform(null, null, null));
+    }
+
+    @Test
+    public void testTransformIfPresentElseNullWithTransform() {
+        var base = 123;
+
+        assertEquals("" + base, transformIfPresentElseNull(base, Object::toString));
+        assertNull(transformIfPresentElseNull(null, Object::toString));
+    }
+
+    @Test
+    public void testTransformIfPresentElseNullWithNullTransform() {
+        assertThrows(IllegalArgumentException.class,
+                () -> transformIfPresentElseNull(null, null));
     }
 
     @Test

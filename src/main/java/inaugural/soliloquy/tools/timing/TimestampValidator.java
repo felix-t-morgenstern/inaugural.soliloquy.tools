@@ -13,8 +13,8 @@ public class TimestampValidator {
             StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
             throw new IllegalArgumentException(stackTrace[2].getClassName() + "." +
-                    stackTrace[2].getMethodName() + ": provided outdated timestamp (" + timestamp +
-                    ")");
+                    stackTrace[2].getMethodName() + ": provided timestamp (" + timestamp +
+                    ") prior to most recent (" + mostRecentTimestamp + ")");
         }
         mostRecentTimestamp = timestamp;
     }

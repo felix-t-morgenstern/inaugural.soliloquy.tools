@@ -40,6 +40,7 @@ public class Reflection {
         var functions = Collections.<Function>setOf();
         var biFunctions = Collections.<BiFunction>setOf();
 
+        var instanceClassName = instance.getClass().getName();
         Arrays.stream(instance.getClass().getMethods())
                 .filter(m -> !BASE_OBJECT_METHODS.contains(m.getName()) &&
                         !m.isAnnotationPresent(DoNotReadMethod.class))
@@ -66,9 +67,9 @@ public class Reflection {
                             }
                         }
                         default -> throw new IllegalArgumentException(
-                                "Reflection#readMethods: method (" + name +
-                                        ") has unsupported param count [" + m.getParameterCount() +
-                                        "]");
+                                "Reflection#readMethods: method (" + instanceClassName + "#" +
+                                        name + ") has unsupported param count [" +
+                                        m.getParameterCount() + "]");
                     }
                 });
 

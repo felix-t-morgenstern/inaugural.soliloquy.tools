@@ -50,9 +50,23 @@ public class ToolsTests {
     }
 
     @Test
-    public void testDefaultIfNullWithNullElseTransformTransform() {
+    public void testDefaultIfNullElseTransformWithNullTransform() {
         assertThrows(IllegalArgumentException.class,
                 () -> defaultIfNullElseTransform(null, null, null));
+    }
+
+    @Test
+    public void testTransformIfPresentElseNullWithTransform() {
+        var base = 123;
+
+        assertEquals("" + base, transformIfPresentElseNull(base, Object::toString));
+        assertNull(transformIfPresentElseNull(null, Object::toString));
+    }
+
+    @Test
+    public void testTransformIfPresentElseNullWithNullTransform() {
+        assertThrows(IllegalArgumentException.class,
+                () -> transformIfPresentElseNull(null, null));
     }
 
     @Test
@@ -149,6 +163,32 @@ public class ToolsTests {
     @Test
     public void testConstrainIntsWithInvalidArgs() {
         assertThrows(IllegalArgumentException.class, () -> constrain(0, 1, 0));
+    }
+
+    @Test
+    public void testConstrainFloats() {
+        var inclusiveMin = 10f;
+        var inclusiveMax = 50f;
+
+        assertEquals(inclusiveMin, constrain(9f, inclusiveMin, inclusiveMax));
+        assertEquals(30f, constrain(30f, inclusiveMin, inclusiveMax));
+        assertEquals(inclusiveMax, constrain(51f, inclusiveMin, inclusiveMax));
+    }
+
+    @Test
+    public void testConstrainFloatsWithInvalidArgs() {
+        assertThrows(IllegalArgumentException.class, () -> constrain(0f, 1f, 0f));
+    }
+
+    @Test
+    public void testMinsFloats(){
+        assertEquals(-100f, minOf(-5f, 0f, 500f, -100f));
+    }
+
+    @Test
+    public void testMinsFloatsWithInvalidArgs(){
+        assertThrows(IllegalArgumentException.class, () -> minOf((float[]) null));
+        assertThrows(IllegalArgumentException.class, () -> minOf(new float[]{}));
     }
 
     @Test

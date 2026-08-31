@@ -102,6 +102,16 @@ public class Tools {
         return min;
     }
 
+    public static float ave(float... vals) {
+        Check.ifNull(vals, "vals");
+        Check.throwOnLteZero(vals.length, "vals.length");
+        var sum = 0f;
+        for (var val : vals) {
+            sum += val;
+        }
+        return sum / (float) vals.length;
+    }
+
     public static String callingClassName() {
         return callingClassName(3);
     }

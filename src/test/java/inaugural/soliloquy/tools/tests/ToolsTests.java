@@ -9,6 +9,7 @@ import soliloquy.specs.common.shared.HasPriority;
 import java.util.function.Supplier;
 
 import static inaugural.soliloquy.tools.Tools.*;
+import static inaugural.soliloquy.tools.collections.Collections.arrayFloats;
 import static inaugural.soliloquy.tools.collections.Collections.listOf;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -189,6 +190,19 @@ public class ToolsTests {
     public void testMinsFloatsWithInvalidArgs(){
         assertThrows(IllegalArgumentException.class, () -> minOf((float[]) null));
         assertThrows(IllegalArgumentException.class, () -> minOf(new float[]{}));
+    }
+
+    @Test
+    public void testAve() {
+        var vals = arrayFloats(1f, 2f, 3f, 4f);
+
+        assertEquals(2.5f, ave(vals));
+    }
+
+    @Test
+    public void testAveWithInvalidArgs() {
+        assertThrows(IllegalArgumentException.class, () -> ave((float[]) null));
+        assertThrows(IllegalArgumentException.class, () -> ave(arrayFloats()));
     }
 
     @Test
